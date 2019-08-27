@@ -1,5 +1,5 @@
 ﻿#include<hgl/filesystem/EnumFile.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 
 #include<windows.h>
 #include<sys/types.h>

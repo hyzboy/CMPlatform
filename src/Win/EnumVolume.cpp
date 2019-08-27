@@ -1,6 +1,6 @@
 ﻿#include<hgl/filesystem/EnumVolume.h>
 #include<hgl/type/BaseString.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<windows.h>
 
 namespace hgl

@@ -1,5 +1,5 @@
 ﻿#include<hgl/thread/Thread.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 
 namespace hgl
 {

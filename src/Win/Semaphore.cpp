@@ -1,5 +1,5 @@
 ﻿#include<hgl/thread/Semaphore.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 
 #include<wchar.h>
 #pragma warning(disable:4800)            // int -> bool 性能损失警告

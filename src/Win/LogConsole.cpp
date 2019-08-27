@@ -1,4 +1,4 @@
-﻿#include<hgl/Logger.h>
+﻿#include<hgl/log/Logger.h>
 #include<hgl/CodePage.h>
 #include<windows.h>
 

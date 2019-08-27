@@ -3,7 +3,7 @@
 #include<Windows.h>
 
 #ifdef _DEBUG
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #endif//_DEBUG
 
 namespace hgl

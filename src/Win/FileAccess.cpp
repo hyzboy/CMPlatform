@@ -1,5 +1,5 @@
 ﻿#include<hgl/io/FileAccess.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<io.h>
 #include<share.h>
 #include<fcntl.h>
