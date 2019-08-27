@@ -80,10 +80,10 @@ namespace hgl
 
         SystemTimeToTzSpecificLocalTime(&time_zone, &st, &local_time);
 
-        hours            = local_time.wHour;
-        minutes            = local_time.wMinute;
-        seconds            = local_time.wSecond;
-        micro_seconds    = local_time.wMilliseconds * 1000;
+        hours           = local_time.wHour;
+        minutes         = local_time.wMinute;
+        seconds         = local_time.wSecond;
+        micro_seconds   = local_time.wMilliseconds * 1000;
         week_day        = local_time.wDayOfWeek;
 
         SystemTimeToMicroTime(&lt64, &local_time);
@@ -118,9 +118,17 @@ namespace hgl
         FILETIME ft,local_ft;
         SYSTEMTIME st;
 
-        MicroTimeToFileTime(&ft, cur_time*HGL_MICRO_SEC_PER_SEC);
+        if(cur_time<=0)
+        {
+            GetLocalTime(&st);
+            SystemTimeToFileTime(&st,&ft);
+        }
+        else
+        {
+            MicroTimeToFileTime(&ft, cur_time*HGL_MICRO_SEC_PER_SEC);
+            FileTimeToSystemTime(&ft, &st);
+        }
 
-        FileTimeToSystemTime(&ft, &st);
         FileTimeToLocalFileTime(&ft, &local_ft);
 
         d.Set(st.wYear, st.wMonth, st.wDay, st.wDayOfWeek);
