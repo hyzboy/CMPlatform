@@ -58,7 +58,7 @@ namespace hgl
             }
         };//class LogWinConsole
 
-        Logger *CreateLoggerConsole(const OSString &,LogLevel ll)
+        Logger *CreateLoggerConsole(LogLevel ll)
         {
             return(new LogWinConsole(ll));
         }

@@ -14,9 +14,9 @@ namespace hgl
 
         public:
 
-            LogWinDialog(LogLevel ll):Logger(ll)
+            LogWinDialog(const OSString &n,LogLevel ll):Logger(ll)
             {
-                name=project_code;
+                name=n;
             }
 
             bool Create(const UTF16String &)
@@ -45,9 +45,9 @@ namespace hgl
             }
         };//class LogWinDialog
 
-        Logger *CreateLoggerDialog(const OSString &,LogLevel ll)
+        Logger *CreateLoggerDialog(const OSString &n,LogLevel ll)
         {
-            return(new LogWinDialog(ll));
+            return(new LogWinDialog(n,ll));
         }
     }//namespace logger
 }//namespace hgl
