@@ -1,6 +1,6 @@
 ﻿#include<hgl/platform/Vulkan.h>
-#include"AndroidWindow.h"
-#include<vulkan/vulkan_android.h>
+#include"iOSWindow.h"
+#include<vulkan/vulkan_ios.h>
 
 namespace hgl
 {
@@ -9,19 +9,19 @@ namespace hgl
         if(vk_inst==VK_NULL_HANDLE)return(VK_NULL_HANDLE);
         if(!w)return(VK_NULL_HANDLE);
 
-        AndroidWindow *win=(Android *)w;
+        iOSWindow *win=(iOSWindow *)w;
 
-        VkAndroidSurfaceCreateInfoKHR createInfo;
-        createInfo.sType    = VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR;
+        VkIOSSurfaceCreateInfoMVK createInfo;
+        createInfo.sType    = VK_STRUCTURE_TYPE_IOS_SURFACE_CREATE_INFO_MVK;
         createInfo.pNext    = nullptr;
         createInfo.flags    = 0;
-        createInfo.window   = win->GetWindow();
+        createInfo.pView    = win->GetView();
 
         VkSurfaceKHR surface;
 
-        VkResult res=CreateAndroidSurfaceKHR(vk_inst,&createInfo,nullptr,&surface);
+        VkResult res = vkCreateIOSSurfaceMVK(vk_inst, &createInfo, nullptr, &surface);
 
-        if(res!=VK_SUCCESS)
+        if (res != VK_SUCCESS)
             return(VK_NULL_HANDLE);
 
         return(surface);
