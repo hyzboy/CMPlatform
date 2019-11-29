@@ -128,5 +128,4 @@ SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_WINDOW_SOURCE}
 )
 
-add_library(CMPlatform STATIC ${PLATFORM_SOURCE})
-set_property(TARGET CMPlatform PROPERTY FOLDER "CM")
+add_cm_library(CMPlatform "CM" ${PLATFORM_SOURCE})
