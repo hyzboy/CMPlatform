@@ -1,7 +1,5 @@
 ﻿#include<hgl/thread/Semaphore.h>
 #include<hgl/LogInfo.h>
-#include<pthread.h>
-#include<dispatch/dispatch.h>
 
 namespace hgl
 {

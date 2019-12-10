@@ -10,13 +10,13 @@ namespace hgl
     {
         cond_var=new pthread_cond_t;
 
-        pthread_cond_init((pthread_cond_t *)cond_var,nullptr);
+        pthread_cond_init(cond_var,nullptr);
     }
 
     CondVar::~CondVar()
     {
-        pthread_cond_destroy((pthread_cond_t *)cond_var);
-        delete (pthread_cond_t *)cond_var;
+        pthread_cond_destroy(cond_var);
+        delete cond_var;
     }
 
     bool CondVar::Wait(ThreadMutex *tm,double t)
@@ -27,21 +27,21 @@ namespace hgl
 
             GetWaitTime(abstime,t);
 
-            return(!pthread_cond_timedwait((pthread_cond_t *)cond_var,tm->GetThreadMutex(),&abstime));
+            return(!pthread_cond_timedwait(cond_var,tm->GetThreadMutex(),&abstime));
         }
         else
         {
-            return(!pthread_cond_wait((pthread_cond_t *)cond_var,tm->GetThreadMutex()));
+            return(!pthread_cond_wait(cond_var,tm->GetThreadMutex()));
         }
     }
 
     void CondVar::Signal()
     {
-        pthread_cond_signal((pthread_cond_t *)cond_var);
+        pthread_cond_signal(cond_var);
     }
 
     void CondVar::Broadcast()
     {
-        pthread_cond_broadcast((pthread_cond_t *)cond_var);
+        pthread_cond_broadcast(cond_var);
     }
 }//namespace hgl

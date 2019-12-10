@@ -11,7 +11,7 @@ namespace hgl
     */
     Semaphore::Semaphore(int max_count)
     {
-        ptr=CreateSemaphore(nullptr,0,max_count,nullptr);
+        ptr=CreateSemaphoreW(nullptr,0,max_count,nullptr);
 
         if(!ptr)
             LOG_ERROR(OS_TEXT("CreateSemaphore error,max_count=")+OSString(max_count));
