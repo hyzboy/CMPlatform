@@ -1,5 +1,4 @@
 ﻿#include<hgl/proc/ProcMutex.h>
-#include<windows.h>
 
 namespace hgl
 {
