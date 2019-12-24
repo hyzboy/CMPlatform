@@ -66,6 +66,17 @@ namespace hgl
 
     /**
     * 等待并获取一个信号
+    * @return 是否等待到了,如果超过最长时间,仍未等到即为超时,返回false
+    */
+    bool Semaphore::Acquire()
+    {
+        if(!ptr)return(false);
+
+        return !sem_wait(ptr);
+    }
+
+    /**
+    * 等待并获取一个信号
     * @param t 等待的最长时间,使用0表示无限等待.(单位秒)
     * @return 是否等待到了,如果超过最长时间,仍未等到即为超时,返回false
     */
@@ -73,15 +84,10 @@ namespace hgl
     {
         if(!ptr)return(false);
 
-        if(t<=0)
-            return !sem_wait(ptr);
-        else
-        {
-            struct timespec abstime;
+        struct timespec abstime;
 
-            GetWaitTime(abstime,t);
+        GetWaitTime(abstime,t);
 
-            return !sem_timedwait(ptr,&abstime);
-        }
+        return !sem_timedwait(ptr,&abstime);
     }
 }//namespace hgl

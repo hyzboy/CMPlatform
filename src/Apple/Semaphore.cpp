@@ -3,8 +3,6 @@
 
 namespace hgl
 {
-    void GetWaitTime(struct timespec &,double);
-
     /**
     * @param max_count 最大计数
     */
@@ -50,7 +48,18 @@ namespace hgl
     {
         if(!ptr)return(false);
 
-        return !dispatch_semaphore_wait(ptr, DISPATCH_TIME_NOW);
+        return !dispatch_semaphore_wait(ptr,DISPATCH_TIME_NOW);
+    }
+
+    /**
+    * 等待并获取一个信号
+    * @return 是否等待到了,如果超过最长时间,仍未等到即为超时,返回false
+    */
+    bool Semaphore::Acquire()
+    {
+        if(!ptr)return(false);
+
+        return !dispatch_semaphore_wait(ptr,DISPATCH_TIME_FOREVER);
     }
 
     /**
@@ -62,15 +71,8 @@ namespace hgl
     {
         if(!ptr)return(false);
 
-        if(t<=0)
-        {
-            return !dispatch_semaphore_wait(ptr, DISPATCH_TIME_FOREVER);
-        }
-        else
-        {
-            dispatch_time_t when=dispatch_time(DISPATCH_TIME_NOW,t*HGL_NANO_SEC_PER_SEC);
+        dispatch_time_t when=dispatch_time(DISPATCH_TIME_NOW,t*HGL_NANO_SEC_PER_SEC);
 
-            return !dispatch_semaphore_wait(ptr,when);
-        }
+        return !dispatch_semaphore_wait(ptr,when);
     }
 }//namespace hgl
