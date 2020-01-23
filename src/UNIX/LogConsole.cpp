@@ -115,7 +115,7 @@ namespace hgl
             }
         };//class LogInterface
 
-        Logger *CreateLoggerConsole(const OSString &,LogLevel ll)
+        Logger *CreateLoggerConsole(LogLevel ll)
         {
             if(ll<llError)
                 return(nullptr);
