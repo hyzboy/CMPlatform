@@ -1,9 +1,9 @@
 ﻿#include<hgl/thread/Thread.h>
 #include<hgl/thread/CondVar.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<signal.h>
 #include<errno.h>
-#include<hgl/Str.h>
+#include<hgl/type/StrChar.h>
 
 namespace hgl
 {

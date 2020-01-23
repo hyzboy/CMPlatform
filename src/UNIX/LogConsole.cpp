@@ -1,4 +1,4 @@
-﻿#include<hgl/Logger.h>
+﻿#include<hgl/log/Logger.h>
 #include<hgl/CodePage.h>
 #include<hgl/thread/ThreadMutex.h>
 #include<unistd.h>

@@ -1,5 +1,5 @@
-﻿#include<hgl/thread/Semaphore.h>
-#include<hgl/LogInfo.h>
+#include<hgl/thread/Semaphore.h>
+#include<hgl/log/LogInfo.h>
 
 namespace hgl
 {

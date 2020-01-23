@@ -1,5 +1,5 @@
 ﻿#include<hgl/thread/Semaphore.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<pthread.h>
 #include<semaphore.h>
 

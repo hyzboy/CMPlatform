@@ -91,6 +91,14 @@ namespace hgl
                              win_name.Length(), win_name.c_str());
     }
 
+    void XCBWindow::ToMinWindow()
+    {
+    }
+
+    void XCBWindow::ToMaxWindow()
+    {
+    }
+
     bool XCBWindow::MessageProc()
     {
         return(true);
