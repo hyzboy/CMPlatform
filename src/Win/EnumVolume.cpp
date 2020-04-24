@@ -63,7 +63,7 @@ namespace hgl
                 }
                 else
                 {
-                    LOG_PROBLEM(U16_TEXT("Get <")+UTF16String(path_name)+U16_TEXT("> info failed！Windows error code: ")+UTF16String((uint)GetLastError()));
+                    LOG_PROBLEM(U16_TEXT("Get <")+UTF16String(path_name)+U16_TEXT("> info failed！Windows error code: ")+UTF16String::valueOf((uint)GetLastError()));
                 }
 
                 if(GetDiskFreeSpaceExW(path_name,
@@ -75,7 +75,7 @@ namespace hgl
                 }
                 else
                 {
-                    LOG_PROBLEM(U16_TEXT("Get disk free space <")+UTF16String(path_name)+U16_TEXT("> data failed,Windows error code: ")+UTF16String((uint)GetLastError()));
+                    LOG_PROBLEM(U16_TEXT("Get disk free space <")+UTF16String(path_name)+U16_TEXT("> data failed,Windows error code: ")+UTF16String::valueOf((uint)GetLastError()));
                 }
 
                 count++;
