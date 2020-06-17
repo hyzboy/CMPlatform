@@ -17,7 +17,7 @@ namespace hgl
         if(sem_init(ptr,PTHREAD_PROCESS_PRIVATE,0))
         {
             LOG_ERROR(OS_TEXT("sem_init error,max_count=")+OSString::valueOf(max_count));
-            delete (sem_t *)ptr;
+            delete ptr;
             ptr=nullptr;
         }
     }
