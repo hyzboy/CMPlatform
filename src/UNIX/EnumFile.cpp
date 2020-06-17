@@ -27,7 +27,7 @@ namespace hgl
 
             if(config->folder_name.IsEmpty())
             {
-                fullname='.';
+                fullname=OS_TEXT(".");
             }
             else
             {
