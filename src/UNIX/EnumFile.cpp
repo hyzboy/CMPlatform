@@ -1,5 +1,5 @@
 ﻿#include<hgl/filesystem/EnumFile.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<unistd.h>
 #include<stdlib.h>
 #include<stdio.h>
@@ -27,7 +27,7 @@ namespace hgl
 
             if(config->folder_name.IsEmpty())
             {
-                fullname='.';
+                fullname=OS_TEXT(".");
             }
             else
             {

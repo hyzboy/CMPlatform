@@ -1,6 +1,6 @@
-﻿#include<hgl/platform/SystemInfo.h>
+#include<hgl/platform/SystemInfo.h>
 //#include<hgl/platform/ConsoleSystemInitInfo.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<hgl/PlugIn.h>
 #include<hgl/filesystem/FileSystem.h>
 #include<wchar.h>

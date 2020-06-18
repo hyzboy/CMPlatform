@@ -1,5 +1,5 @@
 ﻿#include<hgl/proc/Fifo.h>
-#include<hgl/Str.h>
+#include<hgl/type/StrChar.h>
 #include<sys/stat.h>
 
 namespace hgl

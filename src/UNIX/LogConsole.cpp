@@ -1,4 +1,4 @@
-﻿#include<hgl/Logger.h>
+﻿#include<hgl/log/Logger.h>
 #include<hgl/CodePage.h>
 #include<hgl/thread/ThreadMutex.h>
 #include<unistd.h>
@@ -115,7 +115,7 @@ namespace hgl
             }
         };//class LogInterface
 
-        Logger *CreateLoggerConsole(const OSString &,LogLevel ll)
+        Logger *CreateLoggerConsole(LogLevel ll)
         {
             if(ll<llError)
                 return(nullptr);

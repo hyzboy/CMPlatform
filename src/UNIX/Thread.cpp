@@ -1,9 +1,9 @@
 ﻿#include<hgl/thread/Thread.h>
 #include<hgl/thread/CondVar.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<signal.h>
 #include<errno.h>
-#include<hgl/Str.h>
+#include<hgl/type/StrChar.h>
 
 namespace hgl
 {
@@ -35,7 +35,7 @@ namespace hgl
             tp=0;
 
             pthread_attr_destroy(&attr);
-            LOG_ERROR(OS_TEXT("Create Thread (pthread_create) failed.errno:")+OSString(errno));
+            LOG_ERROR(OS_TEXT("Create Thread (pthread_create) failed.errno:")+OSString::valueOf(errno));
             return(false);
         }
 

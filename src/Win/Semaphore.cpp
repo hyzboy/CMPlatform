@@ -11,7 +11,7 @@ namespace hgl
     */
     Semaphore::Semaphore(int max_count)
     {
-        ptr=CreateSemaphore(nullptr,0,max_count,nullptr);
+        ptr=CreateSemaphoreW(nullptr,0,max_count,nullptr);
 
         if(!ptr)
             LOG_ERROR(OS_TEXT("CreateSemaphore error,max_count=")+OSString::valueOf(max_count));
@@ -40,6 +40,15 @@ namespace hgl
     bool Semaphore::TryAcquire()
     {
         return(WaitForSingleObject(ptr,0)==WAIT_OBJECT_0);
+    }
+    
+    /**
+    * 等待并获取一个信号
+    * @return 是否等待到了,如果超过最长时间,仍未等到即为超时,返回false
+    */
+    bool Semaphore::Acquire()
+    {
+        return(WaitForSingleObject(ptr,INFINITE)==WAIT_OBJECT_0);
     }
 
     /**

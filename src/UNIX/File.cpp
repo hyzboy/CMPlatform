@@ -1,5 +1,5 @@
 ﻿#include<hgl/filesystem/FileSystem.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<hgl/io/FileInputStream.h>
 #include<hgl/io/FileOutputStream.h>
 
@@ -170,7 +170,7 @@ namespace hgl
         {
             if(!mkdir(name,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH))return(true);
 
-            LOG_PROBLEM(OS_TEXT("Create Directory <")+OSString(name)+OS_TEXT("> failed,errno: ")+OSString(errno));
+            LOG_PROBLEM(OS_TEXT("Create Directory <")+OSString(name)+OS_TEXT("> failed,errno: ")+OSString::valueOf(errno));
             return(false);
         }
 

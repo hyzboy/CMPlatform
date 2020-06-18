@@ -182,7 +182,7 @@ namespace hgl
 
                 ::GetKeyNameTextW(key,name,64);
 
-                LOG_INFO(WideString(L"Unknow Key: " )+WideString(key)
+                LOG_INFO(WideString(L"Unknow Key: " )+WideString::valueOf(key)
                         +WideString(L" ,name: "     )+WideString(name));
             }
     #endif _DEBUG

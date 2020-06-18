@@ -1,5 +1,5 @@
 ﻿#include<hgl/io/FileAccess.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<unistd.h>
 #include<stdlib.h>
 #include<fcntl.h>
@@ -35,13 +35,13 @@ namespace hgl
             if(fom==fomReadWrite    )fp=hgl_open64(fn,O_RDWR    );else
             if(fom==fomAppend       )fp=hgl_open64(fn,O_APPEND  );else
             {
-                LOG_ERROR(OS_TEXT("UNIX,FileAccess,OpenFile(")+OSString(fn)+OS_TEXT(" mode error: "+OSString(fom)));
+                LOG_ERROR(OS_TEXT("UNIX,FileAccess,OpenFile(")+OSString(fn)+OS_TEXT(" mode error: "+OSString::valueOf(fom)));
                 RETURN_ERROR(-1);
             }
 
             if(fp==-1)
             {
-                LOG_ERROR(OS_TEXT("UNIX,FileAccess,OpenFile(")+OSString(fn)+OS_TEXT(") open return error: "+OSString(errno)));
+                LOG_ERROR(OS_TEXT("UNIX,FileAccess,OpenFile(")+OSString(fn)+OS_TEXT(") open return error: "+OSString::valueOf(errno)));
             }
 
             return fp;

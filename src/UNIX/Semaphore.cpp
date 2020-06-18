@@ -1,5 +1,5 @@
 ﻿#include<hgl/thread/Semaphore.h>
-#include<hgl/LogInfo.h>
+#include<hgl/log/LogInfo.h>
 #include<pthread.h>
 #include<semaphore.h>
 
@@ -14,10 +14,10 @@ namespace hgl
     {
         ptr=new sem_t;
 
-        if(sem_init((sem_t *)ptr,PTHREAD_PROCESS_PRIVATE,0))
+        if(sem_init(ptr,PTHREAD_PROCESS_PRIVATE,0))
         {
-            LOG_ERROR(OS_TEXT("sem_init error,max_count=")+OSString(max_count));
-            delete (sem_t *)ptr;
+            LOG_ERROR(OS_TEXT("sem_init error,max_count=")+OSString::valueOf(max_count));
+            delete ptr;
             ptr=nullptr;
         }
     }
@@ -26,8 +26,8 @@ namespace hgl
     {
         if(!ptr)return;
 
-        sem_destroy((sem_t *)ptr);
-        delete (sem_t *)ptr;
+        sem_destroy(ptr);
+        delete ptr;
     }
 
     /**
@@ -43,14 +43,14 @@ namespace hgl
         int result=0;
 
         for(int i=0;i<n;i++)
-            result+=sem_post((sem_t *)ptr);
+            result+=sem_post(ptr);
 
         return !result;
 
         //if(n==1)
-        //  return !sem_post((sem_t *)ptr);
+        //  return !sem_post(ptr);
         //else
-        //  return !sem_post_multiple((sem_t *)ptr,n);  //注：这个函数不是所有os都支持
+        //  return !sem_post_multiple(ptr,n);  //注：这个函数不是所有os都支持
     }
 
     /**
@@ -61,7 +61,18 @@ namespace hgl
     {
         if(!ptr)return(false);
 
-        return !sem_trywait((sem_t *)ptr);
+        return !sem_trywait(ptr);
+    }
+
+    /**
+    * 等待并获取一个信号
+    * @return 是否等待到了,如果超过最长时间,仍未等到即为超时,返回false
+    */
+    bool Semaphore::Acquire()
+    {
+        if(!ptr)return(false);
+
+        return !sem_wait(ptr);
     }
 
     /**
@@ -73,15 +84,10 @@ namespace hgl
     {
         if(!ptr)return(false);
 
-        if(t<=0)
-            return !sem_wait((sem_t *)ptr);
-        else
-        {
-            struct timespec abstime;
+        struct timespec abstime;
 
-            GetWaitTime(abstime,t);
+        GetWaitTime(abstime,t);
 
-            return !sem_timedwait((sem_t *)ptr,&abstime);
-        }
+        return !sem_timedwait(ptr,&abstime);
     }
 }//namespace hgl
