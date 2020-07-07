@@ -46,7 +46,7 @@ namespace hgl
                 WriteConsoleW(console_handle,L"\n", 1, &result, nullptr);
             }
 
-            void Write(const char *str,int size)
+            void Write(const u8char *str,int size)
             {
                 const int len=u8_to_u16(buf,LOG_BUF_SIZE,str,size);
 

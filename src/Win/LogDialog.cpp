@@ -33,7 +33,7 @@ namespace hgl
                 MessageBoxW(nullptr,str,name,MB_OK);
             }
 
-            void Write(const char *str,int size)
+            void Write(const u8char *str,int size)
             {
                 const int len=u8_to_u16(buf,4096,str,size);
 
