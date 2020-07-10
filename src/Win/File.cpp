@@ -195,7 +195,7 @@ namespace hgl
             len=GetCurrentDirectoryW(0,nullptr);
 
             if(len==0)
-                return(nullptr);
+                return false;
 
             dir=new u16char[len+1];
 
