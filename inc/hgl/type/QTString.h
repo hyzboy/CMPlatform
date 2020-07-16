@@ -17,7 +17,7 @@
     {
         QByteArray u8str=str.toUtf8();
 
-        return hgl::UTF8String(u8str.data(),u8str.size());
+        return hgl::UTF8String((hgl::u8char *)u8str.data(),u8str.size());
     }
 
     inline hgl::WideString ToOSString(const QString &str)
@@ -26,7 +26,7 @@
 
         QByteArray u8str=str.toUtf8();
 
-        return hgl::to_u16(u8str.data(),u8str.size());
+        return hgl::to_u16((hgl::u8char *)u8str.data(),u8str.size());
     }
 #else
     template<int WS> QString WCharToQString(const wchar_t *,int);
@@ -62,7 +62,7 @@
 
 inline QString toQString(const hgl::UTF8String &str)
 {
-    return QString::fromUtf8(str.c_str(),str.Length());
+    return QString::fromUtf8((char *)str.c_str(),str.Length());
 }
 
 // inline QString toQString(const hgl::UTF32String &str)
