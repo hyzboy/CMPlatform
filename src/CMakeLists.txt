@@ -1,4 +1,6 @@
-﻿IF(UNIX)
+﻿SET(CPU_INFO_HEADER ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/CpuInfo.h)
+
+IF(UNIX)
     SET(PLATFORM_FILE_SOURCE            UNIX/File.cpp
                                         UNIX/FileAccess.cpp
                                         UNIX/EnumFile.cpp)
@@ -63,6 +65,8 @@
 ENDIF()
 
 IF(WIN32)
+    set(CPU_INFO_SOURCE                 Win/CpuInfo.cpp)
+
     SET(PLATFORM_FILE_SOURCE            Win/File.cpp
                                         Win/FileAccess.cpp
                                         Win/EnumFile.cpp
@@ -114,6 +118,8 @@ SOURCE_GROUP("Time"         FILES ${PLATFORM_TIME_SOURCE})
 SOURCE_GROUP("Desktop"      FILES ${PLATFORM_DESKTOP_SOURCE})
 SOURCE_GROUP("Window"       FILES ${PLATFORM_WINDOW_SOURCE})
 
+SOURCE_GROUP("Hardware\\Cpuinfo" FILES ${CPU_INFO_HEADER} ${CPU_INFO_SOURCE})
+
 SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_FILE_SOURCE}
                     ${PLATFORM_CODEPAGE_SOURCE}
@@ -126,6 +132,9 @@ SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_EXTERNAL_MODULE_SOURCE}
                     ${PLATFORM_INPUT_DEVICE_SOURCE}
                     ${PLATFORM_WINDOW_SOURCE}
+                    
+                    ${CPU_INFO_HEADER} 
+                    ${CPU_INFO_SOURCE}
 )
 
 add_cm_library(CMPlatform "CM" ${PLATFORM_SOURCE})
