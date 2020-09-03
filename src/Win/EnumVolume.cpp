@@ -1,5 +1,5 @@
 ﻿#include<hgl/filesystem/EnumVolume.h>
-#include<hgl/type/BaseString.h>
+#include<hgl/type/String.h>
 #include<hgl/log/LogInfo.h>
 #include<windows.h>
 

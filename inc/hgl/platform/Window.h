@@ -1,7 +1,7 @@
 ﻿#ifndef HGL_GRAPH_WINDOW_INCLUDE
 #define HGL_GRAPH_WINDOW_INCLUDE
 
-#include<hgl/type/BaseString.h>
+#include<hgl/type/String.h>
 #include<hgl/platform/InputDevice.h>
 
 namespace hgl
