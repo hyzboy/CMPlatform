@@ -19,7 +19,7 @@ namespace hgl
                 return(false);
 
             filename=template_filename;
-            mode=fomCreate;
+            mode=FileOpenMode::Create;
 
             return(true);
         }
@@ -28,14 +28,14 @@ namespace hgl
         {
             int fp;
 
-            if(fom==fomCreate       )fp=hgl_open64(fn,O_WRONLY|O_CREAT,           S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);else
-            if(fom==fomCreateTrunc  )fp=hgl_open64(fn,O_WRONLY|O_CREAT|O_TRUNC,   S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);else
-            if(fom==fomOnlyRead     )fp=hgl_open64(fn,O_RDONLY  );else
-            if(fom==fomOnlyWrite    )fp=hgl_open64(fn,O_WRONLY  );else
-            if(fom==fomReadWrite    )fp=hgl_open64(fn,O_RDWR    );else
-            if(fom==fomAppend       )fp=hgl_open64(fn,O_APPEND  );else
+            if(fom==FileOpenMode::Create       )fp=hgl_open64(fn,O_WRONLY|O_CREAT,           S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);else
+            if(fom==FileOpenMode::CreateTrunc  )fp=hgl_open64(fn,O_WRONLY|O_CREAT|O_TRUNC,   S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);else
+            if(fom==FileOpenMode::OnlyRead     )fp=hgl_open64(fn,O_RDONLY  );else
+            if(fom==FileOpenMode::OnlyWrite    )fp=hgl_open64(fn,O_WRONLY  );else
+            if(fom==FileOpenMode::ReadWrite    )fp=hgl_open64(fn,O_RDWR    );else
+            if(fom==FileOpenMode::Append       )fp=hgl_open64(fn,O_APPEND  );else
             {
-                LOG_ERROR(OS_TEXT("UNIX,FileAccess,OpenFile(")+OSString(fn)+OS_TEXT(" mode error: "+OSString::valueOf(fom)));
+                LOG_ERROR(OS_TEXT("UNIX,FileAccess,OpenFile(")+OSString(fn)+OS_TEXT(" mode error: "+OSString::valueOf(uint(fom))));
                 RETURN_ERROR(-1);
             }
 
