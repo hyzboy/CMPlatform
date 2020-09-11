@@ -197,16 +197,16 @@ namespace hgl
             if(len==0)
                 return false;
 
-            dir=new u16char[len+1];
+            dir=new u16char[len];       //不用+1
 
             if(GetCurrentDirectoryW(len,dir))
             {
                 if(len==3&&dir[1]==OS_TEXT(':'))
                     len=2;        //如果是"C:\"这种情况，去掉"\"
 
-                dir[len]=0;
+                dir[len-1]=0;
 
-                path.Set(dir,len,true);
+                path.SetInstance(dir,len-1);
                 return(true);
             }
 
