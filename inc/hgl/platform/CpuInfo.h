@@ -1,4 +1,4 @@
-#ifndef HGL_PLATFORM_CPU_INFO_INCLUDE
+﻿#ifndef HGL_PLATFORM_CPU_INFO_INCLUDE
 #define HGL_PLATFORM_CPU_INFO_INCLUDE
 
 #include<hgl/type/DataType.h>
