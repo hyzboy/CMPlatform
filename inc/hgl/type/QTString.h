@@ -1,7 +1,7 @@
 ﻿#ifndef HGL_QT_STRING_INCLUDE
 #define HGL_QT_STRING_INCLUDE
 
-#include<hgl/type/BaseString.h>
+#include<hgl/type/String.h>
 #include<hgl/CodePage.h>
 #include<QString>
 
