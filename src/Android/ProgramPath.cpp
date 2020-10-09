@@ -17,9 +17,10 @@ namespace hgl
             strcpy(files_dir,HGL_MAX_PATH,fn);
         }
 
-        void GetLocalAppdataPath(char fn[HGL_MAX_PATH])
+        bool GetLocalAppdataPath(OSString &result)
         {
-            strcpy(fn,HGL_MAX_PATH,files_dir);
+            result=files_dir;
+            return(true);
         }
 
         /**

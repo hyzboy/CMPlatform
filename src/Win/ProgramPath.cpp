@@ -6,9 +6,15 @@ namespace hgl
 {
     namespace filesystem
     {
-        void GetLocalAppdataPath(os_char fn[HGL_MAX_PATH])
+        bool GetLocalAppdataPath(OSString &result)
         {
-            SHGetFolderPathW(nullptr, CSIDL_LOCAL_APPDATA, nullptr, 0, fn);
+            os_char fn[HGL_MAX_PATH];
+
+            if(SHGetFolderPathW(nullptr, CSIDL_LOCAL_APPDATA, nullptr, 0, fn)!=S_OK)
+                return(false);
+
+            result=fn;
+            return(true);
         }
 
         /**

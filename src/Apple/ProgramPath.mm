@@ -5,13 +5,14 @@ namespace hgl
 {
     namespace filesystem
     {
-        void GetLocalAppdataPath(char fn[HGL_MAX_PATH])
+        bool GetLocalAppdataPath(OSString &result)
         {
             NSFileManager *dfm=[NSFileManager defaultManager];
 
             const char *str=[[[dfm homeDirectoryForCurrentUser] path] cStringUsingEncoding:NSUTF8StringEncoding];
 
-            hgl::strcpy(fn,HGL_MAX_PATH,str,strlen(str));
+            result=str;
+            return(true);
         }
 
         /**

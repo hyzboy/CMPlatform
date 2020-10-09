@@ -7,7 +7,7 @@ namespace hgl
 {
     namespace filesystem
     {
-        void GetLocalAppdataPath(os_char fn[HGL_MAX_PATH])
+        bool GetLocalAppdataPath(OSString &result)
         {
             struct passwd pwd;
             struct passwd *result;
@@ -21,9 +21,10 @@ namespace hgl
 
             getpwuid_r(getuid(),&pwd,buf,bufsize,&result);
 
-            strcpy(fn,HGL_MAX_PATH,pwd.pw_dir);
+            result=pwd.pw_dir;
 
             free(buf);
+            return(true);
         }
 
         /**
