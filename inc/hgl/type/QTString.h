@@ -13,14 +13,14 @@
 
     inline QString toQString(const wchar_t *str,int size){return QString::fromWCharArray(str,size);}
 
-    inline hgl::UTF8String ToUTF8String(const QString &str)
+    inline hgl::UTF8String toUTF8String(const QString &str)
     {
         QByteArray u8str=str.toUtf8();
 
         return hgl::UTF8String((hgl::u8char *)u8str.data(),u8str.size());
     }
 
-    inline hgl::WideString ToOSString(const QString &str)
+    inline hgl::WideString toOSString(const QString &str)
     {
         //qt有toWCharArray(),但是不能预估wchar_t的长度，所以暂时使用先UTF8，再转utf16的方式
 
