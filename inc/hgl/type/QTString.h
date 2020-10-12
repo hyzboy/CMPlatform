@@ -6,21 +6,21 @@
 #include<QString>
 
 #if HGL_OS == HGL_OS_Windows
-    inline QString toQString(const hgl::WideString &ws)
+    inline QString ToQString(const hgl::WideString &ws)
     {
         return QString::fromWCharArray(ws.c_str(),ws.Length());
     }
 
-    inline QString toQString(const wchar_t *str,int size){return QString::fromWCharArray(str,size);}
+    inline QString ToQString(const wchar_t *str,int size){return QString::fromWCharArray(str,size);}
 
-    inline hgl::UTF8String toUTF8String(const QString &str)
+    inline hgl::UTF8String ToUTF8String(const QString &str)
     {
         QByteArray u8str=str.toUtf8();
 
         return hgl::UTF8String((hgl::u8char *)u8str.data(),u8str.size());
     }
 
-    inline hgl::WideString toOSString(const QString &str)
+    inline hgl::WideString ToOSString(const QString &str)
     {
         //qt有toWCharArray(),但是不能预估wchar_t的长度，所以暂时使用先UTF8，再转utf16的方式
 
@@ -34,15 +34,15 @@
     template<> inline QString WCharToQString<2>(const wchar_t *str,int size){return QString::fromUtf16((ushort *)str,size);}
     template<> inline QString WCharToQString<4>(const wchar_t *str,int size){return QString::fromUcs4((uint *)str,size);}
 
-    inline QString toQString(const wchar_t *str,int size)
+    inline QString ToQString(const wchar_t *str,int size)
     {
         return WCharToQString<sizeof(wchar_t)>(str,size);
     }
 
-    inline QString toQString(const u16char *str,int size){return QString::fromUtf16((ushort *)str,size);}
-    inline QString toQString(const char32_t *str,int size){return QString::fromUcs4((uint *)str,size);}
+    inline QString ToQString(const u16char *str,int size){return QString::fromUtf16((ushort *)str,size);}
+    inline QString ToQString(const char32_t *str,int size){return QString::fromUcs4((uint *)str,size);}
 
-    inline QString toQString(const hgl::UTF16String &str)
+    inline QString ToQString(const hgl::UTF16String &str)
     {
         return QString::fromUtf16((ushort *)str.c_str(), str.Length());
     }
@@ -60,7 +60,7 @@
     }
 #endif//HGL_OS == HGL_OS_Windows
 
-inline QString toQString(const hgl::UTF8String &str)
+inline QString ToQString(const hgl::UTF8String &str)
 {
     return QString::fromUtf8((char *)str.c_str(),str.Length());
 }
