@@ -58,7 +58,8 @@ namespace hgl
         if(is_close)
             return(false);
 
-        if(!active||is_min)
+//        if(!active||is_min)
+        if(is_min)
             this->WaitMessage();
 
         return(true);
