@@ -104,11 +104,13 @@ namespace hgl
 
                     if(sub_efc&&config->sub_folder)
                     {
+                        ProcFolderBegin(config,sub_efc,fi);
+
                         sub_count=this->Enum(sub_efc);
                         if(sub_count>0)count+=sub_count;
                     }
 
-                    ProcFolder(config,sub_efc,fi);
+                    ProcFolderEnd(config,sub_efc,fi);
 
                     if(sub_efc)
                         delete sub_efc;
