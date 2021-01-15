@@ -30,17 +30,17 @@ namespace hgl
 
         virtual void ProcMouseMove      (int x,int y)               {SafeCallEvent(OnMouseMove,     (x,y));}
         virtual void ProcMouseWheel     (int v,int h,uint mb)       {SafeCallEvent(OnMouseWheel,    (v,h,mb));}
-        virtual void ProcMouseDown      (int x,int y,uint mb)       {SafeCallEvent(OnMouseDown,     (x,y,mb));}
-        virtual void ProcMouseUp        (int x,int y,uint mb)       {SafeCallEvent(OnMouseUp,       (x,y,mb));}
-        virtual void ProcMouseDblClick  (int x,int y,uint mb)       {SafeCallEvent(OnMouseDblClick, (x,y,mb));}
+        virtual void ProcMousePressed   (int x,int y,uint mb)       {SafeCallEvent(OnMousePressed,  (x,y,mb));}
+        virtual void ProcMouseReleased  (int x,int y,uint mb)       {SafeCallEvent(OnMouseReleased, (x,y,mb));}
+        virtual void ProcMouseDblClicked(int x,int y,uint mb)       {SafeCallEvent(OnMouseDblClicked, (x,y,mb));}
 
-        //virtual void ProcJoystickDown   (uint);
-        //virtual void ProcJoystickPress  (uint);
-        //virtual void ProcJoystickUp     (uint);
+        //virtual void ProcJoystickPressed (uint);
+        //virtual void ProcJoystickRepeat  (uint);
+        //virtual void ProcJoystickReleased(uint);
 
-        virtual void ProcKeyDown    (KeyboardButton);
-        virtual void ProcKeyPress   (KeyboardButton kb){SafeCallEvent(OnKeyPress,(kb));}
-        virtual void ProcKeyUp      (KeyboardButton);
+        virtual void ProcKeyPressed (KeyboardButton);
+        virtual void ProcKeyRepeat  (KeyboardButton kb){SafeCallEvent(OnKeyRepeat,(kb));}
+        virtual void ProcKeyReleased(KeyboardButton);
 
         virtual void ProcChar       (os_char ch){SafeCallEvent(OnChar,(ch));}
 
@@ -56,19 +56,19 @@ namespace hgl
 
     public:
 
-        DefEvent(void,OnMouseMove       ,(int,int));
-        DefEvent(void,OnMouseWheel      ,(int,int,uint));
-        DefEvent(void,OnMouseDown       ,(int,int,uint));
-        DefEvent(void,OnMouseUp         ,(int,int,uint));
-        DefEvent(void,OnMouseDblClick   ,(int,int,uint));
+        DefEvent(void,OnMouseMove,      (int,int));
+        DefEvent(void,OnMouseWheel,     (int,int,uint));
+        DefEvent(void,OnMousePressed,   (int,int,uint));
+        DefEvent(void,OnMouseReleased,  (int,int,uint));
+        DefEvent(void,OnMouseDblClicked,(int,int,uint));
 
         //DefEvent(void,OnJoystickDown    ,(uint));
         //DefEvent(void,OnJoystickPress ,(uint));
         //DefEvent(void,OnJoystickUp    ,(uint));
 
-        DefEvent(void,OnKeyDown ,(KeyboardButton));
-        DefEvent(void,OnKeyPress,(KeyboardButton));
-        DefEvent(void,OnKeyUp   ,(KeyboardButton));
+        DefEvent(void,OnKeyPressed, (KeyboardButton));
+        DefEvent(void,OnKeyRepeat,  (KeyboardButton));
+        DefEvent(void,OnKeyReleased,(KeyboardButton));
 
         DefEvent(void,OnChar    ,(os_char));
 

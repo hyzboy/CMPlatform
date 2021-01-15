@@ -205,17 +205,17 @@ namespace hgl
                 win->ProcMouse##action(x,y,mb##button|GetMouseKeyFlags(wParam));   \
             }
 
-            WMEF_MOUSE(Left,Down);
-            WMEF_MOUSE(Left,Up);
-            WMEF_MOUSE(Left,DblClick);
+            WMEF_MOUSE(Left,Pressed);
+            WMEF_MOUSE(Left,Released);
+            WMEF_MOUSE(Left,DblClicked);
 
-            WMEF_MOUSE(Mid,Down);
-            WMEF_MOUSE(Mid,Up);
-            WMEF_MOUSE(Mid,DblClick);
+            WMEF_MOUSE(Mid,Pressed);
+            WMEF_MOUSE(Mid,Released);
+            WMEF_MOUSE(Mid,DblClicked);
 
-            WMEF_MOUSE(Right,Down);
-            WMEF_MOUSE(Right,Up);
-            WMEF_MOUSE(Right,DblClick);
+            WMEF_MOUSE(Right,Pressed);
+            WMEF_MOUSE(Right,Released);
+            WMEF_MOUSE(Right,DblClicked);
 
             void WMProcMouseMove(WinWindow *win,uint32 wParam,uint32 lParam)
             {
@@ -249,12 +249,12 @@ namespace hgl
         #define WMEF1(name) void name(WinWindow *win,uint32 wParam,uint32)
             WMEF1(WMProcKeyDown)
             {
-                win->ProcKeyDown(ConvertOSKey(wParam));
+                win->ProcKeyPressed(ConvertOSKey(wParam));
             }
 
             WMEF1(WMProcKeyUp)
             {
-                win->ProcKeyUp(ConvertOSKey(wParam));
+                win->ProcKeyReleased(ConvertOSKey(wParam));
             }
 
             WMEF1(WMProcChar)
@@ -283,15 +283,15 @@ namespace hgl
     #define WM_MAP(wm,func) WMProc[wm]=func;
 
         WM_MAP(WM_CLOSE             ,WMProcDestroy);
-        WM_MAP(WM_LBUTTONDOWN       ,WMProcMouseLeftDown);
-        WM_MAP(WM_LBUTTONUP         ,WMProcMouseLeftUp);
-        WM_MAP(WM_LBUTTONDBLCLK     ,WMProcMouseLeftDblClick);
-        WM_MAP(WM_MBUTTONDOWN       ,WMProcMouseMidDown);
-        WM_MAP(WM_MBUTTONUP         ,WMProcMouseMidUp);
-        WM_MAP(WM_MBUTTONDBLCLK     ,WMProcMouseMidDblClick);
-        WM_MAP(WM_RBUTTONDOWN       ,WMProcMouseRightDown);
-        WM_MAP(WM_RBUTTONUP         ,WMProcMouseRightUp);
-        WM_MAP(WM_RBUTTONDBLCLK     ,WMProcMouseRightDblClick);
+        WM_MAP(WM_LBUTTONDOWN       ,WMProcMouseLeftPressed);
+        WM_MAP(WM_LBUTTONUP         ,WMProcMouseLeftReleased);
+        WM_MAP(WM_LBUTTONDBLCLK     ,WMProcMouseLeftDblClicked);
+        WM_MAP(WM_MBUTTONDOWN       ,WMProcMouseMidPressed);
+        WM_MAP(WM_MBUTTONUP         ,WMProcMouseMidReleased);
+        WM_MAP(WM_MBUTTONDBLCLK     ,WMProcMouseMidDblClicked);
+        WM_MAP(WM_RBUTTONDOWN       ,WMProcMouseRightPressed);
+        WM_MAP(WM_RBUTTONUP         ,WMProcMouseRightReleased);
+        WM_MAP(WM_RBUTTONDBLCLK     ,WMProcMouseRightDblClicked);
         WM_MAP(WM_MOUSEWHEEL        ,WMProcMouseWheel);
         WM_MAP(WM_MOUSEHWHEEL       ,WMProcMouseHWheel);
         WM_MAP(WM_MOUSEMOVE         ,WMProcMouseMove);

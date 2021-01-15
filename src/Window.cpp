@@ -2,21 +2,21 @@
 
 namespace hgl
 {
-    void Window::ProcKeyDown(KeyboardButton kb)
+    void Window::ProcKeyPressed(KeyboardButton kb)
     {
         if(key_push[kb])
-            ProcKeyPress(kb);
+            ProcKeyRepeat(kb);
         else
             key_push[kb]=true;
 
-       SafeCallEvent(OnKeyDown,(kb));
+       SafeCallEvent(OnKeyPressed,(kb));
     }
 
-    void Window::ProcKeyUp(KeyboardButton kb)
+    void Window::ProcKeyReleased(KeyboardButton kb)
     {
         key_push[kb]=false;
 
-        SafeCallEvent(OnKeyUp,(kb));
+        SafeCallEvent(OnKeyReleased,(kb));
     }
 
     void Window::ProcResize(uint w,uint h)
@@ -58,7 +58,8 @@ namespace hgl
         if(is_close)
             return(false);
 
-        if(!active||is_min)
+//        if(!active||is_min)
+        if(is_min)
             this->WaitMessage();
 
         return(true);
