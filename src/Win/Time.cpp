@@ -1,5 +1,6 @@
 ﻿#include<hgl/platform/Platform.h>
 #include<hgl/TypeFunc.h>
+#include<hgl/math/TimeConst.h>
 
 namespace hgl
 {
