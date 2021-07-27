@@ -8,13 +8,13 @@ namespace hgl
     {
         const int src_str_size=(src_size==-1)?strlen((char *)src):src_size;
 
-        const int len=MultiByteToWideChar(cs.codepage,0,(char *)src,src_str_size,0,0);
+        const int len=MultiByteToWideChar((UINT)cs.codepage,0,(char *)src,src_str_size,0,0);
 
         if(len<=0)return(len);
 
         *dst=new u16char[len];
 
-        return MultiByteToWideChar(cs.codepage,0,(char *)src,src_str_size,*dst,len);
+        return MultiByteToWideChar((UINT)cs.codepage,0,(char *)src,src_str_size,*dst,len);
     }
 
     int to_utf8(const CharSet &cs,u8char **dst,const void *src,const int src_size)
@@ -35,13 +35,13 @@ namespace hgl
     {
         const int src_str_size=(src_size==-1)?strlen(src):src_size;
 
-        const int len=WideCharToMultiByte(cs.codepage,0,src,src_str_size,0,0,0,0);
+        const int len=WideCharToMultiByte((UINT)cs.codepage,0,src,src_str_size,0,0,0,0);
 
         if(len<=0)return(len);
 
         *dst=new char[len];
 
-        return WideCharToMultiByte(cs.codepage,0,src,src_str_size,*dst,len,0,0);
+        return WideCharToMultiByte((UINT)cs.codepage,0,src,src_str_size,*dst,len,0,0);
     }
 
     int utf8_to(const CharSet &cs,char **dst,const u8char *src,const int src_size)
