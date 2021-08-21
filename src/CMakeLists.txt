@@ -73,7 +73,8 @@ IF(WIN32)
                                         Win/EnumVolume.cpp
                                         Win/ProgramPath.cpp)
 
-    SET(PLATFORM_CODEPAGE_SOURCE        Win/CodePage.cpp)
+    SET(PLATFORM_CODEPAGE_SOURCE        Win/CodePage.cpp
+                                        Win/vsprintf.cpp)
 
     SET(PLATFORM_SYSTEM_INFO_SOURCE     Win/SystemInfo.cpp)
 
