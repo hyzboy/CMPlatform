@@ -38,13 +38,13 @@ namespace hgl
 
                 UINT type=GetDriveTypeW(path_name);
 
-                if(type==DRIVE_REMOVABLE){  if(!cfg.removable   )continue;vi.driver_type=hgl::filesystem::VolumeInfo::dtRemovable;  }else
-                if(type==DRIVE_FIXED    ){  if(!cfg.fixed       )continue;vi.driver_type=hgl::filesystem::VolumeInfo::dtFixed;      }else
-                if(type==DRIVE_REMOTE   ){  if(!cfg.remote      )continue;vi.driver_type=hgl::filesystem::VolumeInfo::dtRemote;     }else
-                if(type==DRIVE_RAMDISK  ){  if(!cfg.ram_disk    )continue;vi.driver_type=hgl::filesystem::VolumeInfo::dtRamDisk;    }else
-                if(type==DRIVE_CDROM    ){  if(!cfg.cdrom       )continue;vi.driver_type=hgl::filesystem::VolumeInfo::dtCDROM;      }else
+                if(type==DRIVE_REMOVABLE){  if(!cfg.removable   )continue;vi.driver_type=VolumeInfo::DriverType::Removable;  }else
+                if(type==DRIVE_FIXED    ){  if(!cfg.fixed       )continue;vi.driver_type=VolumeInfo::DriverType::Fixed;      }else
+                if(type==DRIVE_REMOTE   ){  if(!cfg.remote      )continue;vi.driver_type=VolumeInfo::DriverType::Remote;     }else
+                if(type==DRIVE_RAMDISK  ){  if(!cfg.ram_disk    )continue;vi.driver_type=VolumeInfo::DriverType::RamDisk;    }else
+                if(type==DRIVE_CDROM    ){  if(!cfg.cdrom       )continue;vi.driver_type=VolumeInfo::DriverType::CDROM;      }else
                 {
-                    if(cfg.unknow)vi.driver_type=hgl::filesystem::VolumeInfo::dtNone;
+                    if(cfg.unknow)vi.driver_type=VolumeInfo::DriverType::None;
                     continue;
                 }
 
