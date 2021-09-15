@@ -19,7 +19,7 @@ namespace hgl
         bool is_close;
         bool is_min;
 
-        bool key_push[kbRangeSize];
+        bool key_push[size_t(KeyboardButton::RANGE_SIZE)];
 
     protected:
 

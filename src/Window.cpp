@@ -4,17 +4,17 @@ namespace hgl
 {
     void Window::ProcKeyPressed(KeyboardButton kb)
     {
-        if(key_push[kb])
+        if(key_push[size_t(kb)])
             ProcKeyRepeat(kb);
         else
-            key_push[kb]=true;
+            key_push[size_t(kb)]=true;
 
        SafeCallEvent(OnKeyPressed,(kb));
     }
 
     void Window::ProcKeyReleased(KeyboardButton kb)
     {
-        key_push[kb]=false;
+        key_push[size_t(kb)]=false;
 
         SafeCallEvent(OnKeyReleased,(kb));
     }

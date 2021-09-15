@@ -1,6 +1,7 @@
 ﻿#ifndef HGL_INPUT_DEVICE_INCLUDE
 #define HGL_INPUT_DEVICE_INCLUDE
 
+#include<hgl/TypeFunc.h>
 namespace hgl
 {
     /**
@@ -24,184 +25,190 @@ namespace hgl
     /**
     * 按键枚举定义
     */
-    enum KeyboardButton
+    enum class KeyboardButton
     {
-        kbBeginRange=0,
+        NONE=0,
+                            //主键盘区
+        Esc,                ///<ESC
 
-        //主键盘区
-        kbEsc,              ///<ESC
+                            //F功能键
+        F1,                 ///<F1
+        F2,                 ///<F2
+        F3,                 ///<F3
+        F4,                 ///<F4
+        F5,                 ///<F5
+        F6,                 ///<F6
+        F7,                 ///<F7
+        F8,                 ///<F8
+        F9,                 ///<F9
+        F10,                ///<F10
+        F11,                ///<F11
+        F12,                ///<F12
 
-        //F功能键
-        kbF1,               ///<F1
-        kbF2,               ///<F2
-        kbF3,               ///<F3
-        kbF4,               ///<F4
-        kbF5,               ///<F5
-        kbF6,               ///<F6
-        kbF7,               ///<F7
-        kbF8,               ///<F8
-        kbF9,               ///<F9
-        kbF10,              ///<F10
-        kbF11,              ///<F11
-        kbF12,              ///<F12
+        Grave,              //<`号(主键盘数字键1左边的按钮)
 
-        kbGrave,            //<`号(主键盘数字键1左边的按钮)
+                            //10个数字
+        _0,                 ///<数字键0
+        _1,                 ///<数字键1
+        _2,                 ///<数字键2
+        _3,                 ///<数字键3
+        _4,                 ///<数字键4
+        _5,                 ///<数字键5
+        _6,                 ///<数字键6
+        _7,                 ///<数字键7
+        _8,                 ///<数字键8
+        _9,                 ///<数字键9
 
-        //10个数字
-        kb0,                ///<数字键0
-        kb1,                ///<数字键1
-        kb2,                ///<数字键2
-        kb3,                ///<数字键3
-        kb4,                ///<数字键4
-        kb5,                ///<数字键5
-        kb6,                ///<数字键6
-        kb7,                ///<数字键7
-        kb8,                ///<数字键8
-        kb9,                ///<数字键9
+        Minus,              ///< - (减号)
+        Equals,             ///< = (等号)
+        BackSlash,          ///< \ (反斜杠)
+        BackSpace,          ///< 退格键
 
-        kbMinus,            ///< - (减号)
-        kbEquals,           ///< = (等号)
-        kbBackSlash,        ///< \ (反斜杠)
-        kbBackSpace,        ///< 退格键
+        Tab,                ///<Tab键
 
-        kbTab,              ///<Tab键
+        A,                  ///<A
+        B,                  ///<B
+        C,                  ///<C
+        D,                  ///<D
+        E,                  ///<E
+        F,                  ///<F
+        G,                  ///<G
+        H,                  ///<H
+        I,                  ///<I
+        J,                  ///<J
+        K,                  ///<K
+        L,                  ///<L
+        M,                  ///<M
+        N,                  ///<N
+        O,                  ///<O
+        P,                  ///<P
+        Q,                  ///<Q
+        R,                  ///<R
+        S,                  ///<S
+        T,                  ///<T
+        U,                  ///<U
+        V,                  ///<V
+        W,                  ///<W
+        X,                  ///<X
+        Y,                  ///<Y
+        Z,                  ///<Z
 
-        kbA,                ///<A
-        kbB,                ///<B
-        kbC,                ///<C
-        kbD,                ///<D
-        kbE,                ///<E
-        kbF,                ///<F
-        kbG,                ///<G
-        kbH,                ///<H
-        kbI,                ///<I
-        kbJ,                ///<J
-        kbK,                ///<K
-        kbL,                ///<L
-        kbM,                ///<M
-        kbN,                ///<N
-        kbO,                ///<O
-        kbP,                ///<P
-        kbQ,                ///<Q
-        kbR,                ///<R
-        kbS,                ///<S
-        kbT,                ///<T
-        kbU,                ///<U
-        kbV,                ///<V
-        kbW,                ///<W
-        kbX,                ///<X
-        kbY,                ///<Y
-        kbZ,                ///<Z
+        LeftBracket,        ///<[
+        RightBracket,       ///<]
 
-        kbLeftBracket,      ///<[
-        kbRightBracket,     ///<]
+        CapsLock,           ///<大写锁定键
 
-        kbCapsLock,         ///<大写锁定键
+        Semicolon,          ///<; (分号)
+        Apostrophe,         ///<' (单引号)
+        Enter,              ///<回车键
 
-        kbSemicolon,        ///<; (分号)
-        kbApostrophe,       ///<' (单引号)
-        kbEnter,            ///<回车键
+        LeftShift,          ///<左边的Shift键
 
-        kbLeftShift,        ///<左边的Shift键
+        Comma,              ///<, (逗号)
+        Period,             ///<. (句号)
+        Slash,              ///</ (除号)
+        RightShift,         ///<右边的Shift键
 
-        kbComma,            ///<, (逗号)
-        kbPeriod,           ///<. (句号)
-        kbSlash,            ///</ (除号)
-        kbRightShift,       ///<右边的Shift键
+        LeftCtrl,           ///<左边的Ctrl键
+        LeftOS,             ///<左边的OS键(Win/Apple键)
+        LeftAlt,            ///<左边的Alt键
+        Space,              ///<空格键
+        RightAlt,           ///<右边的Alt键
+        RightOS,            ///<右边的OS键(Win/Apple键)
+        RightMenu,          ///<右边的Menu键
+        RightCtrl,          ///<右边的Ctrl键
 
-        kbLeftCtrl,         ///<左边的Ctrl键
-        kbLeftOS,           ///<左边的OS键(Win/Apple键)
-        kbLeftAlt,          ///<左边的Alt键
-        kbSpace,            ///<空格键
-        kbRightAlt,         ///<右边的Alt键
-        kbRightOS,          ///<右边的OS键(Win/Apple键)
-        kbRightMenu,        ///<右边的Menu键
-        kbRightCtrl,        ///<右边的Ctrl键
+                            //中键盘区
+        PrintScreen,        ///<打印屏幕键
+        ScrollLock,         ///<滚动锁定键
+        Pause,              ///<暂停键
 
-        //中键盘区
-        kbPrintScreen,      ///<打印屏幕键
-        kbScrollLock,       ///<滚动锁定键
-        kbPause,            ///<暂停键
+        Insert,             ///<插入键
+        Delete,             ///<删除键
+        Home,               ///<行首键
+        End,                ///<行尾键
+        PageUp,             ///<向前翻页键
+        PageDown,           ///<向后翻页键
 
-        kbInsert,           ///<插入键
-        kbDelete,           ///<删除键
-        kbHome,             ///<行首键
-        kbEnd,              ///<行尾键
-        kbPageUp,           ///<向前翻页键
-        kbPageDown,         ///<向后翻页键
+        Up,                 ///<↑光标键
+        Down,               ///<↓光标键
+        Left,               ///<←光标键
+        Right,              ///<→光标键
 
-        kbUp,               ///<↑光标键
-        kbDown,             ///<↓光标键
-        kbLeft,             ///<←光标键
-        kbRight,            ///<→光标键
+                            //小键盘区
+        NumLock,            ///<小键盘 数字锁定键
 
-        //小键盘区
-        kbNumLock,          ///<小键盘 数字锁定键
+        NumAdd,             ///<小键盘 +
+        NumSubtract,        ///<小键盘 -
+        NumMultiply,        ///<小键盘 *
+        NumDivide,          ///<小键盘 /
 
-        kbNumAdd,           ///<小键盘 +
-        kbNumSubtract,      ///<小键盘 -
-        kbNumMultiply,      ///<小键盘 *
-        kbNumDivide,        ///<小键盘 /
+        Num0,               ///<小键盘 0
+        Num1,               ///<小键盘 1
+        Num2,               ///<小键盘 2
+        Num3,               ///<小键盘 3
+        Num4,               ///<小键盘 4
+        Num5,               ///<小键盘 5
+        Num6,               ///<小键盘 6
+        Num7,               ///<小键盘 7
+        Num8,               ///<小键盘 8
+        Num9,               ///<小键盘 9
 
-        kbNum0,             ///<小键盘 0
-        kbNum1,             ///<小键盘 1
-        kbNum2,             ///<小键盘 2
-        kbNum3,             ///<小键盘 3
-        kbNum4,             ///<小键盘 4
-        kbNum5,             ///<小键盘 5
-        kbNum6,             ///<小键盘 6
-        kbNum7,             ///<小键盘 7
-        kbNum8,             ///<小键盘 8
-        kbNum9,             ///<小键盘 9
+        NumDecimal,         ///<小键盘 . (小数点/删除键)
+        NumEnter,           ///<小键盘 回车键
 
-        kbNumDecimal,       ///<小键盘 . (小数点/删除键)
-        kbNumEnter,         ///<小键盘 回车键
-
-        kbEndRange,
-        kbRangeSize=kbEndRange-kbBeginRange+1
+        ENUM_CLASS_RANGE(NONE,NumEnter)
     };//enum KeyboardButton
 
     /**
     * 手柄按键枚举
     */
-    enum JoystickButton
+    enum class JoystickButton
     {
-        jbBeginRange=0,
+        NONE=0,
 
-        jbUp,
-        jbDown,
-        jbLeft,
-        jbRight,
+        Up,
+        Down,
+        Left,
+        Right,
 
-        jb0,        jb1,        jb2,        jb3,        jb4,        jb5,        jb6,        jb7,
-        jb8,        jb9,        jb10,       jb11,       jb12,       jb13,       jb14,       jb15,
-        jb16,       jb17,       jb18,       jb19,       jb20,       jb21,       jb22,       jb23,
-        jb24,       jb25,       jb26,       jb27,       jb28,       jb29,       jb30,       jb31,
+        _0,        _1,        _2,        _3,        _4,        _5,        _6,        _7,
+        _8,        _9,        _10,       _11,       _12,       _13,       _14,       _15,
+        _16,       _17,       _18,       _19,       _20,       _21,       _22,       _23,
+        _24,       _25,       _26,       _27,       _28,       _29,       _30,       _31,
 
-        jbEnd,
-
-        //DreamCast/XBOX
-/*      jbX=jb2,
-        jbY=jb3,
-        jbA=jb0,
-        jbB=jb1,
-        jbL=jb4,
-        jbR=jb5,*/
-
-        //PlayStation
-        jbTriangle  =jb0,           // 三角
-        jbCircle    =jb1,           // 圆
-        jbFork      =jb2,           // 叉
-        jbRectangle =jb3,           // 方
-        jbL1        =jb6,       jbL2        =jb4,
-        jbR1        =jb7,       jbR2        =jb5,
-        jbSelect    =jb8,       jbStart     =jb9,
-
-        //XBOX/XBOX360
-        jbXBOX,                     //西瓜键
-
-        jbEndRange,
-        jbRangeSize=jbEndRange-jbBeginRange+1
+        ENUM_CLASS_RANGE(NONE,_31)
     };
+
+    enum class PlayStationButton
+    {
+        Up          =JoystickButton::Up,
+        Down        =JoystickButton::Down,
+        Left        =JoystickButton::Left,
+        Right       =JoystickButton::Right,
+
+        Fork        =JoystickButton::_0,           // 叉
+        Circle      =JoystickButton::_1,           // 圆
+        Square      =JoystickButton::_2,           // 方
+        Triangle    =JoystickButton::_3,           // 三角
+
+        L1          =JoystickButton::_6,       L2        =JoystickButton::_4,
+        R1          =JoystickButton::_7,       R2        =JoystickButton::_5,
+        Select      =JoystickButton::_8,       Start     =JoystickButton::_9,
+    };
+
+    //enum class XBoxButton
+    //{
+    //    //DreamCast/XBOX
+    //    X=JoystickButton::_2,
+    //    Y=JoystickButton::_3,
+    //    A=JoystickButton::_0,
+    //    B=JoystickButton::_1,
+    //    L=JoystickButton::_4,
+    //    R=JoystickButton::_5,
+
+    //    //XBOX/XBOX360
+    //    //XBOX,                     //西瓜键
+    //};
 }//namespace hgl
 #endif//HGL_INPUT_DEVICE_INCLUDE

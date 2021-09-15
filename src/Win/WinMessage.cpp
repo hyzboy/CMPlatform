@@ -36,147 +36,147 @@ namespace hgl
 
             memset(KeyConvert,0,sizeof(KeyConvert));
 
-            KeyConvert[VK_ESCAPE    ]=kbEsc;
-            for(i=VK_F1;i<=VK_F12;i++)KeyConvert[i]=(KeyboardButton)(kbF1+i-VK_F1);
+            KeyConvert[VK_ESCAPE    ]=KeyboardButton::Esc;
+            for(i=VK_F1;i<=VK_F12;i++)KeyConvert[i]=(KeyboardButton)(int(KeyboardButton::F1)+i-VK_F1);
 
-            KeyConvert['`'          ]=kbGrave;
-            for(i='0';i<='9';i++)KeyConvert[i]=(KeyboardButton)(kb0+i-'0');
-            KeyConvert['-'          ]=kbMinus;
-            KeyConvert['='          ]=kbEquals;
-            KeyConvert['\\'         ]=kbBackSlash;
-            KeyConvert[VK_BACK      ]=kbBackSpace;
+            KeyConvert['`'          ]=KeyboardButton::Grave;
+            for(i='0';i<='9';i++)KeyConvert[i]=KeyboardButton(int(KeyboardButton::_0)+i-'0');
+            KeyConvert['-'          ]=KeyboardButton::Minus;
+            KeyConvert['='          ]=KeyboardButton::Equals;
+            KeyConvert['\\'         ]=KeyboardButton::BackSlash;
+            KeyConvert[VK_BACK      ]=KeyboardButton::BackSpace;
 
-            KeyConvert[VK_TAB       ]=kbTab;
-            KeyConvert['Q'          ]=kbQ;
-            KeyConvert['W'          ]=kbW;
-            KeyConvert['E'          ]=kbE;
-            KeyConvert['R'          ]=kbR;
-            KeyConvert['T'          ]=kbT;
-            KeyConvert['Y'          ]=kbY;
-            KeyConvert['U'          ]=kbU;
-            KeyConvert['I'          ]=kbI;
-            KeyConvert['O'          ]=kbO;
-            KeyConvert['P'          ]=kbP;
-            KeyConvert['['          ]=kbLeftBracket;
-            KeyConvert[']'          ]=kbRightBracket;
+            KeyConvert[VK_TAB       ]=KeyboardButton::Tab;
+            KeyConvert['Q'          ]=KeyboardButton::Q;
+            KeyConvert['W'          ]=KeyboardButton::W;
+            KeyConvert['E'          ]=KeyboardButton::E;
+            KeyConvert['R'          ]=KeyboardButton::R;
+            KeyConvert['T'          ]=KeyboardButton::T;
+            KeyConvert['Y'          ]=KeyboardButton::Y;
+            KeyConvert['U'          ]=KeyboardButton::U;
+            KeyConvert['I'          ]=KeyboardButton::I;
+            KeyConvert['O'          ]=KeyboardButton::O;
+            KeyConvert['P'          ]=KeyboardButton::P;
+            KeyConvert['['          ]=KeyboardButton::LeftBracket;
+            KeyConvert[']'          ]=KeyboardButton::RightBracket;
 
-            KeyConvert[VK_CAPITAL   ]=kbCapsLock;
-            KeyConvert['A'          ]=kbA;
-            KeyConvert['S'          ]=kbS;
-            KeyConvert['D'          ]=kbD;
-            KeyConvert['F'          ]=kbF;
-            KeyConvert['G'          ]=kbG;
-            KeyConvert['H'          ]=kbH;
-            KeyConvert['J'          ]=kbJ;
-            KeyConvert['K'          ]=kbK;
-            KeyConvert['L'          ]=kbL;
-            KeyConvert[';'          ]=kbSemicolon;
-            KeyConvert['\''         ]=kbApostrophe;
-            KeyConvert[VK_RETURN    ]=kbEnter;
+            KeyConvert[VK_CAPITAL   ]=KeyboardButton::CapsLock;
+            KeyConvert['A'          ]=KeyboardButton::A;
+            KeyConvert['S'          ]=KeyboardButton::S;
+            KeyConvert['D'          ]=KeyboardButton::D;
+            KeyConvert['F'          ]=KeyboardButton::F;
+            KeyConvert['G'          ]=KeyboardButton::G;
+            KeyConvert['H'          ]=KeyboardButton::H;
+            KeyConvert['J'          ]=KeyboardButton::J;
+            KeyConvert['K'          ]=KeyboardButton::K;
+            KeyConvert['L'          ]=KeyboardButton::L;
+            KeyConvert[';'          ]=KeyboardButton::Semicolon;
+            KeyConvert['\''         ]=KeyboardButton::Apostrophe;
+            KeyConvert[VK_RETURN    ]=KeyboardButton::Enter;
 
-            KeyConvert[VK_LSHIFT    ]=kbLeftShift;
-            KeyConvert['Z'          ]=kbZ;
-            KeyConvert['X'          ]=kbX;
-            KeyConvert['C'          ]=kbC;
-            KeyConvert['V'          ]=kbV;
-            KeyConvert['B'          ]=kbB;
-            KeyConvert['N'          ]=kbN;
-            KeyConvert['M'          ]=kbM;
-            KeyConvert[','          ]=kbComma;
-            KeyConvert['.'          ]=kbPeriod;
-            KeyConvert['/'          ]=kbSlash;
-            KeyConvert[VK_RSHIFT    ]=kbRightShift;
+            KeyConvert[VK_LSHIFT    ]=KeyboardButton::LeftShift;
+            KeyConvert['Z'          ]=KeyboardButton::Z;
+            KeyConvert['X'          ]=KeyboardButton::X;
+            KeyConvert['C'          ]=KeyboardButton::C;
+            KeyConvert['V'          ]=KeyboardButton::V;
+            KeyConvert['B'          ]=KeyboardButton::B;
+            KeyConvert['N'          ]=KeyboardButton::N;
+            KeyConvert['M'          ]=KeyboardButton::M;
+            KeyConvert[','          ]=KeyboardButton::Comma;
+            KeyConvert['.'          ]=KeyboardButton::Period;
+            KeyConvert['/'          ]=KeyboardButton::Slash;
+            KeyConvert[VK_RSHIFT    ]=KeyboardButton::RightShift;
 
-            KeyConvert[VK_LCONTROL  ]=kbLeftCtrl;
-            KeyConvert[VK_LWIN      ]=kbLeftOS;
-            KeyConvert[VK_LMENU     ]=kbLeftAlt;
-            KeyConvert[VK_SPACE     ]=kbSpace;
-            KeyConvert[VK_RMENU     ]=kbRightAlt;
-            KeyConvert[VK_RWIN      ]=kbRightOS;
-            KeyConvert[VK_RCONTROL  ]=kbRightCtrl;
+            KeyConvert[VK_LCONTROL  ]=KeyboardButton::LeftCtrl;
+            KeyConvert[VK_LWIN      ]=KeyboardButton::LeftOS;
+            KeyConvert[VK_LMENU     ]=KeyboardButton::LeftAlt;
+            KeyConvert[VK_SPACE     ]=KeyboardButton::Space;
+            KeyConvert[VK_RMENU     ]=KeyboardButton::RightAlt;
+            KeyConvert[VK_RWIN      ]=KeyboardButton::RightOS;
+            KeyConvert[VK_RCONTROL  ]=KeyboardButton::RightCtrl;
 
-            KeyConvert[VK_PAUSE     ]=kbPause;
-        //        KeyConvert[VK_CLEAR     ]=kbClear;
+            KeyConvert[VK_PAUSE     ]=KeyboardButton::Pause;
+        //        KeyConvert[VK_CLEAR     ]=KeyboardButton::Clear;
 
-            KeyConvert[VK_NUMPAD0   ]=kbNum0;
-            KeyConvert[VK_NUMPAD1   ]=kbNum1;
-            KeyConvert[VK_NUMPAD2   ]=kbNum2;
-            KeyConvert[VK_NUMPAD3   ]=kbNum3;
-            KeyConvert[VK_NUMPAD4   ]=kbNum4;
-            KeyConvert[VK_NUMPAD5   ]=kbNum5;
-            KeyConvert[VK_NUMPAD6   ]=kbNum6;
-            KeyConvert[VK_NUMPAD7   ]=kbNum7;
-            KeyConvert[VK_NUMPAD8   ]=kbNum8;
-            KeyConvert[VK_NUMPAD9   ]=kbNum9;
+            KeyConvert[VK_NUMPAD0   ]=KeyboardButton::Num0;
+            KeyConvert[VK_NUMPAD1   ]=KeyboardButton::Num1;
+            KeyConvert[VK_NUMPAD2   ]=KeyboardButton::Num2;
+            KeyConvert[VK_NUMPAD3   ]=KeyboardButton::Num3;
+            KeyConvert[VK_NUMPAD4   ]=KeyboardButton::Num4;
+            KeyConvert[VK_NUMPAD5   ]=KeyboardButton::Num5;
+            KeyConvert[VK_NUMPAD6   ]=KeyboardButton::Num6;
+            KeyConvert[VK_NUMPAD7   ]=KeyboardButton::Num7;
+            KeyConvert[VK_NUMPAD8   ]=KeyboardButton::Num8;
+            KeyConvert[VK_NUMPAD9   ]=KeyboardButton::Num9;
 
-            KeyConvert[VK_DECIMAL   ]=kbNumDecimal;
-            KeyConvert[VK_DIVIDE    ]=kbNumDivide;
-            KeyConvert[VK_MULTIPLY  ]=kbNumMultiply;
-            KeyConvert[VK_SUBTRACT  ]=kbNumSubtract;
-            KeyConvert[VK_ADD       ]=kbNumAdd;
+            KeyConvert[VK_DECIMAL   ]=KeyboardButton::NumDecimal;
+            KeyConvert[VK_DIVIDE    ]=KeyboardButton::NumDivide;
+            KeyConvert[VK_MULTIPLY  ]=KeyboardButton::NumMultiply;
+            KeyConvert[VK_SUBTRACT  ]=KeyboardButton::NumSubtract;
+            KeyConvert[VK_ADD       ]=KeyboardButton::NumAdd;
 
-            KeyConvert[VK_UP        ]=kbUp;
-            KeyConvert[VK_DOWN      ]=kbDown;
-            KeyConvert[VK_LEFT      ]=kbLeft;
-            KeyConvert[VK_RIGHT     ]=kbRight;
+            KeyConvert[VK_UP        ]=KeyboardButton::Up;
+            KeyConvert[VK_DOWN      ]=KeyboardButton::Down;
+            KeyConvert[VK_LEFT      ]=KeyboardButton::Left;
+            KeyConvert[VK_RIGHT     ]=KeyboardButton::Right;
 
-            KeyConvert[VK_INSERT    ]=kbInsert;
-            KeyConvert[VK_DELETE    ]=kbDelete;
-            KeyConvert[VK_HOME      ]=kbHome;
-            KeyConvert[VK_END       ]=kbEnd;
-            KeyConvert[VK_PRIOR     ]=kbPageUp;
-            KeyConvert[VK_NEXT      ]=kbPageDown;
+            KeyConvert[VK_INSERT    ]=KeyboardButton::Insert;
+            KeyConvert[VK_DELETE    ]=KeyboardButton::Delete;
+            KeyConvert[VK_HOME      ]=KeyboardButton::Home;
+            KeyConvert[VK_END       ]=KeyboardButton::End;
+            KeyConvert[VK_PRIOR     ]=KeyboardButton::PageUp;
+            KeyConvert[VK_NEXT      ]=KeyboardButton::PageDown;
 
-            KeyConvert[VK_NUMLOCK   ]=kbNumLock;
-            KeyConvert[VK_SCROLL    ]=kbScrollLock;
+            KeyConvert[VK_NUMLOCK   ]=KeyboardButton::NumLock;
+            KeyConvert[VK_SCROLL    ]=KeyboardButton::ScrollLock;
 
             //KeyConvert[VK_SHIFT       ]=kbLeftShift;
             //KeyConvert[VK_CONTROL ]=kbLeftCtrl;
             //KeyConvert[VK_MENU        ]=kbLeftAlt;
 
-            KeyConvert[VK_OEM_1     ]=kbSemicolon;
-            KeyConvert[VK_OEM_PLUS  ]=kbEquals;
-            KeyConvert[VK_OEM_COMMA ]=kbComma;
-            KeyConvert[VK_OEM_MINUS ]=kbMinus;
-            KeyConvert[VK_OEM_PERIOD]=kbPeriod;
-            KeyConvert[VK_OEM_2     ]=kbSlash;
-            KeyConvert[VK_OEM_3     ]=kbGrave;
-            KeyConvert[VK_OEM_4     ]=kbLeftBracket;
-            KeyConvert[VK_OEM_5     ]=kbBackSlash;
-            KeyConvert[VK_OEM_6     ]=kbRightBracket;
-            KeyConvert[VK_OEM_7     ]=kbApostrophe;
+            KeyConvert[VK_OEM_1     ]=KeyboardButton::Semicolon;
+            KeyConvert[VK_OEM_PLUS  ]=KeyboardButton::Equals;
+            KeyConvert[VK_OEM_COMMA ]=KeyboardButton::Comma;
+            KeyConvert[VK_OEM_MINUS ]=KeyboardButton::Minus;
+            KeyConvert[VK_OEM_PERIOD]=KeyboardButton::Period;
+            KeyConvert[VK_OEM_2     ]=KeyboardButton::Slash;
+            KeyConvert[VK_OEM_3     ]=KeyboardButton::Grave;
+            KeyConvert[VK_OEM_4     ]=KeyboardButton::LeftBracket;
+            KeyConvert[VK_OEM_5     ]=KeyboardButton::BackSlash;
+            KeyConvert[VK_OEM_6     ]=KeyboardButton::RightBracket;
+            KeyConvert[VK_OEM_7     ]=KeyboardButton::Apostrophe;
         }
 
         KeyboardButton ConvertOSKey(uint key)
         {
-            if(key>=256)return(kbBeginRange);
-            if(KeyConvert[key]==0)return(kbBeginRange);
+            if(key>=256)return(KeyboardButton::NONE);
+            if(KeyConvert[key]==KeyboardButton::NONE)return(KeyboardButton::NONE);
 
             if(key==VK_SHIFT)
             {
                 if((GetAsyncKeyState(VK_LSHIFT)>>15)&1)
-                    return kbLeftShift;
+                    return KeyboardButton::LeftShift;
                 else
-                    return kbRightShift;
+                    return KeyboardButton::RightShift;
             }
             else
             if(key==VK_CONTROL)
             {
                 if((GetAsyncKeyState(VK_LCONTROL)>>15)&1)
-                    return kbLeftCtrl;
+                    return KeyboardButton::LeftCtrl;
                 else
-                    return kbRightCtrl;
+                    return KeyboardButton::RightCtrl;
             }
             if(key==VK_MENU)
             {
                 if((GetAsyncKeyState(VK_LMENU)>>15)&1)
-                    return kbLeftAlt;
+                    return KeyboardButton::LeftAlt;
                 else
-                    return kbRightAlt;
+                    return KeyboardButton::RightAlt;
             }
 
     #ifdef _DEBUG
-            if(KeyConvert[key]==0)
+            if(KeyConvert[key]==KeyboardButton::NONE)
             {
                 wchar_t name[64];
 
@@ -226,16 +226,16 @@ namespace hgl
         #define WMEF2(name) void name(WinWindow *win,uint32 wParam,uint32 lParam)
             WMEF2(WMProcMouseWheel)
             {
-                int zDelta=GET_WHEEL_DELTA_WPARAM(wParam);
-                uint key=ConvertOSKey(GET_KEYSTATE_WPARAM(wParam));
+                const int zDelta=GET_WHEEL_DELTA_WPARAM(wParam);
+                const uint key=(uint)ConvertOSKey(GET_KEYSTATE_WPARAM(wParam));
                 
                 win->ProcMouseWheel(zDelta,0,key);
             }
 
             WMEF2(WMProcMouseHWheel)
             {
-                int zDelta=GET_WHEEL_DELTA_WPARAM(wParam);
-                uint key=ConvertOSKey(GET_KEYSTATE_WPARAM(wParam));
+                const int zDelta=GET_WHEEL_DELTA_WPARAM(wParam);
+                const uint key=(uint)ConvertOSKey(GET_KEYSTATE_WPARAM(wParam));
                 
                 win->ProcMouseWheel(0,zDelta,key);
             }
