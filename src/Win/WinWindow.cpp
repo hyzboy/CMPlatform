@@ -63,6 +63,18 @@ namespace hgl
             win_top = CW_USEDEFAULT;
         }
 
+        WindowCreateExteraParams createParams;
+
+        {
+            context = DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2;
+            previousDpiContext = SetThreadDpiAwarenessContext(context);
+
+            createParams.bEnableNonClientDpiScaling = FALSE;
+            createParams.bChildWindowDpiIsolation = TRUE;
+
+            previousDpiHostingBehavior = SetThreadDpiHostingBehavior(DPI_HOSTING_BEHAVIOR_MIXED);
+        }
+
         win_hwnd = CreateWindowExW(0,
             WIN_CLASS_NAME,             // class name
             win_name.c_str(),           // app name
@@ -73,7 +85,7 @@ namespace hgl
             nullptr,                    // handle to parent
             nullptr,                    // handle to menu
             hInstance,                  // hInstance
-            nullptr);                   // no extra parameters
+            &createParams);             // extra parameters
 
         if (!win_hwnd)
         {
@@ -149,6 +161,10 @@ namespace hgl
     void WinWindow::Show()
     {
         ShowWindow(win_hwnd, SW_SHOW);
+
+        SetThreadDpiAwarenessContext(previousDpiContext);
+        SetThreadDpiHostingBehavior(previousDpiHostingBehavior);
+
         SetForegroundWindow(win_hwnd);
         SetFocus(win_hwnd);
 

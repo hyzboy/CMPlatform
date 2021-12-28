@@ -10,6 +10,8 @@ namespace hgl
 {
     namespace
     {
+        #define PROP_DPIISOLATION          L"PROP_ISOLATION"
+
         static KeyboardButton KeyConvert[256];
         static void (*WMProc[2048])(WinWindow *,uint32,uint32);                 //消息处理队列
 
@@ -190,6 +192,65 @@ namespace hgl
             return KeyConvert[key];
         }
 
+        void WMProcNCCreate(WinWindow *win,uint32 wParam,uint32 lParam)
+        {
+            auto createStruct = reinterpret_cast<const CREATESTRUCTW *>(lParam);
+            auto createParams = static_cast<const WindowCreateExteraParams *>(createStruct->lpCreateParams);
+
+            if (createParams->bEnableNonClientDpiScaling)
+            {
+                EnableNonClientDpiScaling(win->GetWnd());
+            }
+
+            // Store a flag on the window to note that it'll run its child in a different awareness
+            if (createParams->bChildWindowDpiIsolation)
+            {
+                SetPropW(win->GetWnd(), PROP_DPIISOLATION, (HANDLE)TRUE);
+            }
+        }
+
+        void WMProcCreate(WinWindow *win,uint32 wParam,uint32 lParam)
+        {
+            HWND hWnd=win->GetWnd();
+            RECT rcWindow = {};
+            UINT uDpi = 96;
+            DPI_AWARENESS dpiAwareness = GetAwarenessFromDpiAwarenessContext(GetThreadDpiAwarenessContext());
+
+            switch (dpiAwareness)
+            {
+                // Scale the window to the system DPI
+            case DPI_AWARENESS_SYSTEM_AWARE:
+                uDpi = GetDpiForSystem();
+                break;
+
+                // Scale the window to the monitor DPI
+            case DPI_AWARENESS_PER_MONITOR_AWARE:
+                uDpi = GetDpiForWindow(hWnd);
+                break;
+            }
+
+            GetWindowRect(hWnd, &rcWindow);
+            rcWindow.right = rcWindow.left + MulDiv(win->GetWidth(), uDpi, 96);
+            rcWindow.bottom = rcWindow.top + MulDiv(win->GetHeight(), uDpi, 96);
+            SetWindowPos(hWnd, nullptr, rcWindow.right, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
+
+            BOOL bDpiIsolation = PtrToInt(GetPropW(hWnd, PROP_DPIISOLATION));
+
+            DPI_AWARENESS_CONTEXT previousDpiContext = {};
+            DPI_HOSTING_BEHAVIOR previousDpiHostingBehavior = {};
+
+            if (bDpiIsolation)
+            {
+                previousDpiHostingBehavior = SetThreadDpiHostingBehavior(DPI_HOSTING_BEHAVIOR_MIXED);
+
+                // For this example, we'll have the external content run with System-DPI awareness
+                previousDpiContext = SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
+
+                SetThreadDpiAwarenessContext(previousDpiContext);
+                SetThreadDpiHostingBehavior(previousDpiHostingBehavior);
+            }
+        }
+
         void WMProcDestroy(WinWindow *win,uint32,uint32)
         {
             win->ProcClose();
@@ -282,6 +343,8 @@ namespace hgl
 
     #define WM_MAP(wm,func) WMProc[wm]=func;
 
+        WM_MAP(WM_NCCREATE          ,WMProcNCCreate);
+        WM_MAP(WM_CREATE            ,WMProcCreate);
         WM_MAP(WM_CLOSE             ,WMProcDestroy);
         WM_MAP(WM_LBUTTONDOWN       ,WMProcMouseLeftPressed);
         WM_MAP(WM_LBUTTONUP         ,WMProcMouseLeftReleased);
