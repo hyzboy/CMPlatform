@@ -38,6 +38,19 @@ namespace hgl
         int win_left, win_top;
         int win_width, win_height;
 
+
+        WindowCreateExteraParams createParams;
+
+        {
+            context = DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2;
+            previousDpiContext = SetThreadDpiAwarenessContext(context);
+
+            createParams.bEnableNonClientDpiScaling = FALSE;
+            createParams.bChildWindowDpiIsolation = TRUE;
+
+            previousDpiHostingBehavior = SetThreadDpiHostingBehavior(DPI_HOSTING_BEHAVIOR_MIXED);
+        }
+
         {
             RECT win_rect;
 
@@ -54,25 +67,16 @@ namespace hgl
 
         if (width && height)
         {
-            win_left = (GetSystemMetrics(SM_CXSCREEN) - win_width) / 2;
-            win_top = (GetSystemMetrics(SM_CYSCREEN) - win_height) / 2;
+            const uint32 screen_width=GetSystemMetrics(SM_CXSCREEN);
+            const uint32 screen_height=GetSystemMetrics(SM_CYSCREEN);
+
+            win_left = (screen_width - win_width) / 2;
+            win_top = (screen_height - win_height) / 2;
         }
         else
         {
             win_left = CW_USEDEFAULT;
             win_top = CW_USEDEFAULT;
-        }
-
-        WindowCreateExteraParams createParams;
-
-        {
-            context = DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2;
-            previousDpiContext = SetThreadDpiAwarenessContext(context);
-
-            createParams.bEnableNonClientDpiScaling = FALSE;
-            createParams.bChildWindowDpiIsolation = TRUE;
-
-            previousDpiHostingBehavior = SetThreadDpiHostingBehavior(DPI_HOSTING_BEHAVIOR_MIXED);
         }
 
         win_hwnd = CreateWindowExW(0,
