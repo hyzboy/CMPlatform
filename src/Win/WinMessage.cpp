@@ -1,5 +1,7 @@
 ﻿#include"WinWindow.h"
-#include<hgl/platform/InputDevice.h>
+#include<hgl/io/event/KeyboardEvent.h>
+#include<hgl/io/event/MouseEvent.h>
+#include<hgl/io/event/WindowEvent.h>
 #include<Windows.h>
 
 #ifdef _DEBUG
@@ -8,29 +10,14 @@
 
 namespace hgl
 {
+    using namespace io;
+
     namespace
     {
         #define PROP_DPIISOLATION          L"PROP_ISOLATION"
 
         static KeyboardButton KeyConvert[256];
-        static void (*WMProc[2048])(WinWindow *,uint32,uint32);                 //消息处理队列
-
-        uint32 GetMouseKeyFlags(uint32 wflags)
-        {
-            uint32 flag=0;
-
-            if(wflags&MK_LBUTTON)flag|=mbLeft;
-            if(wflags&MK_RBUTTON)flag|=mbRight;
-            if(wflags&MK_MBUTTON)flag|=mbMid;
-
-            if(wflags&MK_XBUTTON1)flag|=mbX1;
-            if(wflags&MK_XBUTTON2)flag|=mbX2;
-
-            if(wflags&MK_SHIFT  )flag|=mbShift;
-            if(wflags&MK_CONTROL)flag|=mbCtrl;
-
-            return(flag);
-        }
+        static void (*WMProc[2048])(InputEvent *,uint32,uint32);                 //消息处理队列
 
         void InitKeyConvert()
         {
@@ -191,79 +178,33 @@ namespace hgl
 
             return KeyConvert[key];
         }
+        
+        static EventHeader event_header;
+        static WindowEventData window_event_data;
 
-        void WMProcNCCreate(WinWindow *win,uint32 wParam,uint32 lParam)
+        void WMProcDestroy(InputEvent *ie,uint32,uint32)
         {
-            auto createStruct = reinterpret_cast<const CREATESTRUCTW *>(lParam);
-            auto createParams = static_cast<const WindowCreateExteraParams *>(createStruct->lpCreateParams);
+            event_header.type   =(uint8)InputEventSource::Window;
+            event_header.index  =0;
+            event_header.id     =(uint16)WindowEventID::Close;
 
-            if (createParams->bEnableNonClientDpiScaling)
-            {
-                EnableNonClientDpiScaling(win->GetWnd());
-            }
-
-            // Store a flag on the window to note that it'll run its child in a different awareness
-            if (createParams->bChildWindowDpiIsolation)
-            {
-                SetPropW(win->GetWnd(), PROP_DPIISOLATION, (HANDLE)TRUE);
-            }
-        }
-
-        void WMProcCreate(WinWindow *win,uint32 wParam,uint32 lParam)
-        {
-            HWND hWnd=win->GetWnd();
-            RECT rcWindow = {};
-            UINT uDpi = 96;
-            DPI_AWARENESS dpiAwareness = GetAwarenessFromDpiAwarenessContext(GetThreadDpiAwarenessContext());
-
-            switch (dpiAwareness)
-            {
-                // Scale the window to the system DPI
-            case DPI_AWARENESS_SYSTEM_AWARE:
-                uDpi = GetDpiForSystem();
-                break;
-
-                // Scale the window to the monitor DPI
-            case DPI_AWARENESS_PER_MONITOR_AWARE:
-                uDpi = GetDpiForWindow(hWnd);
-                break;
-            }
-
-            GetWindowRect(hWnd, &rcWindow);
-            rcWindow.right = rcWindow.left + MulDiv(win->GetWidth(), uDpi, 96);
-            rcWindow.bottom = rcWindow.top + MulDiv(win->GetHeight(), uDpi, 96);
-            SetWindowPos(hWnd, nullptr, rcWindow.right, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
-
-            BOOL bDpiIsolation = PtrToInt(GetPropW(hWnd, PROP_DPIISOLATION));
-
-            DPI_AWARENESS_CONTEXT previousDpiContext = {};
-            DPI_HOSTING_BEHAVIOR previousDpiHostingBehavior = {};
-
-            if (bDpiIsolation)
-            {
-                previousDpiHostingBehavior = SetThreadDpiHostingBehavior(DPI_HOSTING_BEHAVIOR_MIXED);
-
-                // For this example, we'll have the external content run with System-DPI awareness
-                previousDpiContext = SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
-
-                SetThreadDpiAwarenessContext(previousDpiContext);
-                SetThreadDpiHostingBehavior(previousDpiHostingBehavior);
-            }
-        }
-
-        void WMProcDestroy(WinWindow *win,uint32,uint32)
-        {
-            win->ProcClose();
+            ie->OnEvent(event_header,window_event_data.data);
             PostQuitMessage(0);
         }
 
-        #define WMEF_MOUSE(button,action)   void WMProcMouse##button##action(WinWindow *win,uint32 wParam,uint32 lParam)    \
+        static MouseEventData mouse_event_data;
+
+        #define WMEF_MOUSE(mouse_button,action)   void WMProcMouse##mouse_button##action(InputEvent *ie,uint32 wParam,uint32 lParam)    \
             {   \
-                const int x=LOWORD(lParam); \
-                const int y=HIWORD(lParam); \
+                mouse_event_data.x=LOWORD(lParam); \
+                mouse_event_data.y=HIWORD(lParam); \
+                mouse_event_data.button=(uint8)MouseButton::mouse_button;    \
                 \
-                win->ProcMouseMove(x,y);  \
-                win->ProcMouse##action(x,y,mb##button|GetMouseKeyFlags(wParam));   \
+                event_header.type   =(uint8)InputEventSource::Mouse;  \
+                event_header.index  =0;   \
+                event_header.id     =(uint16)MouseEventID::action; \
+                \
+                ie->OnEvent(event_header,mouse_event_data.data);    \
             }
 
             WMEF_MOUSE(Left,Pressed);
@@ -278,49 +219,100 @@ namespace hgl
             WMEF_MOUSE(Right,Released);
             WMEF_MOUSE(Right,DblClicked);
 
-            void WMProcMouseMove(WinWindow *win,uint32 wParam,uint32 lParam)
+            void WMProcMouseMove(InputEvent *ie,uint32 wParam,uint32 lParam)
             {
-                win->ProcMouseMove(LOWORD(lParam),HIWORD(lParam));
+                mouse_event_data.x=LOWORD(lParam);
+                mouse_event_data.y=HIWORD(lParam);
+                mouse_event_data.button=0;
+                
+                event_header.type   =(uint8)InputEventSource::Mouse; 
+                event_header.index  =0;   
+                event_header.id     =(uint16)MouseEventID::Move;
+                
+                ie->OnEvent(event_header,mouse_event_data.data);
             }
         #undef WMEF_MOUSE
 
-        #define WMEF2(name) void name(WinWindow *win,uint32 wParam,uint32 lParam)
+        #define WMEF2(name) void name(InputEvent *ie,uint32 wParam,uint32 lParam)
             WMEF2(WMProcMouseWheel)
             {
                 const int zDelta=GET_WHEEL_DELTA_WPARAM(wParam);
-                const uint key=(uint)ConvertOSKey(GET_KEYSTATE_WPARAM(wParam));
+                //const uint key=(uint)ConvertOSKey(GET_KEYSTATE_WPARAM(wParam));
                 
-                win->ProcMouseWheel(zDelta,0,key);
+                mouse_event_data.x=0;
+                mouse_event_data.y=zDelta;
+                mouse_event_data.button=0;
+
+                event_header.type   =(uint8)InputEventSource::Mouse; 
+                event_header.index  =0;   
+                event_header.id     =(uint16)MouseEventID::Wheel;
+                
+                ie->OnEvent(event_header,mouse_event_data.data);
             }
 
             WMEF2(WMProcMouseHWheel)
             {
                 const int zDelta=GET_WHEEL_DELTA_WPARAM(wParam);
-                const uint key=(uint)ConvertOSKey(GET_KEYSTATE_WPARAM(wParam));
+                //const uint key=(uint)ConvertOSKey(GET_KEYSTATE_WPARAM(wParam));
                 
-                win->ProcMouseWheel(0,zDelta,key);
+                mouse_event_data.x=zDelta;
+                mouse_event_data.y=0;
+                mouse_event_data.button=0;
+
+                event_header.type   =(uint8)InputEventSource::Mouse; 
+                event_header.index  =0;   
+                event_header.id     =(uint16)MouseEventID::Wheel;
+                
+                ie->OnEvent(event_header,mouse_event_data.data);
             }
 
             WMEF2(WMProcSize)
             {
-                win->ProcResize(LOWORD(lParam),HIWORD(lParam));
+                event_header.type   =(uint8)InputEventSource::Window;
+                event_header.index  =0;
+                event_header.id     =(uint16)WindowEventID::Resize;
+
+                window_event_data.width =LOWORD(lParam);
+                window_event_data.height=HIWORD(lParam);
+
+                ie->OnEvent(event_header,window_event_data.data);
             }
         #undef WMEF2
 
-        #define WMEF1(name) void name(WinWindow *win,uint32 wParam,uint32)
+            static KeyboardEventData keyboard_event_data;
+
+        #define WMEF1(name) void name(InputEvent *ie,uint32 wParam,uint32)
             WMEF1(WMProcKeyDown)
             {
-                win->ProcKeyPressed(ConvertOSKey(wParam));
+                event_header.type   =(uint8)InputEventSource::Keyboard;
+                event_header.index  =0;   
+                event_header.id     =(uint16)KeyboardEventID::Pressed;
+
+                keyboard_event_data.key=(uint32)ConvertOSKey(wParam);
+
+                ie->OnEvent(event_header,keyboard_event_data.data);
             }
 
             WMEF1(WMProcKeyUp)
             {
-                win->ProcKeyReleased(ConvertOSKey(wParam));
+                event_header.type   =(uint8)InputEventSource::Keyboard;
+                event_header.index  =0;   
+                event_header.id     =(uint16)KeyboardEventID::Released;
+
+                keyboard_event_data.key=(uint32)ConvertOSKey(wParam);
+
+                ie->OnEvent(event_header,keyboard_event_data.data);
             }
 
             WMEF1(WMProcChar)
             {
-                win->ProcChar((wchar_t)wParam);
+                event_header.type   =(uint8)InputEventSource::Keyboard;
+                event_header.index  =0;   
+                event_header.id     =(uint16)KeyboardEventID::Char;
+
+                keyboard_event_data.ch=(wchar_t)wParam;
+
+                ie->OnEvent(event_header,keyboard_event_data.data);
             }
 
             WMEF1(WMProcActive)
@@ -328,7 +320,13 @@ namespace hgl
                 //if(JoyPlugIn)
                 //    JoyInterface.SetInputActive(wParam);
 
-                win->ProcActive(wParam);
+                event_header.type   =(uint8)InputEventSource::Window;
+                event_header.index  =0;
+                event_header.id     =(uint16)WindowEventID::Active;
+
+                window_event_data.active=wParam;
+
+                ie->OnEvent(event_header,window_event_data.data);
             }
         #undef WMEF1
     }//namespace
@@ -343,8 +341,6 @@ namespace hgl
 
     #define WM_MAP(wm,func) WMProc[wm]=func;
 
-        WM_MAP(WM_NCCREATE          ,WMProcNCCreate);
-        WM_MAP(WM_CREATE            ,WMProcCreate);
         WM_MAP(WM_CLOSE             ,WMProcDestroy);
         WM_MAP(WM_LBUTTONDOWN       ,WMProcMouseLeftPressed);
         WM_MAP(WM_LBUTTONUP         ,WMProcMouseLeftReleased);
@@ -375,10 +371,10 @@ namespace hgl
         if(uMsg<2048)
             if(WMProc[uMsg])
             {
-                WinWindow *win=(WinWindow *)GetWindowLongPtrW(hWnd,GWLP_USERDATA);
+                InputEvent *ie=(InputEvent *)GetWindowLongPtrW(hWnd,GWLP_USERDATA);
 
-                if(win)
-                    WMProc[uMsg](win,wParam,lParam);
+                if(ie)
+                    WMProc[uMsg](ie,wParam,lParam);
             }
 
         return (DefWindowProcW(hWnd, uMsg, wParam, lParam));

@@ -98,7 +98,7 @@ namespace hgl
         }
 
         win_dc = GetDC(win_hwnd);
-        SetWindowLongPtrW(win_hwnd, GWLP_USERDATA, (LONG_PTR)this);
+        SetWindowLongPtrW(win_hwnd, GWLP_USERDATA, (LONG_PTR)&input_event);
         return(true);
     }
 
@@ -205,8 +205,8 @@ namespace hgl
             TranslateMessage(&win_msg);
             DispatchMessage(&win_msg);
 
-            if(win_msg.message==WM_QUIT)
-                ProcClose();
+//            if(win_msg.message==WM_QUIT)
+//                OnClose();
 
             return(true);
         }

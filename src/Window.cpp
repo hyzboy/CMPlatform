@@ -2,24 +2,20 @@
 
 namespace hgl
 {
-    void Window::ProcKeyPressed(KeyboardButton kb)
+    Window::Window(const OSString &wn)
     {
-        if(key_push[size_t(kb)])
-            ProcKeyRepeat(kb);
-        else
-            key_push[size_t(kb)]=true;
+        width=height=0;
+        full_screen=false;
+        win_name=wn;
+        active=false;
+        is_close=true;
+        is_min=false;
 
-       SafeCallEvent(OnKeyPressed,(kb));
+        input_event.Join(this);
+        input_event.Join(&sub_input_event);
     }
 
-    void Window::ProcKeyReleased(KeyboardButton kb)
-    {
-        key_push[size_t(kb)]=false;
-
-        SafeCallEvent(OnKeyReleased,(kb));
-    }
-
-    void Window::ProcResize(uint w,uint h)
+    void Window::OnResize(uint w,uint h)
     {
         if(w==width&&height==h)
             return;
@@ -35,20 +31,17 @@ namespace hgl
         {
             is_min=false;
         }
-
-        SafeCallEvent(OnResize,(w,h));
     }
 
-    void Window::ProcActive(bool a)
+    void Window::OnActive(bool a)
     {
-        active=a; 
-        SafeCallEvent(OnActive,(a));
+        active=a;
     }
 
-    void Window::ProcClose()
+    void Window::OnClose()
     { 
-        is_close=true; 
-        SafeCallEvent(OnClose,());
+        input_event.Unjoin(this);
+        is_close=true;
     }
 
     bool Window::Update()
