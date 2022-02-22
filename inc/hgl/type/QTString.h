@@ -24,9 +24,7 @@
     {
         //qt有toWCharArray(),但是不能预估wchar_t的长度，所以暂时使用先UTF8，再转utf16的方式
 
-        QByteArray u8str=str.toUtf8();
-
-        return hgl::to_u16((hgl::u8char *)u8str.data(),u8str.size());
+        return hgl::WideString((wchar_t *)str.utf16(),str.length());
     }
 #else
     template<int WS> QString WCharToQString(const wchar_t *,int);
@@ -63,6 +61,11 @@
 inline QString ToQString(const hgl::UTF8String &str)
 {
     return QString::fromUtf8((char *)str.c_str(),str.Length());
+}
+
+inline hgl::UTF16String ToUTF16String(const QString &str)
+{
+    return hgl::UTF16String((u16char *)str.utf16(),str.length());
 }
 
 // inline QString toQString(const hgl::UTF32String &str)
