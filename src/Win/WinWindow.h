@@ -3,12 +3,6 @@
 #include<Windows.h>
 namespace hgl
 {
-    struct WindowCreateExteraParams
-    {
-        BOOL bEnableNonClientDpiScaling;
-        BOOL bChildWindowDpiIsolation;
-    };
-
     /**
     * Windows平台窗口实现
     */
@@ -19,12 +13,6 @@ namespace hgl
         HDC win_dc = nullptr;
 
         MSG win_msg;
-
-    private:
-
-        DPI_AWARENESS_CONTEXT context;
-        DPI_AWARENESS_CONTEXT previousDpiContext;
-        DPI_HOSTING_BEHAVIOR previousDpiHostingBehavior;
 
     protected:
 

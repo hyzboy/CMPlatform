@@ -38,19 +38,6 @@ namespace hgl
         int win_left, win_top;
         int win_width, win_height;
 
-
-        WindowCreateExteraParams createParams;
-
-        {
-            context = DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2;
-            previousDpiContext = SetThreadDpiAwarenessContext(context);
-
-            createParams.bEnableNonClientDpiScaling = FALSE;
-            createParams.bChildWindowDpiIsolation = TRUE;
-
-            previousDpiHostingBehavior = SetThreadDpiHostingBehavior(DPI_HOSTING_BEHAVIOR_MIXED);
-        }
-
         {
             RECT win_rect;
 
@@ -89,7 +76,7 @@ namespace hgl
             nullptr,                    // handle to parent
             nullptr,                    // handle to menu
             hInstance,                  // hInstance
-            &createParams);             // extra parameters
+            nullptr);                   // extra parameters
 
         if (!win_hwnd)
         {
@@ -165,9 +152,6 @@ namespace hgl
     void WinWindow::Show()
     {
         ShowWindow(win_hwnd, SW_SHOW);
-
-        SetThreadDpiAwarenessContext(previousDpiContext);
-        SetThreadDpiHostingBehavior(previousDpiHostingBehavior);
 
         SetForegroundWindow(win_hwnd);
         SetFocus(win_hwnd);
