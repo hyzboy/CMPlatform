@@ -6,6 +6,20 @@ namespace hgl
 {
     namespace filesystem
     {
+        bool GetOSLibararyPath(OSString &result)
+        {
+            wchar_t dllfn[MAX_PATH];
+            UINT size;
+
+            size=::GetSystemDirectoryW(dllfn,MAX_PATH);
+
+            if(size==0)
+                return(false);
+
+            result.SetString(dllfn,size);
+            return(true);
+        }
+
         bool GetLocalAppdataPath(OSString &result)
         {
             os_char fn[HGL_MAX_PATH];
