@@ -1,4 +1,6 @@
-﻿SET(CPU_INFO_HEADER ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/CpuInfo.h)
+﻿OPTION(VULKAN_SUPPORT "" ON)
+
+SET(CPU_INFO_HEADER ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/CpuInfo.h)
 
 IF(UNIX)
     SET(PLATFORM_FILE_SOURCE            UNIX/File.cpp
@@ -101,8 +103,12 @@ IF(WIN32)
 
     SET(PLATFORM_WINDOW_SOURCE          Win/WinWindow.h
                                         Win/WinWindow.cpp
-                                        Win/WinMessage.cpp
+                                        Win/WinMessage.cpp)
+
+    IF(VULKAN_SUPPORT)
+    SET(PLATFORM_WINDOW_SOURCE          ${PLATFORM_WINDOW_SOURCE}
                                         Win/WinVulkan.cpp)
+    ENDIF()
 ENDIF(WIN32)
 
 SET(PLATFORM_WINDOW_SOURCE ${PLATFORM_WINDOW_SOURCE} Window.cpp)
