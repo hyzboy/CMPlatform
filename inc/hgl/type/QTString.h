@@ -22,8 +22,6 @@
 
     inline hgl::WideString ToOSString(const QString &str)
     {
-        //qt有toWCharArray(),但是不能预估wchar_t的长度，所以暂时使用先UTF8，再转utf16的方式
-
         return hgl::WideString((wchar_t *)str.utf16(),str.length());
     }
 #else
