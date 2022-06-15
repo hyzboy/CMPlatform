@@ -26,7 +26,7 @@ namespace hgl
         *dst=new u16char[len+1];
 
         MultiByteToWideChar((UINT)cs.codepage,0,(char *)src,src_str_size,*dst,len);
-        *dst[len]=0;
+        (*dst)[len]=0;
         
         return len;
     }
@@ -67,9 +67,12 @@ namespace hgl
 
         if(len<=0)return(len);
 
-        *dst=new char[len];
+        *dst=new char[len+1];
 
-        return WideCharToMultiByte((UINT)cs.codepage,0,src,src_str_size,*dst,len,0,0);
+        WideCharToMultiByte((UINT)cs.codepage,0,src,src_str_size,*dst,len,0,0);
+        
+        (*dst)[len]=0;
+        return len;
     }
 
     int utf8_to(const CharSet &cs,char **dst,const u8char *src,const int src_size)
@@ -83,6 +86,16 @@ namespace hgl
 
         delete[] u16str;
         return(result);
+    }
+    
+    AnsiString ToAnsiString(const CharSet &cs,const UTF16String &str)
+    {
+        int len;
+        u8char *u8_str;
+
+        len=utf16_to(cs,&u8_str,str.c_str(),str.Length());
+
+        return AnsiString::newOf(u8_str,len);
     }
 }//namespace hgl
 
