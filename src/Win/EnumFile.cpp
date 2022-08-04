@@ -73,7 +73,7 @@ namespace hgl
                 {
                     strcpy(fi.fullname, HGL_MAX_PATH, config->folder_name);
 
-                    if(config->folder_name.GetEndChar()!=HGL_DIRECTORY_SEPARATOR)
+                    if(config->folder_name.GetLastChar()!=HGL_DIRECTORY_SEPARATOR)
                         strcat(fi.fullname, HGL_MAX_PATH, HGL_DIRECTORY_SEPARATOR);
 
                     const int rp =config->find_name.FindChar(HGL_DIRECTORY_SEPARATOR);//防止查询名称内仍有路径
