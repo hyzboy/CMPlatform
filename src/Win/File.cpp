@@ -162,7 +162,7 @@ namespace hgl
 
             const uint win_error=GetLastError();
 
-            LOG_PROBLEM(OS_TEXT("Create Directory <")+OSString(name)+OS_TEXT("> failed,errno: ")+OSString::valueOf(win_error));
+            LOG_PROBLEM(OS_TEXT("Create Directory <")+OSString(name)+OS_TEXT("> failed,errno: ")+OSString::numberOf(win_error));
             return(false);
         }
 
