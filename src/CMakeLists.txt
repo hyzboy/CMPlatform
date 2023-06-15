@@ -103,7 +103,8 @@ IF(WIN32)
 
     SET(PLATFORM_WINDOW_SOURCE          Win/WinWindow.h
                                         Win/WinWindow.cpp
-                                        Win/WinMessage.cpp)
+                                        Win/WinMessage.cpp
+                                        Win/EnumWinFonts.cpp)
 
     IF(VULKAN_SUPPORT)
     SET(PLATFORM_WINDOW_SOURCE          ${PLATFORM_WINDOW_SOURCE}
@@ -111,7 +112,7 @@ IF(WIN32)
     ENDIF()
 ENDIF(WIN32)
 
-SET(PLATFORM_WINDOW_SOURCE ${PLATFORM_WINDOW_SOURCE} Window.cpp)
+SET(PLATFORM_WINDOW_SOURCE ${PLATFORM_WINDOW_SOURCE} Window.cpp )
 
 SOURCE_GROUP("InputDevice"  FILES ${PLATFORM_INPUT_DEVICE_SOURCE})
 SOURCE_GROUP("CodePage"     FILES ${PLATFORM_CODEPAGE_SOURCE})
