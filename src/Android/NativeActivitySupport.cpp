@@ -10,6 +10,8 @@ namespace hgl
 
     void InitAndroidSupport(struct ANativeActivity *native_activity)
     {
+        //AAssetManager *assetManager = native_activity->activity->assetManager;
+
         logger::SetLocalAppdataPath(native_activity->internalDataPath);
     }
 }//namespace hgl
