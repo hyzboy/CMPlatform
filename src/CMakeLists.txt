@@ -1,6 +1,4 @@
-﻿OPTION(VULKAN_SUPPORT "" OFF)
-
-SET(CPU_INFO_HEADER ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/CpuInfo.h)
+﻿SET(CPU_INFO_HEADER ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/CpuInfo.h)
 
 IF(UNIX)
     SET(PLATFORM_FILE_SOURCE            UNIX/File.cpp
@@ -105,11 +103,6 @@ IF(WIN32)
                                         Win/WinWindow.cpp
                                         Win/WinMessage.cpp
                                         Win/EnumWinFonts.cpp)
-
-    IF(VULKAN_SUPPORT)
-    SET(PLATFORM_WINDOW_SOURCE          ${PLATFORM_WINDOW_SOURCE}
-                                        Win/WinVulkan.cpp)
-    ENDIF()
 ENDIF(WIN32)
 
 SET(PLATFORM_WINDOW_SOURCE ${PLATFORM_WINDOW_SOURCE} Window.cpp )
