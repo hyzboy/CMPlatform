@@ -99,8 +99,7 @@ IF(WIN32)
 
     SET(PLATFORM_DESKTOP_SOURCE         Win/Desktop.cpp)
 
-    SET(PLATFORM_WINDOW_SOURCE          Win/WinWindow.h
-                                        Win/WinWindow.cpp
+    SET(PLATFORM_WINDOW_SOURCE          Win/WinWindow.cpp
                                         Win/WinMessage.cpp
                                         Win/EnumWinFonts.cpp)
 ENDIF(WIN32)
