@@ -12,12 +12,18 @@ namespace hgl
         Hisilicon,      ///<海思
         Samsung,        ///<三星
         MediaTek,       ///<联发科
-        //Rockchip,       ///<瑞芯微
-        //Intel,          ///<英特尔
         Unisoc,         ///<展锐
         Spreadtrum,     ///<展讯
         JLQ,            ///<瓴盛
+
+        //Maxvell,        ///<马维尔
+        //Broadcom,       ///<博通
         //TI,             ///<德州仪器
+        //Rockchip,       ///<瑞芯微
+        //Intel,          ///<英特尔
+        //nVidia,         ///<英伟达
+        //AMD,            ///<AMD
+        //Google,         ///<谷歌
 
         ENUM_CLASS_RANGE(Unknow,JLQ)
     };

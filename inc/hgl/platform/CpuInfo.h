@@ -7,7 +7,9 @@ namespace hgl
     enum class CpuArch
     {
         x86_64,
-        ARMv8,
+    
+        ARMv8,      //32+64
+        ARMv9,      //64
     };//
 
     struct CpuInfo
