@@ -120,6 +120,16 @@ SOURCE_GROUP("Window"       FILES ${PLATFORM_WINDOW_SOURCE})
 
 SOURCE_GROUP("Hardware\\Cpuinfo" FILES ${CPU_INFO_HEADER} ${CPU_INFO_SOURCE})
 
+SET(ANDROID_ABOUT_SOURCE    ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/Android.h
+                            Android/AndroidVersion.cpp)
+
+SOURCE_GROUP("Android\\Version" FILES ${ANDROID_ABOUT_SOURCE})
+
+SET(SOC_SOURCE  ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/SOC.h
+                SOC.cpp)
+
+SOURCE_GROUP("SOC" FILES ${SOC_SOURCE})
+
 SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_FILE_SOURCE}
                     ${PLATFORM_CODEPAGE_SOURCE}
@@ -135,6 +145,8 @@ SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
 
                     ${CPU_INFO_HEADER}
                     ${CPU_INFO_SOURCE}
+                    ${ANDROID_ABOUT_SOURCE}
+                    ${SOC_SOURCE}
 )
 
 add_cm_library(CMPlatform "CM" ${PLATFORM_SOURCE})
