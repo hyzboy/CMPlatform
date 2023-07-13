@@ -17,12 +17,14 @@ namespace
         p+=9;
         if(*p=='T') //"Qualcomm Technologies, Inc" 但是里面有写逗号的有写句号的，所以我找最后的Inc
         {
-            p=hgl::stristr(p,hgl::strlen(p),"Inc ",4);
+            p=hgl::stristr(p,hgl::strlen(p),"Inc",3);
 
             if(!p)
                 return(false);
 
-            p+=4;
+            p+=3;
+
+            while(!hgl::isalpha(*p))++p;     //碰到字母再停下来
 
             hgl::strcpy(soc.model,sizeof(soc.model),p);
         }

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include<hgl/TypeFunc.h>
+#include<hgl/CompOperator.h>
 
 namespace hgl
 {
@@ -31,7 +32,11 @@ namespace hgl
     struct SOCInfo
     {
         SOCVendor       vendor;
-        char            model[16];
+        char            model[32];
+
+    public:
+
+        CompOperatorMemcmp(const SOCInfo &);
     };
 
     /**
