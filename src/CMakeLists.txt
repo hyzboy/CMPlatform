@@ -126,7 +126,10 @@ SET(ANDROID_ABOUT_SOURCE    ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/Android
 SOURCE_GROUP("Android\\Version" FILES ${ANDROID_ABOUT_SOURCE})
 
 SET(SOC_SOURCE  ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/SOC.h
-                SOC.cpp)
+                SOC/SOC.cpp
+                SOC/ARMCpuInfo.cpp
+                SOC/Kryo.cpp
+)
 
 SOURCE_GROUP("SOC" FILES ${SOC_SOURCE})
 

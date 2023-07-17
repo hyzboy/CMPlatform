@@ -5,7 +5,7 @@ using namespace hgl;
 
 namespace
 {
-    bool isQualcomm(SOCInfo &soc,const char *soc_name)
+    bool isQualcomm(SOCModel &soc,const char *soc_name)
     {
         const char *p=hgl::stristr(soc_name,hgl::strlen(soc_name),"Qualcomm ",9);
 
@@ -36,7 +36,7 @@ namespace
         return(true);
     }
 
-    bool isMediaTek(SOCInfo &soc,const char *soc_name)
+    bool isMediaTek(SOCModel &soc,const char *soc_name)
     {
         const char *p=hgl::stristr(soc_name,hgl::strlen(soc_name),"MT",2);
 
@@ -52,7 +52,7 @@ namespace
         return(true);
     }
 
-    bool isUnisoc(SOCInfo &soc,const char *soc_name)
+    bool isUnisoc(SOCModel &soc,const char *soc_name)
     {
         const char *p=hgl::stristr(soc_name,hgl::strlen(soc_name),"Unisoc",6);
 
@@ -73,7 +73,7 @@ namespace
         return(true);
     }
 
-    bool isKirin(SOCInfo &soc,const char *soc_name)
+    bool isKirin(SOCModel &soc,const char *soc_name)
     {
         const char *p=hgl::stristr(soc_name,hgl::strlen(soc_name),"Kirin",5);
 
@@ -87,7 +87,7 @@ namespace
         return(true);
     }
 
-    bool isExynos(SOCInfo &soc,const char *soc_name)
+    bool isExynos(SOCModel &soc,const char *soc_name)
     {
         const char *p=hgl::stristr(soc_name,hgl::strlen(soc_name),"Exynos",6);
 
@@ -105,7 +105,7 @@ namespace
         return(true);
     }
 
-    bool isSpreadtrum(SOCInfo &soc,const char *soc_name)
+    bool isSpreadtrum(SOCModel &soc,const char *soc_name)
     {
         const char *p=hgl::stristr(soc_name,hgl::strlen(soc_name),"Spreadtrum",10);
 
@@ -123,7 +123,7 @@ namespace
         return(true);
     }
 
-    bool isJLQ(SOCInfo &soc,const char *soc_name)
+    bool isJLQ(SOCModel &soc,const char *soc_name)
     {
         const char *p=hgl::stristr(soc_name,hgl::strlen(soc_name),"JLQ ",4);
 
@@ -142,7 +142,7 @@ namespace
 
 namespace hgl
 {
-    bool ParseSOCInfo(SOCInfo &soc,const char *soc_name)
+    bool ParseSOCModel(SOCModel &soc,const char *soc_name)
     {
         if(hgl::strlen(soc_name)>0)
         {
