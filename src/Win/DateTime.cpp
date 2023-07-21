@@ -137,8 +137,7 @@ namespace hgl
     }
 
     double FromDateTime(const int year,const int month,const int day,
-                        const int hour,const int minute,const int second,const int micro_second,
-                        const int gmt_off)
+                        const int hour,const int minute,const int second,const int micro_second)
     {
         SYSTEMTIME st;
 
@@ -155,7 +154,6 @@ namespace hgl
         uint64 result;
         SystemTimeToMicroTime(&result, &st);
 
-        result -= gmt_off;
         return(double(result) / HGL_MICRO_SEC_PER_SEC);
     }
 }//namespace hgl
