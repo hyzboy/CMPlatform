@@ -125,13 +125,19 @@ SET(ANDROID_ABOUT_SOURCE    ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/Android
 
 SOURCE_GROUP("Android\\Version" FILES ${ANDROID_ABOUT_SOURCE})
 
-SET(SOC_SOURCE  ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/SOC.h
-                SOC/SOC.cpp
-                SOC/ARMCpuInfo.cpp
-                SOC/Kryo.cpp
-)
+OPTION(CM_PLATFORM_SOC OFF)
 
-SOURCE_GROUP("SOC" FILES ${SOC_SOURCE})
+IF(CM_PLATFORM_SOC)
+
+    SET(SOC_SOURCE  ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/SOC.h
+                    SOC/SOC.cpp
+                    SOC/ARMCpuInfo.cpp
+                    SOC/Kryo.cpp
+    )
+
+    SOURCE_GROUP("SOC" FILES ${SOC_SOURCE})
+
+ENDIF(CM_PLATFORM_SOC)
 
 SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_FILE_SOURCE}
