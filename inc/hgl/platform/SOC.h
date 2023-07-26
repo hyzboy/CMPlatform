@@ -29,6 +29,18 @@ namespace hgl
         ENUM_CLASS_RANGE(Unknow,JLQ)
     };
 
+    constexpr const char *SOCVendorName[16]=
+    {
+        "Unknow",
+        "Qualcomm",
+        "Hisilicon",
+        "Samsung",
+        "MediaTek",
+        "Unisoc",
+        "Spreadtrum",
+        "JLQ",
+    };
+
     enum class CpuArch
     {
         Unknow=0,

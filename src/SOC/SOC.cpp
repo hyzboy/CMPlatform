@@ -24,7 +24,7 @@ namespace
 
             p+=3;
 
-            while(!hgl::isalpha(*p))++p;     //碰到字母再停下来
+            while(!hgl::isalnum(*p))++p;     //碰到字母再停下来
 
             hgl::strcpy(soc.model,sizeof(soc.model),p);
         }
@@ -38,7 +38,17 @@ namespace
 
     bool isMediaTek(SOCModel &soc,const char *soc_name)
     {
-        const char *p=hgl::stristr(soc_name,hgl::strlen(soc_name),"MT",2);
+        const char *p=hgl::stristr(soc_name,hgl::strlen(soc_name),"MTK ",4);
+
+        if(p)
+        {
+            p+=4;
+
+            hgl::strcpy(soc.model,sizeof(soc.model),p);
+            return(true);
+        }
+
+        p=hgl::stristr(soc_name,hgl::strlen(soc_name),"MT",2);
 
         if(!p)
            return(false);
@@ -144,6 +154,8 @@ namespace hgl
 {
     bool ParseSOCModel(SOCModel &soc,const char *soc_name)
     {
+        hgl_zero(soc);
+
         if(hgl::strlen(soc_name)>0)
         {
             if(isQualcomm   (soc,soc_name))return(true);
@@ -156,6 +168,7 @@ namespace hgl
         }
 
         soc.vendor=SOCVendor::Unknow;
+
         return(false);
     }
 }//namespace hgl
