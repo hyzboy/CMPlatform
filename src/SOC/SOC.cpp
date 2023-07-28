@@ -55,9 +55,7 @@ namespace
 
         soc.vendor=SOCVendor::MediaTek;
 
-        p+=2;
-
-        hgl::strcpy(soc.model,sizeof(soc.model),p,4);
+        hgl::strcpy(soc.model,sizeof(soc.model),p);
 
         return(true);
     }
@@ -92,7 +90,7 @@ namespace
 
         soc.vendor=SOCVendor::Hisilicon;
 
-        hgl::strcpy(soc.model,sizeof(soc.model),p+5);
+        hgl::strcpy(soc.model,sizeof(soc.model),p);
 
         return(true);
     }
@@ -152,6 +150,30 @@ namespace
 
 namespace hgl
 {
+    const SOCVendor ParseSOCVendor(const char *str)
+    {
+        if(!str||!*str)return(SOCVendor::Unknow);
+
+        int index=hgl::find_str_in_array<char>(int(SOCVendor::RANGE_SIZE),(const char **)SOCVendorName,str);
+
+        if(index<0||index>=int(SOCVendor::RANGE_SIZE))
+            return(SOCVendor::Unknow);
+
+        return SOCVendor(index);
+    }
+
+    const SOCGPUVendor ParseSOCGPUVendor(const char *str)
+    {
+        if(!str||!*str)return(SOCGPUVendor::Unknow);
+
+        int index=hgl::find_str_in_array<char>(int(SOCGPUVendor::RANGE_SIZE),(const char **)SOCGPUVendorName,str);
+
+        if(index<0||index>=int(SOCGPUVendor::RANGE_SIZE))
+            return(SOCGPUVendor::Unknow);
+
+        return SOCGPUVendor(index);
+    }
+
     bool ParseSOCInfo(SOCInfo &soc,const char *soc_name)
     {
         hgl_zero(soc);

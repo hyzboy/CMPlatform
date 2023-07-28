@@ -29,7 +29,7 @@ namespace hgl
         ENUM_CLASS_RANGE(Unknow,JLQ)
     };
 
-    constexpr const char *SOCVendorName[16]=
+    constexpr const char *SOCVendorName[]=
     {
         "Unknow",
         "Qualcomm",
@@ -40,6 +40,8 @@ namespace hgl
         "Spreadtrum",
         "JLQ",
     };
+
+    const SOCVendor ParseSOCVendor(const char *str);
 
     enum class CpuArch
     {
@@ -142,11 +144,61 @@ namespace hgl
      */
     bool ParseSOCInfo(SOCInfo &,const char *);
 
-    struct SOCCpuInfo
+    enum class SOCGPUVendor
     {
-        SOCInfo soc_info;
+        Unknow=0,
 
-        uint cluster_count;                 ///<CPU簇数量
-        ARMCpuClusterInfo cluster[4];       ///<CPU簇信息
-    };//struct SOCCpuInfo
+        PowerVR,
+        Mali,
+        Adreno,
+        Vivante,
+        Intel,
+        Radeon,
+        Tegra,
+        ENUM_CLASS_RANGE(Unknow,Tegra)
+    };
+
+    constexpr const char *SOCGPUVendorName[]=
+    {
+        "Unknow",
+
+        "PowerVR",
+        "Mali",
+        "Adreno",
+        "Vivante",
+        "Intel",
+        "Radeon",
+        "Tegra",
+    };
+
+    const SOCGPUVendor ParseSOCGPUVendor(const char *str);
+
+    struct SOCGPUInfo
+    {
+        SOCGPUVendor    vendor;
+        char            model[32];
+
+        uint            core_count;
+        uint            freq;
+    };
+
+    /**
+    * SOC 产品信息
+    */
+    struct SOCProductInfo
+    {
+        char                product_name[64];   ///<产品名称
+
+        SOCInfo             soc_info;           ///<SOC基本信息
+
+        SOCGPUInfo          gpu_info;           ///<GPU信息
+
+        uint                cpu_cluster_count;  ///<CPU簇数量
+        struct
+        {
+            char            core[32];           ///<CPU核心名称
+            uint            count;              ///<核心数量
+            float           freq;               ///<频率
+        }cpu_cluster[4];                        ///<CPU簇信息
+    };//struct SOCProductInfo
 }//namespace hgl
