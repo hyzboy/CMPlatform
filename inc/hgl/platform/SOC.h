@@ -141,4 +141,12 @@ namespace hgl
      * 根据收集到的SOC信息，解晰具体的SOC厂商和主要型号
      */
     bool ParseSOCInfo(SOCInfo &,const char *);
+
+    struct SOCCpuInfo
+    {
+        SOCInfo soc_info;
+
+        uint cluster_count;                 ///<CPU簇数量
+        ARMCpuClusterInfo cluster[4];       ///<CPU簇信息
+    };//struct SOCCpuInfo
 }//namespace hgl
