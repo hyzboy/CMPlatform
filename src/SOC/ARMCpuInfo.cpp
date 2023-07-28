@@ -58,7 +58,7 @@ namespace hgl
         return arm_cpu_name.value;
     }
 
-    bool ParseARMCpuInfo(ARMCpuInfo *info,const uint32 &cpu_name_id)
+    bool ParseARMCpuCoreInfo(ARMCpuCoreInfo *info,const uint32 &cpu_name_id)
     {
         if(!info)return(false);
         if(cpu_name_id==0)return(false);

@@ -87,7 +87,10 @@ namespace hgl
         uint32  value;
     };
 
-    struct ARMCpuInfo
+    /**
+    * ARM CPU 核心信息
+    */
+    struct ARMCpuCoreInfo
     {
         ARMCpuName  name;
 
@@ -97,9 +100,9 @@ namespace hgl
         bool        support_64bit;
     };
 
-    const uint32 ParseARMCpuName(const char *);                             ///<根据字符串解晰ARM CPU名称ID
+    const uint32 ParseARMCpuName(const char *);                                     ///<根据字符串解晰ARM CPU名称ID
 
-    bool ParseARMCpuInfo(ARMCpuInfo *,const uint32 &cpu_name_id);           ///<根据ARM CPU名字ID解晰CPU信息
+    bool ParseARMCpuCoreInfo(ARMCpuCoreInfo *,const uint32 &cpu_name_id);           ///<根据ARM CPU名字ID解晰CPU信息
 
     enum class KryoArchLevel
     {
@@ -111,12 +114,12 @@ namespace hgl
     };
 
     /**
-    * 高通 Kryo CPU核心信息<br>
+    * ARM CPU簇信息<br>
     * 注：这里的频率单位为MHz，而且只是默认频率，实际频率可能会更高或更低
     */
-    struct KryoCpuCoreInfo
+    struct ARMCpuClusterInfo
     {
-        ARMCpuInfo arm;                 ///<对应的ARM处理器
+        ARMCpuCoreInfo arm;             ///<对应的ARM核心信息
 
         uint core_count;                ///<核心数量
 
@@ -124,29 +127,18 @@ namespace hgl
         uint boost_freq;                ///<最高频率
     };
 
-    struct KryoCPUInfo
-    {
-        /**
-        * Kryo CPU 型号 
-        * 旧系列直接使用数字型号，新的6gen1/7gen1/8gen1之类，直接写为601/701/801
-        */
-        uint            model;
-
-        KryoCpuCoreInfo core[size_t(KryoArchLevel::RANGE_SIZE)];
-    };
-
-    struct SOCModel
+    struct SOCInfo
     {
         SOCVendor       vendor;
         char            model[32];
 
     public:
 
-        CompOperatorMemcmp(const SOCModel &);
+        CompOperatorMemcmp(const SOCInfo &);
     };
 
     /**
      * 根据收集到的SOC信息，解晰具体的SOC厂商和主要型号
      */
-    bool ParseSOCModel(SOCModel &,const char *);
+    bool ParseSOCInfo(SOCInfo &,const char *);
 }//namespace hgl
