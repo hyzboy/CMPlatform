@@ -3,10 +3,8 @@
 
 namespace hgl
 {
-    const uint32 ParseARMCpuName(const char *str)
+    const uint32 ParseARMCpuName(ARMCpuName &arm_cpu_name,const char *str)
     {
-        ARMCpuName arm_cpu_name;
-
         if(!str)return(0);
 
         arm_cpu_name.value=0;

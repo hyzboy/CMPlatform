@@ -102,7 +102,7 @@ namespace hgl
         bool        support_64bit;
     };
 
-    const uint32 ParseARMCpuName(const char *);                                     ///<根据字符串解晰ARM CPU名称ID
+    const uint32 ParseARMCpuName(ARMCpuName &,const char *);                                     ///<根据字符串解晰ARM CPU名称ID
 
     bool ParseARMCpuCoreInfo(ARMCpuCoreInfo *,const uint32 &cpu_name_id);           ///<根据ARM CPU名字ID解晰CPU信息
 
