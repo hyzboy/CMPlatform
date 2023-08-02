@@ -180,6 +180,25 @@ namespace hgl
 
         uint            core_count;
         uint            freq;
+
+    public:
+
+        int Comp(const SOCGPUInfo &info)const
+        {
+            int result;
+
+            result=int(vendor)-int(info.vendor);
+
+            if(result)return result;
+
+            result=strcmp(model,info.model);
+
+            if(result)return result;
+
+            return core_count-info.core_count;
+        }
+
+        CompOperator(const SOCGPUInfo &,Comp);
     };
 
     /**
