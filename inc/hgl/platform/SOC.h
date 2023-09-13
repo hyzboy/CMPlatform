@@ -155,7 +155,8 @@ namespace hgl
         Intel,
         Radeon,
         Tegra,
-        ENUM_CLASS_RANGE(Unknow,Tegra)
+        Maleoon,
+        ENUM_CLASS_RANGE(Unknow,Maleoon)
     };
 
     constexpr const char *SOCGPUVendorName[]=
@@ -169,6 +170,7 @@ namespace hgl
         "Intel",
         "Radeon",
         "Tegra",
+        "Maleoon",
     };
 
     const SOCGPUVendor ParseSOCGPUVendor(const char *str);
