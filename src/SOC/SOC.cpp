@@ -150,11 +150,11 @@ namespace
 
 namespace hgl
 {
-    const SOCVendor ParseSOCVendor(const char *str)
+    const SOCVendor ParseSOCVendor(const char *str,const int len)
     {
         if(!str||!*str)return(SOCVendor::Unknow);
 
-        int index=hgl::find_str_in_array<char>(int(SOCVendor::RANGE_SIZE),(const char **)SOCVendorName,str);
+        int index=hgl::find_str_in_array<char>(int(SOCVendor::RANGE_SIZE),(const char **)SOCVendorName,str,len);
 
         if(index<0||index>=int(SOCVendor::RANGE_SIZE))
             return(SOCVendor::Unknow);
@@ -162,11 +162,11 @@ namespace hgl
         return SOCVendor(index);
     }
 
-    const SOCGPUVendor ParseSOCGPUVendor(const char *str)
+    const SOCGPUVendor ParseSOCGPUVendor(const char *str,const int len)
     {
         if(!str||!*str)return(SOCGPUVendor::Unknow);
 
-        int index=hgl::find_str_in_array<char>(int(SOCGPUVendor::RANGE_SIZE),(const char **)SOCGPUVendorName,str);
+        int index=hgl::find_str_in_array<char>(int(SOCGPUVendor::RANGE_SIZE),(const char **)SOCGPUVendorName,str,len);
 
         if(index<0||index>=int(SOCGPUVendor::RANGE_SIZE))
             return(SOCGPUVendor::Unknow);

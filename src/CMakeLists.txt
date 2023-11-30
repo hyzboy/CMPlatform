@@ -127,7 +127,6 @@ IF(CM_PLATFORM_SOC)
     SET(SOC_SOURCE  ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/SOC.h
                     SOC/SOC.cpp
                     SOC/ARMCpuInfo.cpp
-                    SOC/Kryo.cpp
     )
 
     SOURCE_GROUP("SOC" FILES ${SOC_SOURCE})

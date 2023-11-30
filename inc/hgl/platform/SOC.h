@@ -41,7 +41,7 @@ namespace hgl
         "JLQ",
     };
 
-    const SOCVendor ParseSOCVendor(const char *str);
+    const SOCVendor ParseSOCVendor(const char *str,const int len=0);
 
     enum class CpuArch
     {
@@ -173,7 +173,7 @@ namespace hgl
         "Maleoon",
     };
 
-    const SOCGPUVendor ParseSOCGPUVendor(const char *str);
+    const SOCGPUVendor ParseSOCGPUVendor(const char *str,const int len=0);
 
     struct SOCGPUInfo
     {
