@@ -10,22 +10,20 @@ namespace hgl
 
         bool RegistryWinClass(HINSTANCE hInstance)
         {
-            WNDCLASSEXW win_class;
+            WNDCLASSEXW win_class{};
 
-            hgl_zero(win_class);
-
-            win_class.cbSize = sizeof(WNDCLASSEXW);
-            win_class.style = CS_HREDRAW | CS_VREDRAW;
-            win_class.lpfnWndProc = WindowProc;
-            win_class.cbClsExtra = 0;
-            win_class.cbWndExtra = 0;
-            win_class.hInstance = hInstance;
-            win_class.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
-            win_class.hCursor = LoadCursor(nullptr, IDC_ARROW);
+            win_class.cbSize        = sizeof(WNDCLASSEXW);
+            win_class.style         = CS_HREDRAW | CS_VREDRAW;
+            win_class.lpfnWndProc   = WindowProc;
+            win_class.cbClsExtra    = 0;
+            win_class.cbWndExtra    = 0;
+            win_class.hInstance     = hInstance;
+            win_class.hIcon         = LoadIcon(nullptr, IDI_APPLICATION);
+            win_class.hCursor       = LoadCursor(nullptr, IDC_ARROW);
             win_class.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-            win_class.lpszMenuName = nullptr;
+            win_class.lpszMenuName  = nullptr;
             win_class.lpszClassName = WIN_CLASS_NAME;
-            win_class.hIconSm = LoadIcon(nullptr, IDI_WINLOGO);
+            win_class.hIconSm       = LoadIcon(nullptr, IDI_WINLOGO);
 
             return RegisterClassExW(&win_class);
         }
@@ -35,35 +33,35 @@ namespace hgl
     {
         constexpr DWORD win_style = WS_OVERLAPPEDWINDOW | WS_VISIBLE | WS_SYSMENU ;
 
-        int win_left, win_top;
+        int win_left,  win_top;
         int win_width, win_height;
 
         {
             RECT win_rect;
 
-            win_rect.left = 0;
-            win_rect.right = width;
-            win_rect.top = 0;
+            win_rect.left   = 0;
+            win_rect.right  = width;
+            win_rect.top    = 0;
             win_rect.bottom = height;
 
             AdjustWindowRectEx(&win_rect, win_style, false, 0); //计算窗口坐标
 
-            win_width = win_rect.right - win_rect.left;
+            win_width  = win_rect.right  - win_rect.left;
             win_height = win_rect.bottom - win_rect.top;
         }
 
         if (width && height)
         {
-            const uint32 screen_width=GetSystemMetrics(SM_CXSCREEN);
-            const uint32 screen_height=GetSystemMetrics(SM_CYSCREEN);
+            const int screen_width =GetSystemMetrics(SM_CXSCREEN);
+            const int screen_height=GetSystemMetrics(SM_CYSCREEN);
 
-            win_left = (screen_width - win_width) / 2;
-            win_top = (screen_height - win_height) / 2;
+            win_left = (screen_width  - win_width ) / 2;
+            win_top  = (screen_height - win_height) / 2;
         }
         else
         {
             win_left = CW_USEDEFAULT;
-            win_top = CW_USEDEFAULT;
+            win_top  = CW_USEDEFAULT;
         }
 
         win_hwnd = CreateWindowExW(0,
@@ -96,13 +94,13 @@ namespace hgl
 
     bool WinWindow::Create(uint w, uint h)
     {
-        full_screen=false;
-        width = w;
-        height = h;
+        full_screen = false;
+        width       = w;
+        height      = h;
 
         hInstance = GetModuleHandleW(nullptr);
 
-        if (!RegistryWinClass(hInstance))
+        if(!RegistryWinClass(hInstance))
             return(false);
 
         if(!Create())
