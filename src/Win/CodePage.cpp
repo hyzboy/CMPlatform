@@ -91,11 +91,11 @@ namespace hgl
     AnsiString ToAnsiString(const CharSet &cs,const UTF16String &str)
     {
         int len;
-        u8char *u8_str;
+        char *ansi_str;
 
-        len=utf16_to(cs,&u8_str,str.c_str(),str.Length());
+        len=utf16_to(cs,&ansi_str,str.c_str(),str.Length());
 
-        return AnsiString::newOf(u8_str,len);
+        return AnsiString::newOf(ansi_str,len);
     }
 }//namespace hgl
 
