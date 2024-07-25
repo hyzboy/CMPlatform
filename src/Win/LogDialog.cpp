@@ -10,7 +10,7 @@ namespace hgl
         {
             UTF16String name;
 
-            u16char buf[4096];
+            u16char buf[4096]{};
 
         public:
 

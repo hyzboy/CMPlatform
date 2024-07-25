@@ -12,11 +12,11 @@ namespace hgl
         {
         private:
 
-            DWORD result;
+            DWORD result=0;
 
-            void *console_handle;
+            void *console_handle=nullptr;
 
-            u16char buf[LOG_BUF_SIZE];
+            u16char buf[LOG_BUF_SIZE]{};
 
         public:
 
