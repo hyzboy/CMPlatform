@@ -16,7 +16,7 @@ namespace hgl
             if(size==0)
                 return(false);
 
-            result.SetString(dllfn,size);
+            result.fromString(dllfn,size);
             return(true);
         }
 

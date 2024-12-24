@@ -206,7 +206,7 @@ namespace hgl
 
                 dir[len-1]=0;
 
-                path.SetInstance(dir,len-1);
+                path.fromInstance(dir,len-1);
                 return(true);
             }
 
