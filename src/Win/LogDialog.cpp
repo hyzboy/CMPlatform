@@ -8,7 +8,7 @@ namespace hgl
     {
         class LogWinDialog:public Logger
         {
-            UTF16String name;
+            U16String name;
 
             u16char buf[4096]{};
 
@@ -19,7 +19,7 @@ namespace hgl
                 name=n;
             }
 
-            bool Create(const UTF16String &)
+            bool Create(const U16String &)
             {
                 return(true);
             }

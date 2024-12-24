@@ -88,7 +88,7 @@ namespace hgl
         return(result);
     }
     
-    AnsiString ToAnsiString(const CharSet &cs,const UTF16String &str)
+    AnsiString ToAnsiString(const CharSet &cs,const U16String &str)
     {
         int len;
         char *ansi_str;

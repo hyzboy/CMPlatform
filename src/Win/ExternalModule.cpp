@@ -43,7 +43,7 @@ namespace hgl
             FormatMessageW( FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,nullptr,dw,
                             MAKELANGID(LANG_NEUTRAL,SUBLANG_DEFAULT),str,0,nullptr);
 
-            LOG_ERROR(L"LoadModule <"+UTF16String(name)+L"> error! os info: "+UTF16String::numberOf(dw)+UTF16String::charOf(L',')+str);
+            LOG_ERROR(L"LoadModule <"+U16String(name)+L"> error! os info: "+U16String::numberOf(dw)+U16String::charOf(L',')+str);
 
             return(false);
         }

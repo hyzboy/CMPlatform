@@ -25,7 +25,7 @@ namespace hgl
                 console_handle=GetStdHandle(STD_OUTPUT_HANDLE);
             }
 
-            bool Create(const UTF16String &)
+            bool Create(const U16String &)
             {
                 return(true);
             }
