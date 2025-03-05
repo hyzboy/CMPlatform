@@ -12,7 +12,6 @@ namespace hgl
         is_min=false;
 
         input_event.Join(this);
-        input_event.Join(&sub_input_event);
     }
 
     void Window::OnResize(uint w,uint h)

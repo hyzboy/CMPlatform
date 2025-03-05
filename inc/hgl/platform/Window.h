@@ -6,7 +6,7 @@
 
 namespace hgl
 {
-    class Window:io::WindowEvent
+    class Window:public io::WindowEvent
     {
     protected:
 
@@ -21,8 +21,13 @@ namespace hgl
 
     protected:
 
+        /**
+        * 外部输入事件<br>
+        * 比如Windows平台，是由WindowProc函数传递过来的。
+        * 本事件传递器会呼叫io::WindowEvent的对象指针，在本类中指向的是自己。<br>
+        * 注：仅当前类会如此设计，本身此Event是要放在外面的，不该在此级别。
+        */
         io::InputEvent input_event;
-        io::InputEvent sub_input_event;
 
         void OnResize(uint,uint) override;
         void OnActive(bool) override;
@@ -40,9 +45,6 @@ namespace hgl
 
         Window(const OSString &);
         virtual ~Window()=default;
-
-        bool Join(InputEvent *ie){return sub_input_event.Join(ie);}
-        bool Unjoin(InputEvent *ie){return sub_input_event.Unjoin(ie);}
 
         virtual bool Create(uint,uint)=0;
         virtual bool Create(uint,uint,uint)=0;
