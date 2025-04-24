@@ -1,5 +1,6 @@
 ﻿#include<hgl/platform/Platform.h>
 #include<hgl/math/TimeConst.h>
+#include<hgl/Time.h>
 
 namespace hgl
 {
@@ -72,7 +73,7 @@ namespace hgl
     * 取得当前时间(双精度)
     * @return 当前时间(单位：秒)
     */
-    double GetDoubleTime()                                                                        ///<取得当前时间(双精度，单位秒)
+    PreciseTime GetPreciseTime()                                                                        ///<取得当前时间(双精度，单位秒)
     {
         return(double(GetMicroTime()) / HGL_MICRO_SEC_PER_SEC);
     }
@@ -81,7 +82,7 @@ namespace hgl
     * 等待指定时间
     * @param time 时间(单位：秒)
     */
-    void WaitTime(double t)
+    void WaitTime(const PreciseTime &t)
     {
         if(t<=0)return;
 
