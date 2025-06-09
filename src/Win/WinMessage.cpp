@@ -184,7 +184,7 @@ namespace hgl
 
         void WMProcDestroy(InputEvent *ie,uint32,uint32)
         {
-            event_header.type   =(uint8)InputEventSource::Window;
+            event_header.type   =InputEventSource::Window;
             event_header.index  =0;
             event_header.id     =(uint16)WindowEventID::Close;
 
@@ -200,7 +200,7 @@ namespace hgl
                 mouse_event_data.y=HIWORD(lParam); \
                 mouse_event_data.button=(uint8)MouseButton::mouse_button;    \
                 \
-                event_header.type   =(uint8)InputEventSource::Mouse;  \
+                event_header.type   =InputEventSource::Mouse;  \
                 event_header.index  =0;   \
                 event_header.id     =(uint16)MouseEventID::action; \
                 \
@@ -225,8 +225,8 @@ namespace hgl
                 mouse_event_data.y=HIWORD(lParam);
                 mouse_event_data.button=0;
                 
-                event_header.type   =(uint8)InputEventSource::Mouse; 
-                event_header.index  =0;   
+                event_header.type   =InputEventSource::Mouse; 
+                event_header.index  =0;
                 event_header.id     =(uint16)MouseEventID::Move;
                 
                 ie->OnEvent(event_header,mouse_event_data.data);
@@ -243,7 +243,7 @@ namespace hgl
                 mouse_event_data.y=zDelta;
                 mouse_event_data.button=0;
 
-                event_header.type   =(uint8)InputEventSource::Mouse; 
+                event_header.type   =InputEventSource::Mouse; 
                 event_header.index  =0;   
                 event_header.id     =(uint16)MouseEventID::Wheel;
                 
@@ -259,7 +259,7 @@ namespace hgl
                 mouse_event_data.y=0;
                 mouse_event_data.button=0;
 
-                event_header.type   =(uint8)InputEventSource::Mouse; 
+                event_header.type   =InputEventSource::Mouse; 
                 event_header.index  =0;   
                 event_header.id     =(uint16)MouseEventID::Wheel;
                 
@@ -268,7 +268,7 @@ namespace hgl
 
             WMEF2(WMProcSize)
             {
-                event_header.type   =(uint8)InputEventSource::Window;
+                event_header.type   =InputEventSource::Window;
                 event_header.index  =0;
                 event_header.id     =(uint16)WindowEventID::Resize;
 
@@ -284,7 +284,7 @@ namespace hgl
         #define WMEF1(name) void name(InputEvent *ie,uint32 wParam,uint32)
             WMEF1(WMProcKeyDown)
             {
-                event_header.type   =(uint8)InputEventSource::Keyboard;
+                event_header.type   =InputEventSource::Keyboard;
                 event_header.index  =0;   
                 event_header.id     =(uint16)KeyboardEventID::Pressed;
 
@@ -295,7 +295,7 @@ namespace hgl
 
             WMEF1(WMProcKeyUp)
             {
-                event_header.type   =(uint8)InputEventSource::Keyboard;
+                event_header.type   =InputEventSource::Keyboard;
                 event_header.index  =0;   
                 event_header.id     =(uint16)KeyboardEventID::Released;
 
@@ -306,7 +306,7 @@ namespace hgl
 
             WMEF1(WMProcChar)
             {
-                event_header.type   =(uint8)InputEventSource::Keyboard;
+                event_header.type   =InputEventSource::Keyboard;
                 event_header.index  =0;   
                 event_header.id     =(uint16)KeyboardEventID::Char;
 
@@ -320,7 +320,7 @@ namespace hgl
                 //if(JoyPlugIn)
                 //    JoyInterface.SetInputActive(wParam);
 
-                event_header.type   =(uint8)InputEventSource::Window;
+                event_header.type   =InputEventSource::Window;
                 event_header.index  =0;
                 event_header.id     =(uint16)WindowEventID::Active;
 

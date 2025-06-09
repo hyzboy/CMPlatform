@@ -64,7 +64,7 @@ namespace hgl
 
         virtual void SetSystemCursor(bool){}
 
-        virtual bool Update();
+        virtual bool Update() override;
     };//class Window
 
     Window *CreateRenderWindow(const OSString &win_name);
