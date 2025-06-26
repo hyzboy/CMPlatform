@@ -11,7 +11,7 @@ namespace hgl
         is_close=true;
         is_min=false;
 
-        input_event.Join(this);
+        input_event.RegistryEventDispatch(this);
     }
 
     void Window::OnResize(uint w,uint h)
@@ -39,7 +39,7 @@ namespace hgl
 
     void Window::OnClose()
     { 
-        input_event.Unjoin(this);
+        input_event.UnregistryEventDispatch(this);
         is_close=true;
     }
 
