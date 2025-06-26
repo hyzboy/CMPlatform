@@ -27,7 +27,7 @@ namespace hgl
         * 本事件传递器会呼叫io::WindowEvent的对象指针，在本类中指向的是自己。<br>
         * 注：仅当前类会如此设计，本身此Event是要放在外面的，不该在此级别。
         */
-        io::InputEvent input_event;
+        io::EventDispatch input_event;
 
         void OnResize(uint,uint) override;
         void OnActive(bool) override;

@@ -17,7 +17,7 @@ namespace hgl
         #define PROP_DPIISOLATION          L"PROP_ISOLATION"
 
         static KeyboardButton KeyConvert[256];
-        static void (*WMProc[2048])(InputEvent *,uint32,uint32);                 //消息处理队列
+        static void (*WMProc[2048])(EventDispatch *,uint32,uint32);                 //消息处理队列
 
         void InitKeyConvert()
         {
@@ -182,7 +182,7 @@ namespace hgl
         static EventHeader event_header;
         static WindowEventData window_event_data;
 
-        void WMProcDestroy(InputEvent *ie,uint32,uint32)
+        void WMProcDestroy(EventDispatch *ie,uint32,uint32)
         {
             event_header.type   =InputEventSource::Window;
             event_header.index  =0;
@@ -194,7 +194,7 @@ namespace hgl
 
         static MouseEventData mouse_event_data;
 
-        #define WMEF_MOUSE(mouse_button,action)   void WMProcMouse##mouse_button##action(InputEvent *ie,uint32 wParam,uint32 lParam)    \
+        #define WMEF_MOUSE(mouse_button,action)   void WMProcMouse##mouse_button##action(EventDispatch *ie,uint32 wParam,uint32 lParam)    \
             {   \
                 mouse_event_data.x=LOWORD(lParam); \
                 mouse_event_data.y=HIWORD(lParam); \
@@ -219,7 +219,7 @@ namespace hgl
             WMEF_MOUSE(Right,Released);
             WMEF_MOUSE(Right,DblClicked);
 
-            void WMProcMouseMove(InputEvent *ie,uint32 wParam,uint32 lParam)
+            void WMProcMouseMove(EventDispatch *ie,uint32 wParam,uint32 lParam)
             {
                 mouse_event_data.x=LOWORD(lParam);
                 mouse_event_data.y=HIWORD(lParam);
@@ -233,7 +233,7 @@ namespace hgl
             }
         #undef WMEF_MOUSE
 
-        #define WMEF2(name) void name(InputEvent *ie,uint32 wParam,uint32 lParam)
+        #define WMEF2(name) void name(EventDispatch *ie,uint32 wParam,uint32 lParam)
             WMEF2(WMProcMouseWheel)
             {
                 const int zDelta=GET_WHEEL_DELTA_WPARAM(wParam);
@@ -281,7 +281,7 @@ namespace hgl
 
             static KeyboardEventData keyboard_event_data;
 
-        #define WMEF1(name) void name(InputEvent *ie,uint32 wParam,uint32)
+        #define WMEF1(name) void name(EventDispatch *ie,uint32 wParam,uint32)
             WMEF1(WMProcKeyDown)
             {
                 event_header.type   =InputEventSource::Keyboard;
@@ -371,7 +371,7 @@ namespace hgl
         if(uMsg<2048)
             if(WMProc[uMsg])
             {
-                InputEvent *ie=(InputEvent *)GetWindowLongPtrW(hWnd,GWLP_USERDATA);
+                EventDispatch *ie=(EventDispatch *)GetWindowLongPtrW(hWnd,GWLP_USERDATA);
 
                 if(ie)
                     WMProc[uMsg](ie,wParam,lParam);
