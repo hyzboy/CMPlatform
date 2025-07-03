@@ -8,7 +8,7 @@ namespace hgl
     {
         constexpr wchar_t WIN_CLASS_NAME[] = L"CMGameEngine/ULRE Window Class";
 
-        bool RegistryWinClass(HINSTANCE hInstance)
+        bool RegisterWinClass(HINSTANCE hInstance)
         {
             WNDCLASSEXW win_class{};
 
@@ -100,7 +100,7 @@ namespace hgl
 
         hInstance = GetModuleHandleW(nullptr);
 
-        if(!RegistryWinClass(hInstance))
+        if(!RegisterWinClass(hInstance))
             return(false);
 
         if(!Create())
