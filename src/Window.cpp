@@ -10,8 +10,6 @@ namespace hgl
         active=false;
         is_close=true;
         is_min=false;
-
-        input_event.RegisterEventDispatch(this);
     }
 
     void Window::OnResize(uint w,uint h)
@@ -38,8 +36,7 @@ namespace hgl
     }
 
     void Window::OnClose()
-    { 
-        input_event.UnregisterEventDispatch(this);
+    {
         is_close=true;
     }
 

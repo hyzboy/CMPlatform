@@ -83,7 +83,7 @@ namespace hgl
         }
 
         win_dc = GetDC(win_hwnd);
-        SetWindowLongPtrW(win_hwnd, GWLP_USERDATA, (LONG_PTR)&input_event);
+        SetWindowLongPtrW(win_hwnd, GWLP_USERDATA, (LONG_PTR)this);
         return(true);
     }
 
