@@ -16,14 +16,12 @@ namespace hgl
     {
         #define PROP_DPIISOLATION          L"PROP_ISOLATION"
 
-        static KeyboardButton KeyConvert[256];
-        static void (*WMProc[2048])(EventDispatch *,uint32,uint32);                 //消息处理队列
+        static KeyboardButton KeyConvert[256]{};
+        static void (*WMProc[2048])(EventDispatch *,uint32,uint32){};                 //消息处理队列
 
         void InitKeyConvert()
         {
             int i;
-
-            memset(KeyConvert,0,sizeof(KeyConvert));
 
             KeyConvert[VK_ESCAPE    ]=KeyboardButton::Esc;
             for(i=VK_F1;i<=VK_F12;i++)KeyConvert[i]=(KeyboardButton)(int(KeyboardButton::F1)+i-VK_F1);
@@ -333,7 +331,6 @@ namespace hgl
 
     void InitMessageProc()
     {
-        memset(WMProc,0,sizeof(WMProc));
         InitKeyConvert();
 
         //if(joy)
