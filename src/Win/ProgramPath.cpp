@@ -6,7 +6,7 @@ namespace hgl
 {
     namespace filesystem
     {
-        bool GetOSLibararyPath(OSString &result)
+        bool GetOSLibraryPath(OSString &result)
         {
             wchar_t dllfn[MAX_PATH];
             UINT size;
