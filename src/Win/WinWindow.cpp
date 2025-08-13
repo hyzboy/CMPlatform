@@ -8,6 +8,61 @@ namespace hgl
     {
         constexpr wchar_t WIN_CLASS_NAME[] = L"CMGameEngine/ULRE Window Class";
 
+        // Enable DPI awareness so Windows does not scale our window/content automatically
+        static void EnableDpiAwarenessOnce()
+        {
+            static bool done = false;
+            if (done) return;
+            done = true;
+
+            HMODULE user32 = GetModuleHandleW(L"user32.dll");
+            if (user32)
+            {
+                using SetProcessDpiAwarenessContext_t = BOOL (WINAPI*)(DPI_AWARENESS_CONTEXT);
+                auto pSetProcessDpiAwarenessContext = reinterpret_cast<SetProcessDpiAwarenessContext_t>(
+                    GetProcAddress(user32, "SetProcessDpiAwarenessContext"));
+
+                if (pSetProcessDpiAwarenessContext)
+                {
+                    if (pSetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)
+                        || pSetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE))
+                    {
+                        return; // enabled successfully
+                    }
+                }
+            }
+
+            // Fallback to Shcore!SetProcessDpiAwareness (Windows 8.1+)
+            HMODULE shcore = LoadLibraryW(L"Shcore.dll");
+            if (shcore)
+            {
+                using SetProcessDpiAwareness_t = HRESULT (WINAPI*)(int /*PROCESS_DPI_AWARENESS*/);
+                auto pSetProcessDpiAwareness = reinterpret_cast<SetProcessDpiAwareness_t>(
+                    GetProcAddress(shcore, "SetProcessDpiAwareness"));
+
+                if (pSetProcessDpiAwareness)
+                {
+                    // 2 == PROCESS_PER_MONITOR_DPI_AWARE
+                    if (SUCCEEDED(pSetProcessDpiAwareness(2)))
+                    {
+                        FreeLibrary(shcore);
+                        return;
+                    }
+                }
+                FreeLibrary(shcore);
+            }
+
+            // Final fallback to user32!SetProcessDPIAware (Vista+)
+            if (user32)
+            {
+                using SetProcessDPIAware_t = BOOL (WINAPI*)();
+                auto pSetProcessDPIAware = reinterpret_cast<SetProcessDPIAware_t>(
+                    GetProcAddress(user32, "SetProcessDPIAware"));
+                if (pSetProcessDPIAware)
+                    pSetProcessDPIAware();
+            }
+        }
+
         bool RegisterWinClass(HINSTANCE hInstance)
         {
             WNDCLASSEXW win_class{};
@@ -99,6 +154,9 @@ namespace hgl
         height      = h;
 
         hInstance = GetModuleHandleW(nullptr);
+
+        // Enable DPI awareness before creating any windows to avoid OS scaling
+        EnableDpiAwarenessOnce();
 
         if(!RegisterWinClass(hInstance))
             return(false);
