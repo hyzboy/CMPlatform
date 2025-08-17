@@ -1,4 +1,6 @@
-﻿SET(CPU_INFO_HEADER ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform/CpuInfo.h)
+﻿SET(PLATFORM_INCLUDE_PATH ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform)
+
+SET(CPU_INFO_HEADER ${PLATFORM_INCLUDE_PATH}/CpuInfo.h)
 
 IF(UNIX)
     SET(PLATFORM_FILE_SOURCE            UNIX/File.cpp
@@ -92,9 +94,15 @@ IF(WIN32)
 
     SET(PLATFORM_EXTERNAL_MODULE_SOURCE Win/ExternalModule.cpp)
 
-    SET(PLATFORM_DESKTOP_SOURCE         Win/Desktop.cpp)
+    SET(PLATFORM_DESKTOP_SOURCE         ${PLATFORM_INCLUDE_PATH}/DisplayMode.h
+                                        ${PLATFORM_INCLUDE_PATH}/Desktop.h
+                                        Win/Clipboard.cpp
+                                        Win/Desktop.cpp
+                                        Win/DisplayMode.cpp)
 
-    SET(PLATFORM_WINDOW_SOURCE          Win/WinWindow.cpp
+    SET(PLATFORM_WINDOW_SOURCE          ${PLATFORM_INCLUDE_PATH}/WinWindow.h
+                                        ${PLATFORM_INCLUDE_PATH}/Window.h
+                                        Win/WinWindow.cpp
                                         Win/WinMessage.cpp
                                         Win/EnumWinFonts.cpp)
 ENDIF(WIN32)
@@ -145,6 +153,8 @@ SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_EXTERNAL_MODULE_SOURCE}
                     ${PLATFORM_INPUT_DEVICE_SOURCE}
                     ${PLATFORM_WINDOW_SOURCE}
+
+                    ${PLATFORM_DESKTOP_SOURCE}
 
                     ${CPU_INFO_HEADER}
                     ${CPU_INFO_SOURCE}

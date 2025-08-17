@@ -1,43 +1,41 @@
+#include<hgl/type/DataType.h>
 #include<windows.h>
 #include<shobjidl.h>
 
-namespace hgl
+namespace hgl::os
 {
-    namespace os
+    void CopyTextToClipboard(const wchar_t *str)
     {
-        void CopyTextToClipboard(const u16char *str)
-        {
-            if(!str||!(*str))return;
+        if(!str||!(*str))return;
 
-            if (!OpenClipboard(nullptr))return;
+        if (!OpenClipboard(nullptr))return;
 
-            EmptyClipboard();
+        EmptyClipboard();
 
-            HGLOBAL clipbuffer;
-            u16char * buffer;
+        HGLOBAL clipbuffer;
+        wchar_t * buffer;
 
-            clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(str)+1);
-            buffer = (u16char *)GlobalLock(clipbuffer);
+        clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(str)+1);
+        buffer = (wchar_t *)GlobalLock(clipbuffer);
 
-            strcpy(buffer, str);
+        wcscpy(buffer, str);
 
-            GlobalUnlock(clipbuffer);
-            SetClipboardData(CF_UNICODETEXT, clipbuffer);
-            CloseClipboard();
-        }
+        GlobalUnlock(clipbuffer);
+        SetClipboardData(CF_UNICODETEXT, clipbuffer);
+        CloseClipboard();
+    }
 
-        const u16char *GetTextFromClipboard()
-        {
-            if (!OpenClipboard(nullptr))
-                return 0;
+    const wchar_t *GetTextFromClipboard()
+    {
+        if (!OpenClipboard(nullptr))
+            return 0;
 
-            u16char * buffer = 0;
+        wchar_t * buffer = 0;
 
-            HANDLE hData = GetClipboardData( CF_UNICODETEXT );
-            buffer = (u16char *)GlobalLock( hData );
-            GlobalUnlock( hData );
-            CloseClipboard();
-            return buffer;
-        }
-    }//namespace os
-}//namespace hgl
+        HANDLE hData = GetClipboardData( CF_UNICODETEXT );
+        buffer = (wchar_t *)GlobalLock( hData );
+        GlobalUnlock( hData );
+        CloseClipboard();
+        return buffer;
+    }
+}//namespace hgl::os
