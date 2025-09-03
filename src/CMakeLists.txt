@@ -154,7 +154,7 @@ SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_INPUT_DEVICE_SOURCE}
                     ${PLATFORM_WINDOW_SOURCE}
 
-                    ${PLATFORM_DESKTOP_SOURCE}
+                    #${PLATFORM_DESKTOP_SOURCE}
 
                     ${CPU_INFO_HEADER}
                     ${CPU_INFO_SOURCE}

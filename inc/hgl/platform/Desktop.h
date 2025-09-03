@@ -1,7 +1,13 @@
 #pragma once
 
 #include<hgl/type/String.h>
-#include<hgl/2d/Bitmap.h>
+#include<hgl/math/Vector.h>
+
+namespace hgl::bitmap
+{
+    template<typename T,uint C> class Bitmap;
+    using BitmapRGBA8=Bitmap<Vector4u8,4>;
+}
 
 /**
 * 与本地操作系统相关功能函数的名字空间
