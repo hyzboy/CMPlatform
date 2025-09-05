@@ -1,6 +1,6 @@
 ﻿#include<hgl/filesystem/EnumVolume.h>
 #include<hgl/type/String.h>
-#include<hgl/log/LogInfo.h>
+#include<hgl/log/ObjectLogger.h>
 #include<windows.h>
 
 namespace hgl
@@ -63,7 +63,7 @@ namespace hgl
                 }
                 else
                 {
-                    LOG_PROBLEM(U16_TEXT("Get <")+U16String(path_name)+U16_TEXT("> info failed！Windows error code: ")+U16String::numberOf((uint)GetLastError()));
+                    GLogWarning(U16_TEXT("Get <")+U16String(path_name)+U16_TEXT("> info failed！Windows error code: ")+U16String::numberOf((uint)GetLastError()));
                 }
 
                 if(GetDiskFreeSpaceExW(path_name,
@@ -75,7 +75,7 @@ namespace hgl
                 }
                 else
                 {
-                    LOG_PROBLEM(U16_TEXT("Get disk free space <")+U16String(path_name)+U16_TEXT("> data failed,Windows error code: ")+U16String::numberOf((uint)GetLastError()));
+                    GLogWarning(U16_TEXT("Get disk free space <")+U16String(path_name)+U16_TEXT("> data failed,Windows error code: ")+U16String::numberOf((uint)GetLastError()));
                 }
 
                 count++;

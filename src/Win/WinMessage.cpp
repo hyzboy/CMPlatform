@@ -5,7 +5,7 @@
 #include<Windows.h>
 
 #ifdef _DEBUG
-#include<hgl/log/LogInfo.h>
+#include<hgl/log/ObjectLogger.h>
 #endif//_DEBUG
 
 namespace hgl
@@ -169,8 +169,8 @@ namespace hgl
 
                 ::GetKeyNameTextW(key,name,64);
 
-                LOG_INFO(WString(L"Unknow Key: " )+WString::numberOf(key)
-                        +WString(L" ,name: "     )+WString(name));
+                GLogVerbose( WString(L"Unknow Key: " )+WString::numberOf(key)
+                            +WString(L" ,name: "     )+WString(name));
             }
     #endif _DEBUG
 
