@@ -5,7 +5,7 @@
 #include<Windows.h>
 
 #ifdef _DEBUG
-#include<hgl/log/ObjectLogger.h>
+#include<hgl/log/Log.h>
 #endif//_DEBUG
 
 namespace hgl
