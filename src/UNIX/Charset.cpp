@@ -17,6 +17,10 @@
 #include<errno.h>
 namespace hgl
 {
+    CharSet UTF8CharSet     (utf8_charset    );
+    CharSet UTF16LECharSet  (utf16le_charset );
+    CharSet UTF16BECharSet  (utf16be_charset );
+
     template<typename T,typename S>
     int CharSetConv(T **out_buf,const CharSetName &out_charset,
                     const S *in_str,int in_str_size,const CharSetName &in_charset)

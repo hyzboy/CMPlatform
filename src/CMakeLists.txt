@@ -28,7 +28,7 @@ IF(UNIX)
         SET(PLATFORM_MULTI_THREAD_SOURCE    ${PLATFORM_MULTI_THREAD_SOURCE}
                                             UNIX/Semaphore.cpp)
     ELSE()
-        SET(PLATFORM_CODEPAGE_SOURCE        UNIX/CodePage.cpp)
+        SET(PLATFORM_CODEPAGE_SOURCE        UNIX/Charset.cpp)
         SET(PLATFORM_LOG_SOURCE             UNIX/LogConsole.cpp)
 
         IF(APPLE)
