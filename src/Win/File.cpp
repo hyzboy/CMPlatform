@@ -7,210 +7,207 @@
 #include <sys/types.h>
 #include <string.h>
 
-namespace hgl
+namespace hgl::filesystem
 {
-    namespace filesystem
+    constexpr int FILE_PROC_BUF_SIZE=HGL_SIZE_1MB;
+
+    /**
+    * 复制一个文件
+    * @param sourcename 源文件名
+    * @param targetname 目标文件名
+    * @return 文件是否复制成功
+    */
+    bool FileCopy(const OSString &targetname,const OSString &sourcename)
     {
-        constexpr int FILE_PROC_BUF_SIZE=HGL_SIZE_1MB;
+        return(::CopyFileW(sourcename,targetname,false));
+    }
 
-        /**
-        * 复制一个文件
-        * @param sourcename 源文件名
-        * @param targetname 目标文件名
-        * @return 文件是否复制成功
-        */
-        bool FileCopy(const OSString &targetname,const OSString &sourcename)
-        {
-            return(::CopyFileW(sourcename,targetname,false));
-        }
+    /**
+    * 删除一个文件
+    * @param filename 文件名
+    * @return 文件是否成功删除
+    */
+    bool FileDelete(const OSString &filename)
+    {
+        return(::DeleteFileW(filename));
+    }
 
-        /**
-        * 删除一个文件
-        * @param filename 文件名
-        * @return 文件是否成功删除
-        */
-        bool FileDelete(const OSString &filename)
-        {
-            return(::DeleteFileW(filename));
-        }
+    /**
+    * 移动一个文件
+    * @param sourcename 源文件名
+    * @param targetname 目标文件名
+    * @return 文件是否移动成功
+    */
+    bool FileMove(const OSString &targetname,const OSString &sourcename)
+    {
+        return(::MoveFileW(sourcename,targetname));
+    }
 
-        /**
-        * 移动一个文件
-        * @param sourcename 源文件名
-        * @param targetname 目标文件名
-        * @return 文件是否移动成功
-        */
-        bool FileMove(const OSString &targetname,const OSString &sourcename)
-        {
-            return(::MoveFileW(sourcename,targetname));
-        }
+    /**
+    * 修改文件名
+    * @param oldname 旧的文件名
+    * @param newname 新的文件名
+    * @return 文件名是否修改成功
+    */
+    bool FileRename(const OSString &newname,const OSString &oldname)
+    {
+        return(::MoveFileW(oldname,newname));
+    }
 
-        /**
-        * 修改文件名
-        * @param oldname 旧的文件名
-        * @param newname 新的文件名
-        * @return 文件名是否修改成功
-        */
-        bool FileRename(const OSString &newname,const OSString &oldname)
-        {
-            return(::MoveFileW(oldname,newname));
-        }
+    /**
+    * 确认文件是否存在
+    * @param filename 要查找的文件名称
+    * @return 这个文件是否存在
+    */
+    bool FileExist(const OSString &filename)
+    {
+        WIN32_FIND_DATAW wfd;
+        HANDLE hFind;
 
-        /**
-        * 确认文件是否存在
-        * @param filename 要查找的文件名称
-        * @return 这个文件是否存在
-        */
-        bool FileExist(const OSString &filename)
-        {
-            WIN32_FIND_DATAW wfd;
-            HANDLE hFind;
+        hFind=FindFirstFileW(filename, &wfd);
 
-            hFind=FindFirstFileW(filename, &wfd);
-
-            if(hFind==INVALID_HANDLE_VALUE)
-                return(false);
-
-            FindClose(hFind);
-            return(true);
-        }
-
-        /**
-        * 检测文件是否可读
-        * @param filename 文件名
-        */
-        bool FileCanRead(const OSString &filename)
-        {
-            const DWORD attr=GetFileAttributesW(filename);
-
-            if(attr==INVALID_FILE_ATTRIBUTES)
-                return(false);
-
-            if(attr&(FILE_ATTRIBUTE_DEVICE|FILE_ATTRIBUTE_DIRECTORY))    //不是个文件
-                return(false);
-
-            if(attr&FILE_ATTRIBUTE_OFFLINE)
-                return(false);
-
-            return(true);
-        }
-
-        /**
-        * 检测文件是否可写
-        * @param filename 文件名
-        */
-        bool FileCanWrite(const OSString &filename)
-        {
-            const DWORD attr=GetFileAttributesW(filename);
-
-            if(attr==INVALID_FILE_ATTRIBUTES)
-                return(false);
-
-            if(attr&(FILE_ATTRIBUTE_DEVICE|FILE_ATTRIBUTE_DIRECTORY))    //不是个文件
-                return(false);
-
-            if(attr&FILE_ATTRIBUTE_OFFLINE)
-                return(false);
-
-            return (attr&FILE_ATTRIBUTE_READONLY)?false:true;
-        }
-
-        /**
-         * 检测文件是否可执行
-        * @param filename 文件名
-         */
-        bool FileCanExec(const OSString &filename)
-        {
-            int index = filename.FindRightChar('.');
-
-            if (index == -1)return(false);
-
-            if (index > filename.Length() - 4)
-                return(false);
-
-            const os_char *ext = filename.c_str() + index + 1;
-
-            if (!ext)return(false);
-
-            if (stricmp(ext, "exe") == 0)return(true);
-            if (stricmp(ext, "com") == 0)return(true);
-            if (stricmp(ext, "bat") == 0)return(true);
-            if (stricmp(ext, "msi") == 0)return(true);
-            if (stricmp(ext, "msp") == 0)return(true);
-
+        if(hFind==INVALID_HANDLE_VALUE)
             return(false);
-        }
 
-        /**
-        * 判断当前名称是否是一个目录
-        * @param name 名称
+        FindClose(hFind);
+        return(true);
+    }
+
+    /**
+    * 检测文件是否可读
+    * @param filename 文件名
+    */
+    bool FileCanRead(const OSString &filename)
+    {
+        HANDLE h = CreateFileW(filename.c_str(),
+                                GENERIC_READ,
+                                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                                nullptr,
+                                OPEN_EXISTING,
+                                FILE_ATTRIBUTE_NORMAL,
+                                nullptr);
+        if(h == INVALID_HANDLE_VALUE) return false;
+        CloseHandle(h);
+        return true;
+    }
+
+    /**
+    * 检测文件是否可写
+    * @param filename 文件名
+    */
+    bool FileCanWrite(const OSString &filename)
+    {
+        HANDLE h = CreateFileW(filename.c_str(),
+                                GENERIC_WRITE,
+                                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                                nullptr,
+                                OPEN_EXISTING,
+                                FILE_ATTRIBUTE_NORMAL,
+                                nullptr);
+        if(h == INVALID_HANDLE_VALUE) return false;
+        CloseHandle(h);
+        return true;
+    }
+
+    /**
+        * 检测文件是否可执行
+    * @param filename 文件名
         */
-        bool IsDirectory(const os_char *name)
-        {
-            DWORD attrib = GetFileAttributesW(name);
+    bool FileCanExec(const OSString &filename)
+    {
+        int index = filename.FindRightChar('.');
 
-            if (attrib == INVALID_FILE_ATTRIBUTES)
-                return(false);
+        if (index == -1)return(false);
 
-            return attrib&FILE_ATTRIBUTE_DIRECTORY;
-        }
+        const os_char *ext = filename.c_str() + index + 1;
+        if(!ext || ext[0] == 0) return false;
 
-        bool MakeDirectory(const os_char *name)
-        {
-            if(::CreateDirectoryW(name,nullptr))return(true);
+        if (hgl::stricmp(ext, "exe") == 0)return(true);
+        if (hgl::stricmp(ext, "com") == 0)return(true);
+        if (hgl::stricmp(ext, "bat") == 0)return(true);
+        if (hgl::stricmp(ext, "msi") == 0)return(true);
+        if (hgl::stricmp(ext, "msp") == 0)return(true);
 
-            const uint win_error=GetLastError();
+        return(false);
+    }
 
-            GLogWarning(OS_TEXT("Create Directory <")+OSString(name)+OS_TEXT("> failed,errno: ")+OSString::numberOf(win_error));
+    /**
+    * 判断当前名称是否是一个目录
+    * @param name 名称
+    */
+    bool IsDirectory(const os_char *name)
+    {
+        DWORD attrib = GetFileAttributesW(name);
+
+        if (attrib == INVALID_FILE_ATTRIBUTES)
             return(false);
-        }
 
-        os_char *GetRootPath(os_char *str)
+        return attrib&FILE_ATTRIBUTE_DIRECTORY;
+    }
+
+    bool MakeDirectory(const os_char *name)
+    {
+        if(::CreateDirectoryW(name,nullptr))return(true);
+
+        const uint win_error=GetLastError();
+
+        GLogWarning(OS_TEXT("Create Directory <")+OSString(name)+OS_TEXT("> failed,errno: ")+OSString::numberOf(win_error));
+        return(false);
+    }
+
+    os_char *GetRootPath(os_char *str)
+    {
+        if(!str || !str[0]) return str;
+
+        // UNC: \\server\share\...
+        if(str[0] == OS_TEXT('\\') && str[1] == OS_TEXT('\\'))
         {
-            if(str[1]==OS_TEXT(':'))
-                return str+3;
-
-            return str;
+            os_char *p = str + 2;
+            // skip server
+            while(*p && *p != OS_TEXT('\\')) ++p;
+            if(*p) ++p; else return str;
+            // skip share
+            while(*p && *p != OS_TEXT('\\')) ++p;
+            if(*p) ++p; else return str;
+            return p;
         }
 
-        /**
-        * 删除一个子目录
-        * @param name 目录名称
-        * @return 目录是否删除成功
-        */
-        bool DeletePath(const OSString &name)
+        // Drive letter: "C:\..."
+        if(str[1] == OS_TEXT(':'))
         {
-            return(RemoveDirectoryW(name));
+            if(str[2] == OS_TEXT('\\') || str[2] == OS_TEXT('/')) return str + 3;
+            return str + 2;
         }
 
-        /**
-        * 取得当前所在目录<br>
-        */
-        bool GetCurrentPath(OSString &path)
-        {
-            int len;
-            u16char *dir;
+        return str;
+    }
 
-            len=GetCurrentDirectoryW(0,nullptr);
+    /**
+    * 删除一个子目录
+    * @param name 目录名称
+    * @return 目录是否删除成功
+    */
+    bool DeletePath(const OSString &name)
+    {
+        return(RemoveDirectoryW(name));
+    }
 
-            if(len==0)
-                return false;
+    /**
+    * 取得当前所在目录<br>
+    */
+    bool GetCurrentPath(OSString &path)
+    {
+        DWORD len = GetCurrentDirectoryW(0, nullptr);
+        if(len == 0) return false;
 
-            dir=new u16char[len];       //不用+1
+        std::vector<os_char> buf(len + 2); // 留出空余
+        DWORD got = GetCurrentDirectoryW((DWORD)buf.size(), buf.data());
+        if(got == 0 || got >= buf.size()) return false;
 
-            if(GetCurrentDirectoryW(len,dir))
-            {
-                if(len==3&&dir[1]==OS_TEXT(':'))
-                    len=2;        //如果是"C:\"这种情况，去掉"\"
+        path = OSString(buf.data()); // 假定 OSString 可由 wchar_t* 构造
+        // 如果是 "C:\" 这种形式，去掉末尾反斜杠
+        if(path.Length() == 3 && path[1] == OS_TEXT(':')) path.Resize(2);
 
-                dir[len-1]=0;
-
-                path.fromInstance(dir,len-1);
-                return(true);
-            }
-
-            delete[] dir;
-            return(false);
-        }
-    }//namespace filesystem
-}//namespace hgl
+        return true;
+    }
+}//namespace hgl::filesystem
