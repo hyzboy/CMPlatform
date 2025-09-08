@@ -1,4 +1,5 @@
 ﻿#include<hgl/log/Logger.h>
+#include<hgl/log/LogMessage.h>
 #include<hgl/Charset.h>
 #include<windows.h>
 #include <string>
@@ -61,41 +62,19 @@ namespace hgl
                 Close();
             }
 
-            void Close()
+            void Close() override
             {
                 CloseHandle(console_handle);
             }
 
-            void Write(const u16char *str, int size) override
+            void Write(const LogMessage *msg) override
             {
-                Write(str, size, min_level); // 默认使用 min_level
-            }
+                if (!msg||!msg->message||msg->message_length<=0)return;
 
-            void Write(const u8char *str, int size) override
-            {
-                Write(str, size, min_level); // 默认使用 min_level
-            }
-
-            void Write(const u16char *str, int size, LogLevel level)
-            {
-                const std::string color = GetAnsiColorByLogLevel(level);
+                const std::string color = GetAnsiColorByLogLevel(msg->level);
                 WriteConsoleA(console_handle, color.c_str(), color.size(), &result, nullptr);
-                WriteConsoleW(console_handle, str, size, &result, nullptr);
+                WriteConsoleW(console_handle, msg->message, msg->message_length, &result, nullptr);
                 WriteConsoleW(console_handle, L"\n", 1, &result, nullptr);
-                WriteConsoleA(console_handle, "\033[0m", 4, &result, nullptr); // 重置颜色
-            }
-
-            void Write(const u8char *str, int size, LogLevel level)
-            {
-                const int len = u8_to_u16(buf, LOG_BUF_SIZE, str, size);
-
-                if (len <= 0) return;
-
-                buf[len] = L'\n';
-
-                const std::string color = GetAnsiColorByLogLevel(level);
-                WriteConsoleA(console_handle, color.c_str(), color.size(), &result, nullptr);
-                WriteConsoleW(console_handle, buf, len + 1, &result, nullptr);
                 WriteConsoleA(console_handle, "\033[0m", 4, &result, nullptr); // 重置颜色
             }
         }; // class LogWinConsole

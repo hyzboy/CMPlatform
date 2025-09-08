@@ -1,4 +1,5 @@
 #include<hgl/log/Logger.h>
+#include<hgl/log/LogMessage.h>
 #include<hgl/Charset.h>
 #include<windows.h>
 
@@ -24,24 +25,15 @@ namespace hgl
                 return(true);
             }
 
-            void Close()
+            void Close() override
             {
             }
 
-            void Write(const u16char *str,int)
+            void Write(const LogMessage *msg) override
             {
-                MessageBoxW(nullptr,str,name,MB_OK);
-            }
+                if (!msg||!msg->message||msg->message_length<=0)return;
 
-            void Write(const u8char *str,int size)
-            {
-                const int len=u8_to_u16(buf,4096,str,size);
-
-                if(len<=0)return;
-
-                buf[len] = 0;
-
-                MessageBoxW(nullptr,buf,name,MB_OK);
+                MessageBoxW(nullptr,msg->message,name,MB_OK);
             }
         };//class LogWinDialog
 
