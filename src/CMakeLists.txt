@@ -3,6 +3,8 @@
 SET(CPU_INFO_HEADER ${PLATFORM_INCLUDE_PATH}/CpuInfo.h)
 
 IF(UNIX)
+    SET(PLATFORM_MMAP_FILE_SOURCE       /MMapFile.cpp)
+
     SET(PLATFORM_FILE_SOURCE            UNIX/File.cpp
                                         UNIX/FileAccess.cpp
                                         UNIX/EnumFile.cpp)
@@ -64,6 +66,8 @@ ENDIF()
 IF(WIN32)
     set(CPU_INFO_SOURCE                 Win/CpuInfo.cpp)
 
+    SET(PLATFORM_MMAP_FILE_SOURCE       Win/MMapFile.cpp)
+
     SET(PLATFORM_FILE_SOURCE            Win/File.cpp
                                         Win/FileAccess.cpp
                                         Win/EnumFile.cpp
@@ -109,6 +113,7 @@ ENDIF(WIN32)
 
 SET(PLATFORM_WINDOW_SOURCE ${PLATFORM_WINDOW_SOURCE} Window.cpp )
 
+SOURCE_GROUP("MMapFile"     FILES ${PLATFORM_MMAP_FILE_SOURCE})
 SOURCE_GROUP("InputDevice"  FILES ${PLATFORM_INPUT_DEVICE_SOURCE})
 SOURCE_GROUP("CodePage"     FILES ${PLATFORM_CODEPAGE_SOURCE})
 SOURCE_GROUP("File"         FILES ${PLATFORM_FILE_SOURCE})
@@ -143,6 +148,7 @@ ENDIF(CM_PLATFORM_SOC)
 
 SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_FILE_SOURCE}
+                    ${PLATFORM_MMAP_FILE_SOURCE}
                     ${PLATFORM_CODEPAGE_SOURCE}
                     #${PLATFORM_SYSTEM_INFO_SOURCE}
                     ${PLATFORM_APPLICATION_SOURCE}

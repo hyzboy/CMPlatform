@@ -55,10 +55,12 @@ namespace hgl
 
             int len=GetModuleFileNameW(nullptr,path,HGL_MAX_PATH);
 
-            os_char *right=hgl::strrchr(path,len,HGL_DIRECTORY_SEPARATOR);
+            os_char *right = const_cast<os_char*>(hgl::strrchr(path,len,HGL_DIRECTORY_SEPARATOR));
 
             if(right)
+            {
                 *right=0;
+            }
 
             result = path;
             delete[] path;

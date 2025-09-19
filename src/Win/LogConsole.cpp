@@ -73,7 +73,8 @@ namespace hgl
                 if (!msg||!msg->message||msg->message_length<=0)return;
 
                 const std::string color = GetAnsiColorByLogLevel(msg->level);
-                WriteConsoleA(console_handle, color.c_str(), color.size(), &result, nullptr);
+
+                WriteConsoleA(console_handle, color.c_str(), (DWORD)color.size(), &result, nullptr);
                 WriteConsoleW(console_handle, msg->message, msg->message_length, &result, nullptr);
                 WriteConsoleW(console_handle, L"\n", 1, &result, nullptr);
                 WriteConsoleA(console_handle, "\033[0m", 4, &result, nullptr); // 重置颜色
