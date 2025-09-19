@@ -34,13 +34,14 @@ namespace hgl
             {
                 switch (level)
                 {
-                    case LogLevel::Fatal:   return "\033[1;31m"; // 高亮红色
+                    case LogLevel::Fatal:   return "\033[1;31m";  // 高亮红色
                     case LogLevel::Error:   return "\033[31m";    // 红色
                     case LogLevel::Warning: return "\033[33m";    // 黄色
-                    case LogLevel::Hint:    return "\033[32m";    // 绿色
+                    case LogLevel::Notice:  return "\033[32m";    // 绿色
                     case LogLevel::Info:    return "\033[36m";    // 青色
+                    case LogLevel::Debug:   return "\033[34m";    // 蓝色
                     case LogLevel::Verbose: 
-                    default: return "\033[37m";                  // 白色
+                    default:                return "\033[37m";    // 白色
                 }
             }
 
