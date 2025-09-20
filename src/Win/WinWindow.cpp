@@ -139,6 +139,20 @@ namespace hgl
 
         win_dc = GetDC(win_hwnd);
         SetWindowLongPtrW(win_hwnd, GWLP_USERDATA, (LONG_PTR)this);
+
+        {
+            hgl::io::EventHeader event_header;
+            hgl::io::WindowEventData window_event_data;
+
+            event_header.type = hgl::io::InputEventSource::Window;
+            event_header.index = 0;
+            event_header.id = (uint16)hgl::io::WindowEventID::Create;
+
+            window_event_data.width = win_width;
+            window_event_data.height = win_height;
+
+            this->OnEvent(event_header,window_event_data.data);
+        }
         return(true);
     }
 
