@@ -6,8 +6,6 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdexcept>
-#include <string>
 
 namespace hgl
 {
@@ -16,46 +14,109 @@ namespace hgl
         int fd = -1;
     };
 
-    MMapFile::MMapFile(const std::string& filename, size_t size, bool readOnly)
-        : data_(nullptr), size_(size)
+    class PosixMMapFile final : public MMapFile
     {
-        int flags = readOnly ? O_RDONLY : O_RDWR;
-        MMapFileImpl* impl = new MMapFileImpl();
-        impl_ = impl;
-        impl->fd = open(filename.c_str(), flags, 0666);
-        if (impl->fd < 0) {
-            delete impl;
-            throw std::runtime_error("Failed to open file");
+        MMapFileImpl impl_{};
+    public:
+        ~PosixMMapFile() override
+        {
+            if (data_) { munmap(data_, size_); data_ = nullptr; }
+            if (impl_.fd >= 0) { close(impl_.fd); impl_.fd = -1; }
         }
 
-        off_t fileSize = lseek(impl->fd, 0, SEEK_END);
-        if (fileSize < (off_t)size) {
-            if (ftruncate(impl->fd, size) != 0) {
-                close(impl->fd);
-                delete impl;
-                throw std::runtime_error("Failed to extend file");
+        static PosixMMapFile* Create(const OSString &filename,
+                                     int oflags,
+                                     mode_t mode,
+                                     int prot,
+                                     int mapFlags,
+                                     size_t requestedSize,
+                                     bool useFileSize,
+                                     bool ensureAtLeastRequested,
+                                     MMapFile::Error &outErr)
+        {
+            outErr = MMapFile::Error::Ok;
+
+            PosixMMapFile *mm = new PosixMMapFile();
+
+            mm->impl_.fd = open(filename.c_str(), oflags, mode);
+            if (mm->impl_.fd < 0) { outErr = MMapFile::Error::OpenFileFailed; delete mm; return nullptr; }
+
+            size_t actualSize = requestedSize;
+
+            if (useFileSize)
+            {
+                off_t fileSize = lseek(mm->impl_.fd, 0, SEEK_END);
+                if (fileSize < 0) { outErr = MMapFile::Error::GetFileSizeFailed; delete mm; return nullptr; }
+                actualSize = static_cast<size_t>(fileSize);
+
+                if (ensureAtLeastRequested && requestedSize > actualSize)
+                {
+                    if (ftruncate(mm->impl_.fd, static_cast<off_t>(requestedSize)) != 0)
+                    { outErr = MMapFile::Error::SetFileSizeFailed; delete mm; return nullptr; }
+                    actualSize = requestedSize;
+                }
             }
-        }
+            else
+            {
+                if (requestedSize==0) { outErr = MMapFile::Error::InvalidArgument; delete mm; return nullptr; }
+                if (ftruncate(mm->impl_.fd, static_cast<off_t>(requestedSize)) != 0)
+                { outErr = MMapFile::Error::SetFileSizeFailed; delete mm; return nullptr; }
+                actualSize = requestedSize;
+            }
 
-        int prot = readOnly ? PROT_READ : (PROT_READ | PROT_WRITE);
-        data_ = mmap(nullptr, size, prot, MAP_SHARED, impl->fd, 0);
-        if (data_ == MAP_FAILED) {
-            close(impl->fd);
-            delete impl;
-            throw std::runtime_error("Failed to mmap file");
-        }
+            void* ptr = mmap(nullptr, actualSize, prot, mapFlags, mm->impl_.fd, 0);
+            if (ptr == MAP_FAILED) { outErr = MMapFile::Error::MapViewFailed; delete mm; return nullptr; }
 
-        (void)impl; // already stored in impl_
+            mm->data_ = ptr;
+            mm->size_ = actualSize;
+            return mm;
+        }
+    };
+
+    // 基类析构无需清理（由派生类负责）
+    MMapFile::~MMapFile() = default;
+
+    // Free helper functions returning pointer or nullptr on failure
+    MMapFile* CreateMMapFile(const OSString &filename, size_t size, MMapFile::Error *err)
+    {
+        MMapFile::Error e; auto *mm = PosixMMapFile::Create(filename,
+                                     O_RDWR | O_CREAT | O_TRUNC,
+                                     0666,
+                                     PROT_READ | PROT_WRITE,
+                                     MAP_SHARED,
+                                     size,
+                                     false,
+                                     false,
+                                     e);
+        if (err) *err = e; return mm;
     }
 
-    MMapFile::~MMapFile()
+    MMapFile* OpenMMapFile(const OSString &filename, size_t size, MMapFile::Error *err)
     {
-        auto impl = reinterpret_cast<MMapFileImpl*>(impl_);
-        if (data_) munmap(data_, size_);
-        if (impl) {
-            if (impl->fd >= 0) close(impl->fd);
-            delete impl;
-        }
+        MMapFile::Error e; auto *mm = PosixMMapFile::Create(filename,
+                                     O_RDWR,
+                                     0666,
+                                     PROT_READ | PROT_WRITE,
+                                     MAP_SHARED,
+                                     size,
+                                     true,
+                                     true,
+                                     e);
+        if (err) *err = e; return mm;
+    }
+
+    MMapFile* OpenMMapFileOnlyRead(const OSString &filename, MMapFile::Error *err)
+    {
+        MMapFile::Error e; auto *mm = PosixMMapFile::Create(filename,
+                                     O_RDONLY,
+                                     0666,
+                                     PROT_READ,
+                                     MAP_SHARED,
+                                     0,
+                                     true,
+                                     false,
+                                     e);
+        if (err) *err = e; return mm;
     }
 
     void* MMapFile::data() { return data_; }
