@@ -53,11 +53,9 @@ IF(UNIX)
     SET(PLATFORM_MULTI_PROCESS_SOURCE   UNIX/ProcMutex.cpp
                                         UNIX/Process.cpp
                                         UNIX/Pipe.cpp
-                                        UNIX/Fifo.cpp)
+                                        UNIX/Fifo.cpp
 
-    SET(PLATFORM_TIME_SOURCE            UNIX/Time.cpp
-                                        UNIX/Exit.cpp
-                                        UNIX/DateTime.cpp)
+                                        UNIX/Exit.cpp)
 
     SET(PLATFORM_EXTERNAL_MODULE_SOURCE UNIX/ExternalModule.cpp)
 
@@ -92,9 +90,6 @@ IF(WIN32)
     SET(PLATFORM_MULTI_PROCESS_SOURCE   Win/ProcMutex.cpp
                                         Win/Pipe.cpp
                                         Win/Fifo.cpp)
-
-    SET(PLATFORM_TIME_SOURCE            Win/Time.cpp
-                                        Win/DateTime.cpp)
 
     SET(PLATFORM_EXTERNAL_MODULE_SOURCE Win/ExternalModule.cpp)
 
@@ -155,7 +150,6 @@ SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_LOG_SOURCE}
                     ${PLATFORM_MULTI_THREAD_SOURCE}
                     ${PLATFORM_MULTI_PROCESS_SOURCE}
-                    ${PLATFORM_TIME_SOURCE}
                     ${PLATFORM_EXTERNAL_MODULE_SOURCE}
                     ${PLATFORM_INPUT_DEVICE_SOURCE}
                     ${PLATFORM_WINDOW_SOURCE}
