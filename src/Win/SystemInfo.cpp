@@ -1,9 +1,5 @@
 #include<hgl/platform/SystemInfo.h>
-//#include<hgl/platform/ConsoleSystemInitInfo.h>
-#include<hgl/log/LogInfo.h>
-#include<hgl/PlugIn.h>
 #include<hgl/filesystem/FileSystem.h>
-#include<wchar.h>
 #include<shlobj.h>
 
 namespace hgl
@@ -37,35 +33,38 @@ namespace hgl
         return(false);
     }
 
-    bool GetCMGDKPath(WideString &cmgdk_path)
-    {
-        HKEY hKey;
-        DWORD type;
+    //bool GetCMGDKPath(WideString &cmgdk_path)
+    //{
+    //    HKEY hKey;
+    //    DWORD type;
 
-        LONG result = RegOpenKeyExW(HKEY_CURRENT_USER,L"Environment",0,KEY_READ,&hKey);
+    //    LONG result = RegOpenKeyExW(HKEY_CURRENT_USER,L"Environment",0,KEY_READ,&hKey);
 
-        if(result==ERROR_SUCCESS)
-        {
-            wchar_t path[HGL_MAX_PATH];
-            DWORD size=HGL_MAX_PATH;
+    //    if(result==ERROR_SUCCESS)
+    //    {
+    //        wchar_t path[HGL_MAX_PATH];
+    //        DWORD size=HGL_MAX_PATH;
 
-            result = RegQueryValueExW( hKey,L"CMGDK", NULL, &type, (LPBYTE)path, &size );
+    //        result = RegQueryValueExW( hKey,L"CMGDK", NULL, &type, (LPBYTE)path, &size );
 
-            RegCloseKey(hKey);
+    //        RegCloseKey(hKey);
 
-            cmgdk_path=path;
+    //        cmgdk_path=path;
 
-            return(result==ERROR_SUCCESS);
-        }
+    //        return(result==ERROR_SUCCESS);
+    //    }
 
-        return(false);
-    }
+    //    return(false);
+    //}
 
-    void GetOSPath(CMGDKPATH &cp)
+    void GetOSPath(SystemPath &cp)
     {
         wchar_t path[HGL_MAX_PATH];
 
-        #define GET_FOLDER(str,attrib)    SHGetFolderPathW(nullptr,attrib,nullptr,0,path);    \
+        filesystem::GetCurrentPath(cp.work);
+        filesystem::GetCurrentProgramPath(cp.cur_app);
+
+        #define GET_FOLDER(str,attrib)  SHGetFolderPathW(nullptr,attrib,nullptr,0,path);    \
                                         cp.str=path;
 
         GET_FOLDER(os           ,CSIDL_WINDOWS          );
@@ -86,13 +85,13 @@ namespace hgl
         #undef GET_FOLDER
     }
 
-    bool InitOSupport(ConsoleSystemInitInfo *sii)
+    bool InitOSupport()
     {
-        if(sii->CheckDebugger&&IsDebuggerPresent())
-        {
-            LOG_ERROR(OS_TEXT("本程序不能运行在调试模式下!"));
-            return(false);
-        }
+        //if(IsDebuggerPresent())
+        //{
+        //    LogError(OS_TEXT("本程序不能运行在调试模式下!"));
+        //    return(false);
+        //}
 
         return(true);
     }

@@ -145,7 +145,7 @@ SET(PLATFORM_SOURCE ${PLATFORM_SOURCE}
                     ${PLATFORM_FILE_SOURCE}
                     ${PLATFORM_MMAP_FILE_SOURCE}
                     ${PLATFORM_CODEPAGE_SOURCE}
-                    #${PLATFORM_SYSTEM_INFO_SOURCE}
+                    ${PLATFORM_SYSTEM_INFO_SOURCE}
                     ${PLATFORM_APPLICATION_SOURCE}
                     ${PLATFORM_LOG_SOURCE}
                     ${PLATFORM_MULTI_THREAD_SOURCE}
