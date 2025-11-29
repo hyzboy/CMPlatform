@@ -1,4 +1,4 @@
-#include<hgl/platform/Android.h>
+﻿#include<hgl/platform/Android.h>
 
 namespace hgl
 {

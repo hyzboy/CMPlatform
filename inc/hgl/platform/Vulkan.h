@@ -1,5 +1,4 @@
-#ifndef HGL_PLATFORM_VULKAN_INCLUDE
-#define HGL_PLATFORM_VULKAN_INCLUDE
+﻿#pragma once
 
 #include<vulkan/vulkan.h>
 
@@ -9,4 +8,3 @@ namespace hgl
     
     VkSurfaceKHR CreateVulkanSurface(VkInstance,Window *);
 }//namespace hgl
-#endif//HGL_PLATFORM_VULKAN_INCLUDE

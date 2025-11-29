@@ -1,4 +1,4 @@
-#include<hgl/platform/Platform.h>
+﻿#include<hgl/platform/Platform.h>
 #include<hgl/text/FontInfo.h>
 #include<hgl/type/StrChar.h>
 

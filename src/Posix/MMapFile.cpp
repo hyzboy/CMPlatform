@@ -1,4 +1,4 @@
-#if defined(_WIN32)
+﻿#if defined(_WIN32)
 #error "mmap_posix.cpp should not be built on Windows"
 #endif
 

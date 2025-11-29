@@ -1,5 +1,4 @@
-﻿#ifndef HGL_PLATFORM_CPU_INFO_INCLUDE
-#define HGL_PLATFORM_CPU_INFO_INCLUDE
+﻿#pragma once
 
 #include<hgl/type/DataType.h>
 namespace hgl
@@ -91,4 +90,3 @@ namespace hgl
      */
     bool GetCpuInfo(CpuInfo *);
 }//namespace hgl
-#endif//HGL_PLATFORM_CPU_INFO_INCLUDE
