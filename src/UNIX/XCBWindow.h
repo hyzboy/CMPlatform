@@ -1,4 +1,6 @@
-﻿#include<hgl/platform/Window.h>
+﻿#pragma once
+
+#include<hgl/platform/Window.h>
 #include<xcb/xcb.h>
 #include<xcb/xcb_atom.h>
 namespace hgl

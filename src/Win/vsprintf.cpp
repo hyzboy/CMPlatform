@@ -1,4 +1,4 @@
-#include<hgl/platform/os/vsprintf.h>
+﻿#include<hgl/platform/os/vsprintf.h>
 #include<stdio.h>
 namespace hgl
 {
