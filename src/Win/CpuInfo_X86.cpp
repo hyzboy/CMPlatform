@@ -1,4 +1,4 @@
-﻿#include<hgl/platform/CpuInfo.h>
+#include<hgl/platform/CpuInfo.h>
 #include<hgl/type/StrChar.h>
 #include<sysinfoapi.h>
 #include<intrin.h>
@@ -13,15 +13,15 @@ namespace hgl
         {
             DWORD LSHIFT = sizeof(ULONG_PTR)*8 - 1;
             DWORD bitSetCount = 0;
-            ULONG_PTR bitTest = (ULONG_PTR)1 << LSHIFT;    
+            ULONG_PTR bitTest = (ULONG_PTR)1 << LSHIFT;
             DWORD i;
-    
+
             for (i = 0; i <= LSHIFT; ++i)
             {
                 bitSetCount += ((bitMask & bitTest)?1:0);
                 bitTest/=2;
             }
- 
+
             return bitSetCount;
         }
 
@@ -48,7 +48,7 @@ namespace hgl
             // 获取厂商信息 (CPUID function 0)
             int eax, ebx, ecx, edx;
             GetX86CpuId(0, 0, &eax, &ebx, &ecx, &edx);
-            
+
             memcpy(features->vendor, &ebx, 4);
             memcpy(features->vendor + 4, &edx, 4);
             memcpy(features->vendor + 8, &ecx, 4);
@@ -122,6 +122,31 @@ namespace hgl
             features->max_frequency = 0;  // 需要通过其他方式获取
             features->bus_frequency = 100; // 假设100MHz
         }
+
+        /**
+         * 检测CPU架构
+         */
+        CpuArch DetectCpuArch()
+        {
+            SYSTEM_INFO si;
+            GetNativeSystemInfo(&si);
+
+            switch (si.wProcessorArchitecture)
+            {
+                case PROCESSOR_ARCHITECTURE_AMD64:
+                case PROCESSOR_ARCHITECTURE_INTEL:
+                    return CpuArch::x86_64;
+
+                case PROCESSOR_ARCHITECTURE_ARM:
+                case PROCESSOR_ARCHITECTURE_ARM64:
+                    // 进一步检测ARM版本
+                    // 这里简化处理，假设都支持ARMv8
+                    return CpuArch::ARMv8;
+
+                default:
+                    return CpuArch::x86_64; // 默认假设x86_64
+            }
+        }
     }//namespace
 
     bool GetCpuInfo(CpuInfo *ci)
@@ -149,7 +174,7 @@ namespace hgl
         while(length>0)
         {
             p=(SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX *)sp;
-            
+
             if(p->Relationship==RelationProcessorPackage)
                 ++ci->cpu_count;
             else
@@ -165,8 +190,10 @@ namespace hgl
         }
 
         // 检测CPU架构并填充特性信息
-        ci->arch = CpuArch::x86_64; // 假设为x86_64，实际应用中需要检测
-        GetX86Features(&ci->x86);
+        ci->arch = DetectCpuArch();
+
+        if (ci->arch == CpuArch::x86_64)
+            GetX86Features(&ci->x86);
 
         return(true);
     }
