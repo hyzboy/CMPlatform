@@ -1,10 +1,11 @@
+#if defined(_M_AMD64) || defined(_M_X64) || defined(_M_IX86)
+
 #include<hgl/platform/CpuInfo.h>
 #include<hgl/type/StrChar.h>
 #include<sysinfoapi.h>
 #include<intrin.h>
 #include<string.h>
 #include<iostream>
-
 namespace hgl
 {
     namespace
@@ -25,9 +26,6 @@ namespace hgl
             return bitSetCount;
         }
 
-        /**
-         * 获取X86 CPUID信息
-         */
         void GetX86CpuId(int function, int subfunction, int* eax, int* ebx, int* ecx, int* edx)
         {
             int regs[4];
@@ -38,14 +36,10 @@ namespace hgl
             *edx = regs[3];
         }
 
-        /**
-         * 获取X86处理器特性
-         */
         void GetX86Features(CpuX86Features* features)
         {
             if (!features) return;
 
-            // 获取厂商信息 (CPUID function 0)
             int eax, ebx, ecx, edx;
             GetX86CpuId(0, 0, &eax, &ebx, &ecx, &edx);
 
@@ -54,14 +48,12 @@ namespace hgl
             memcpy(features->vendor + 8, &ecx, 4);
             features->vendor[12] = '\0';
 
-            // 获取处理器信息 (CPUID function 1)
             GetX86CpuId(1, 0, &eax, &ebx, &ecx, &edx);
 
             features->family = ((eax >> 8) & 0xF) + ((eax >> 20) & 0xFF);
             features->model = ((eax >> 4) & 0xF) | ((eax >> 12) & 0xF0);
             features->stepping = (eax & 0xF);
 
-            // 指令集特性标志
             features->has_mmx = (edx & (1 << 23)) != 0;
             features->has_sse = (edx & (1 << 25)) != 0;
             features->has_sse2 = (edx & (1 << 26)) != 0;
@@ -76,7 +68,6 @@ namespace hgl
             features->has_fma3 = (ecx & (1 << 12)) != 0;
             features->has_popcnt = (ecx & (1 << 23)) != 0;
 
-            // 获取扩展特性 (CPUID function 7, subfunction 0)
             GetX86CpuId(7, 0, &eax, &ebx, &ecx, &edx);
 
             features->has_avx2 = (ebx & (1 << 5)) != 0;
@@ -95,7 +86,6 @@ namespace hgl
             features->has_rdseed = (ebx & (1 << 18)) != 0;
             features->has_prefetchw = (ecx & (1 << 8)) != 0;
 
-            // 获取品牌字符串 (CPUID functions 0x80000002-0x80000004)
             char brand[48] = {0};
             for (int i = 0; i < 3; ++i)
             {
@@ -108,24 +98,19 @@ namespace hgl
             memcpy(features->brand, brand, 48);
             features->brand[48] = '\0';
 
-            // 获取缓存信息 (CPUID function 0x80000005 和 0x80000006)
             GetX86CpuId(0x80000005, 0, &eax, &ebx, &ecx, &edx);
             features->l1_data_cache_size = (ecx >> 24) & 0xFF;
             features->l1_inst_cache_size = (edx >> 24) & 0xFF;
 
             GetX86CpuId(0x80000006, 0, &eax, &ebx, &ecx, &edx);
             features->l2_cache_size = (ecx >> 16) & 0xFFFF;
-            features->l3_cache_size = ((edx >> 18) & 0x3FFF) * 512; // L3大小以512KB为单位
+            features->l3_cache_size = ((edx >> 18) & 0x3FFF) * 512;
 
-            // 频率信息 (简化版，实际应用中可能需要更复杂的检测)
-            features->base_frequency = 0; // 需要通过其他方式获取
-            features->max_frequency = 0;  // 需要通过其他方式获取
-            features->bus_frequency = 100; // 假设100MHz
+            features->base_frequency = 0;
+            features->max_frequency = 0;
+            features->bus_frequency = 100;
         }
 
-        /**
-         * 检测CPU架构
-         */
         CpuArch DetectCpuArch()
         {
             SYSTEM_INFO si;
@@ -139,12 +124,10 @@ namespace hgl
 
                 case PROCESSOR_ARCHITECTURE_ARM:
                 case PROCESSOR_ARCHITECTURE_ARM64:
-                    // 进一步检测ARM版本
-                    // 这里简化处理，假设都支持ARMv8
                     return CpuArch::ARMv8;
 
                 default:
-                    return CpuArch::x86_64; // 默认假设x86_64
+                    return CpuArch::x86_64;
             }
         }
     }//namespace
@@ -189,7 +172,6 @@ namespace hgl
             length-=p->Size;
         }
 
-        // 检测CPU架构并填充特性信息
         ci->arch = DetectCpuArch();
 
         if (ci->arch == CpuArch::x86_64)
@@ -198,3 +180,5 @@ namespace hgl
         return(true);
     }
 }//namespace hgl
+
+#endif // _M_AMD64 || _M_X64 || _M_IX86

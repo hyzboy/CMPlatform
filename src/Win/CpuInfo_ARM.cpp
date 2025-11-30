@@ -1,3 +1,4 @@
+#if defined(_M_ARM) || defined(_M_ARM64)
 #include<hgl/platform/CpuInfo.h>
 #include<hgl/type/StrChar.h>
 #include<sysinfoapi.h>
@@ -200,3 +201,4 @@ namespace hgl
         return(true);
     }
 }//namespace hgl
+#endif // _M_ARM || _M_ARM64

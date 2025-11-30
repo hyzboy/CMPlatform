@@ -1,7 +1,9 @@
 ﻿SET(PLATFORM_INCLUDE_PATH ${CMPLATFORM_ROOT_INCLUDE_PATH}/hgl/platform)
 
 SET(CPU_INFO_HEADER ${PLATFORM_INCLUDE_PATH}/CpuInfo.h
-                     ${PLATFORM_INCLUDE_PATH}/BigLittleDetector.h)
+                    ${PLATFORM_INCLUDE_PATH}/CpuX86Features.h
+                    ${PLATFORM_INCLUDE_PATH}/CpuARMFeatures.h
+                    ${PLATFORM_INCLUDE_PATH}/BigLittleDetector.h)
 
 IF(UNIX)
     # 根据处理器架构选择不同的CPU信息实现
@@ -72,16 +74,10 @@ IF(UNIX)
 ENDIF()
 
 IF(WIN32)
-    # 根据处理器架构选择不同的CPU信息实现
-    IF(CMAKE_SYSTEM_PROCESSOR MATCHES "AMD64|x86|x86_64|i386|i686")
-        set(CPU_INFO_SOURCE                 Win/CpuInfo_X86.cpp)
-    ELSEIF(CMAKE_SYSTEM_PROCESSOR MATCHES "ARM|aarch64|arm64")
-        set(CPU_INFO_SOURCE                 Win/CpuInfo_ARM.cpp)
-    ELSE()
-        # 默认使用X86版本
-        set(CPU_INFO_SOURCE                 Win/CpuInfo_X86.cpp)
-        message(WARNING "Unknown processor architecture ${CMAKE_SYSTEM_PROCESSOR}, using X86 CPU info")
-    ENDIF()
+    # 包含两种实现：X86 和 ARM
+    # 通过源文件内部的编译时宏来区分具体编译哪一个实现，避免在CMake中基于处理器字符串做选择。
+    set(CPU_INFO_SOURCE                 Win/CpuInfo_X86.cpp
+                                        Win/CpuInfo_ARM.cpp)
 
     SET(PLATFORM_MMAP_FILE_SOURCE       Win/MMapFile.cpp)
 
