@@ -36,7 +36,7 @@ namespace hgl
             *edx = regs[3];
         }
 
-        void GetX86Features(CpuX86Features* features)
+        void GetX86Features(CpuFeatures* features)
         {
             if (!features) return;
 
@@ -175,7 +175,7 @@ namespace hgl
         ci->arch = DetectCpuArch();
 
         if (ci->arch == CpuArch::x86_64)
-            GetX86Features(&ci->x86);
+            GetX86Features(&ci->features);
 
         return(true);
     }

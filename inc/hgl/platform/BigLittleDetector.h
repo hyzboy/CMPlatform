@@ -1,5 +1,7 @@
 #pragma once
 
+#if defined(_M_ARM) || defined(_M_ARM64)
+
 #include <hgl/platform/CpuInfo.h>
 #include <functional>
 #include <string>
@@ -40,7 +42,7 @@ namespace hgl
                 return result;
             }
 
-            const CpuARMFeatures& arm = ci.arm;
+            const CpuFeatures& arm = ci.features;
             result.has_big_little = arm.has_big_little;
             result.big_cores = arm.big_core_count;
             result.little_cores = arm.little_core_count;
@@ -178,5 +180,5 @@ namespace hgl
             return ci.arm.little_core_count;
         return 0;
     }
-
 } // namespace hgl
+#endif//defined(_M_ARM) || defined(_M_ARM64)

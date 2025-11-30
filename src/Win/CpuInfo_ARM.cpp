@@ -196,7 +196,7 @@ namespace hgl
         ci->arch = DetectCpuArch();
 
         if (ci->arch == CpuArch::ARMv8 || ci->arch == CpuArch::ARMv9)
-            GetARMFeatures(&ci->arm);
+            GetARMFeatures(&ci->features);
 
         return(true);
     }
