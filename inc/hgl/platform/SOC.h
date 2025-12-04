@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include<hgl/TypeFunc.h>
+#include<../../../CMCore/inc/hgl/type/EnumUtil.h>
 #include<hgl/CompOperator.h>
 
 namespace hgl

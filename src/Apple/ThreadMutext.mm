@@ -1,5 +1,4 @@
 #include<hgl/thread/ThreadMutex.h>
-#include<hgl/TypeFunc.h>
 #include<pthread.h>
 #include<sys/time.h>
 
