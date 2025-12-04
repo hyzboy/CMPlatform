@@ -2,6 +2,7 @@
 
 #include<hgl/platform/CpuInfo.h>
 #include<hgl/type/StrChar.h>
+#include<hgl/type/Smart.h>
 #include<sysinfoapi.h>
 #include<intrin.h>
 #include<string.h>
