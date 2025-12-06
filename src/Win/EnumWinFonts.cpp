@@ -50,7 +50,7 @@ namespace hgl
 
         LOGFONTW lf;
 
-        hgl_zero(lf);
+        mem_zero(lf);
 
         lf.lfCharSet=DEFAULT_CHARSET;
 
